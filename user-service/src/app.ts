@@ -2,10 +2,17 @@ import express, {Request, Response, NextFunction, Application, ErrorRequestHandl
 import { Server } from 'http';
 import createHttpError from 'http-errors';
 import { config } from 'dotenv';
+import cors from 'cors';
+import { userRouter } from './router';
 
 config();
 
 const app: Application = express();
+
+app.use(cors());
+app.use(express.json());
+
+app.use('/users', userRouter);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
