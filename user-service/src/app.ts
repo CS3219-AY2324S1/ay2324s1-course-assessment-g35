@@ -18,12 +18,14 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
 });
 
+// Catch invalid routes and create a 404 error
 app.use((req: Request, res: Response, next: NextFunction) => {
     next(new createHttpError.NotFound());
 });
 
+// Error handler middleware
 const errorhandler: ErrorRequestHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
-  res.status(500).send('err.message');
+  res.status(500).send(err.message);
 }
 
 app.use(errorhandler);
