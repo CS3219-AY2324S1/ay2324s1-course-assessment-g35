@@ -1,0 +1,53 @@
+.container {
+    padding: 16px 30px; 
+}
+
+.title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+.header {
+    color: #6D5F66;
+    font-family: Georgia;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.table {
+    margin-top: 16px;
+    border-radius: 10px;
+    background: #FFF;
+    padding: 16px;
+}
+
+.table-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: #6D5F66;
+    font-family: Georgia;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.section {
+    width: 12vw;
+}
+
+.md-section {
+    width: 24vw;
+}
+
+.lg-section {
+    width: 32vw;
+}
+
+.line {
+    margin-top: 8px;
+    height: 1px;
+    background-color: rgba(109, 95, 102, 0.50);
+}
