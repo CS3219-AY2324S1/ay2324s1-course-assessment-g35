@@ -1,0 +1,13 @@
+.container {
+    background-color: #7D938A;
+    width: 100vw;
+    padding: 8px;
+}
+
+.header {
+    margin-left: 20px;
+    font-family: Georgia;
+    font-size: 32px;
+    font-weight: 500;
+    color: white;
+}
