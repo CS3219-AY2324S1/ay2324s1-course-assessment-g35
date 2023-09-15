@@ -1,7 +1,8 @@
-interface QuestionProps {
+export interface QuestionProps {
   id: string; // TODO: change later to number
   title: string; 
   description: string;
-  category: string;
+  link: string;
+  category: string[];
   complexity: string;
 }

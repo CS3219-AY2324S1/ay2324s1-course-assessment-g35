@@ -1,129 +1,123 @@
-// TODO: 1) storing data submitted from form, 2) validating form + fixing inputs, 3) form success
-import React, { useState } from "react"
+// TODO: 2) validating form + fixing inputs, 3) form success + creating a new question
+import React, { useEffect, useState } from "react";
+import Select from "react-select";
 
-export default function Contact() {
+import {
+  Input,
+  FormControl,
+  FormLabel,
+} from "@chakra-ui/react";
+
+export default function QuestionForm() {
   const questionCategories = [
-    "Strings", "Algorithms", "Data Structures", "Bit Manipulation", "Recursion", "Databases", "Brainteaser"
-  ]
+    { value: "strings", label: "Strings" },
+    { value: "algorithms", label: "Algorithms" },
+    { value: "data structures", label: "Data Structures" },
+    { value: "bit manipulation", label: "Bit Manipulation" },
+    { value: "recursion", label: "Recursion" },
+    { value: "databases", label: "Databases" },
+    { value: "brainteaser", label: "Brainteaser" },
+  ];
+
   const questionComplexities = [
-    "Easy", "Medium", "Hard"
-  ]
+    { value: "easy", label: "Easy" },
+    { value: "medium", label: "Medium" },
+    { value: "hard", label: "Hard" },
+  ];
 
-  const [category, setCategory] = useState("");
-  const [complexity, setComplexity] = useState("");
+  const [title, setTitle] = useState<string | null>(null);
+  const [description, setDescription] = useState<string | null>(null);
+  const [link, setLink] = useState<string | null>(null);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [complexity, setComplexity] = useState(questionComplexities[0].value);
 
-  const [questionData, setQuestionData] = useState(
-    {
-      id: "",
-      title: "",
-      description: "",
-      category: "",
-      complexity: "",
-      link: ""
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.localStorage) {
+      let title = localStorage.getItem("title");
+      let description = localStorage.getItem("description");
+      let link = localStorage.getItem("link");
+      let categories: string[] = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        categories.push(localStorage.key(i)!);
+      }
+      setTitle(title);
+      setDescription(description);
+      setLink(link);
+      setCategories(categories);
     }
-  );
+  }, []);
 
-  const handleInput = (e : any, field: string) => {
-    const fieldName = field;
-    const fieldValue = e.target.value;
-
-    setQuestionData((prevState) => ({
-      ...prevState,
-      [fieldName]: fieldValue
-    }));
+  const handleInput = (e: any, field: string) => {
+    if (typeof window !== "undefined" && window.localStorage) {
+      localStorage.setItem(field, e.target.value)
+      
+      switch (field) {
+        case "title":
+          setTitle(e.target.value);
+        case "description":
+          setDescription(e.target.value);
+        case "link":
+          setLink(e.target.value);
+        case "categories":
+          setCategories(e);
+        case "complexity":
+          setComplexity(e);
+      }
+    }
   }
-  
-  // const [formSuccess, setFormSuccess] = useState(false)
-  // const [formSuccessMessage, setFormSuccessMessage] = useState("")
-
-  // const submitForm = (e : any) => {
-  //   e.preventDefault() // to prevent refresh
-
-  //   const formURL = e.target.action
-  //   const data = new FormData()
-
-  //   // Turn our formData state into data we can use with a form submission
-  //   Object.entries(questionData).forEach(([key, value]) => {
-  //     data.append(key, value);
-  //   })
-
-  //   // POST the data to the URL of the form
-  //   fetch(formURL, {
-  //     method: "POST",
-  //     body: data,
-  //     headers: {
-  //       'accept': 'application/json',
-  //     },
-  //   }).then((response) => response.json())
-  //   .then((data) => {
-  //     setQuestionData({ 
-  //       id: "",
-  //       title: "",
-  //       description: "",
-  //       category: "",
-  //       complexity: "",
-  //       link: "",
-  //     })
-
-  //     setFormSuccess(true)
-  //     setFormSuccessMessage(data.submission_text)
-  //   })
-  // }
 
   return (
     <div>
-      {/* {formSuccess ? 
-        <div>{formSuccessMessage}</div> 
-        :  */}
+      <FormControl isRequired>
+        <FormLabel>Title</FormLabel>
+        <Input
+          type="title"
+          onChange={(e) => {
+            handleInput(e, "title")
+          }}
+        />
+      </FormControl>
 
-        {/* <form method="POST" action="https://www.formbackend.com/f/664decaabbf1c319" onSubmit={submitForm}> */}
-          <div>
-            <label>Title</label>
-            <input type="title" name="title" placeholder="Enter title here" onChange={(e) => { handleInput(e, "title")}} />
-          </div>
+      <FormControl>
+        <FormLabel>Description</FormLabel>
+        <Input type="description" onChange={(e) => {
+          handleInput(e, "description")
+        }} />
+      </FormControl>
 
-          <div>
-            <label>Description</label>
-            <input type="description" name="description" placeholder="Enter description here" onChange={(e) => { handleInput(e, "description")}} />
-          </div>
+      <FormControl isRequired>
+        <FormLabel>Link</FormLabel>
+        <Input type="link" onChange={(e) => {
+          handleInput(e, "link")
+        }} />
+      </FormControl>
 
-          <div>
-            <label>Category</label>
-            <select value={category}
-              onChange={(e) => {
-              setCategory(e.target.value);
-              handleInput(e, "category")
-              }}>
-                {questionCategories.map(questionCategory => (
-                  <option
-                    key={questionCategory} 
-                    value={questionCategory}
-                  >
-                    {questionCategory}
-                  </option>
-                ))}
-            </select>
-          </div>
+      <FormControl isRequired>
+        <FormLabel>Category</FormLabel>
+        <Select
+          options={questionCategories}
+          onChange={(e: any) => {
+            handleInput(e, "categories")
+          }}
+          isMulti
+        />
+      </FormControl>
 
-          <div>
-            <label>Complexity</label>
-            <select value={complexity}
-              onChange={(e) => {
-                setComplexity(e.target.value);
-                handleInput(e, "complexity")
-              }}>
-                {questionComplexities.map(questionComplexity => (
-                  <option 
-                    key={questionComplexity} 
-                    value={questionComplexity}
-                  >
-                    {questionComplexity}
-                  </option>
-                ))}
-            </select>
-          </div>
+      <FormControl isRequired>
+        <FormLabel>Complexity</FormLabel>
+        <Select
+          options={questionComplexities}
+          onChange={(e) =>
+            handleInput(e, "complexity")
+          }
+        />
+      </FormControl>
 
-          <button type="submit">Create question</button>
-      </div>
-  )
+      <button 
+        type="submit"
+      >
+        Create question
+      </button>
+    </div>
+  );
 }
