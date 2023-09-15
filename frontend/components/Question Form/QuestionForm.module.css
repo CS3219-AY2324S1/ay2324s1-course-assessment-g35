@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  padding: 30px;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  justify-content: center;
+}
+
+.button {
+  width: 150px;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  font-family: Georgia;
+  color: #FFFFFF;
+  background-color: #7D938A;
+}
+
+.button:hover {
+  background-color: #5F6F68;
+}
+
+.field {
+  margin-top: 10px;
+  font-family: Georgia;
+  color: #6D5F66;
+}

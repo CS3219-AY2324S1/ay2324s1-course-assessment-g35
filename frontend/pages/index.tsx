@@ -3,7 +3,6 @@ import Image from "next/image";
 import { Inter } from "@next/font/google";
 import Questions from "@/components/Questions/Questions";
 import Header from "@/components/Header/Header";
-import QuestionForm from "@/components/Question Form/QuestionForm";
 import { ChakraProvider } from "@chakra-ui/react"
 
 export default function Home() {
@@ -12,9 +11,7 @@ export default function Home() {
       <div className="main">
        <Header />
        <Questions />
-       <QuestionForm />
       </div>
     </ChakraProvider>
-    
   );
 }

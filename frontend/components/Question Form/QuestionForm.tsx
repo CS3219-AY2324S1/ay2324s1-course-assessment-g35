@@ -1,6 +1,7 @@
 // TODO: 2) validating form + fixing inputs, 3) form success + creating a new question
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
+import styles from "./QuestionForm.module.css"
 
 import {
   Input,
@@ -67,53 +68,78 @@ export default function QuestionForm() {
   }
 
   return (
-    <div>
-      <FormControl isRequired>
+    <div className={styles.container}>
+      <FormControl 
+        isRequired
+        className={styles.field}
+      >
         <FormLabel>Title</FormLabel>
         <Input
           type="title"
           onChange={(e) => {
             handleInput(e, "title")
           }}
+          variant="flushed"
         />
       </FormControl>
 
-      <FormControl>
+      <FormControl
+        className={styles.field}
+      >
         <FormLabel>Description</FormLabel>
-        <Input type="description" onChange={(e) => {
-          handleInput(e, "description")
-        }} />
+        <Input 
+          type="description" 
+          onChange={(e) => {
+            handleInput(e, "description")
+          }}
+          variant="flushed"
+        />
       </FormControl>
 
-      <FormControl isRequired>
+      <FormControl 
+        className={styles.field}
+        isRequired
+      >
         <FormLabel>Link</FormLabel>
-        <Input type="link" onChange={(e) => {
-          handleInput(e, "link")
-        }} />
+        <Input 
+          type="link" 
+          onChange={(e) => {
+            handleInput(e, "link")
+          }}
+          variant="flushed"
+        />
       </FormControl>
 
-      <FormControl isRequired>
-        <FormLabel>Category</FormLabel>
+      <FormControl 
+        className={styles.field}
+        isRequired
+      >
+        <FormLabel>Categories</FormLabel>
         <Select
           options={questionCategories}
           onChange={(e: any) => {
             handleInput(e, "categories")
           }}
           isMulti
+          placeholder="Select categories"
         />
       </FormControl>
 
-      <FormControl isRequired>
+      <FormControl 
+        className={styles.field}
+        isRequired>
         <FormLabel>Complexity</FormLabel>
         <Select
           options={questionComplexities}
           onChange={(e) =>
             handleInput(e, "complexity")
           }
+          placeholder="Select a complexity"
         />
       </FormControl>
 
-      <button 
+      <button
+        className={styles.button}
         type="submit"
       >
         Create question
