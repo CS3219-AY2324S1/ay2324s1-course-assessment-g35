@@ -1,24 +1,34 @@
 import express from "express";
-import { createUser, deleteUser, getAllUsers, findUser } from "./service";
+import { createUser, deleteUser, editUser, findUserAllFields, findUserWithoutPw } from "./service";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { serialize } from "cookie";
+import verifyJWT from "./middleware/verifyJWT";
 
 export const userRouter = express.Router();
-const KEY = process.env.JWT_KEY || "SECRET";
+export const KEY = process.env.JWT_KEY || "SECRET";
 
-//GET: List all users
-userRouter.get("/", async (req, res) => {
+// ------------------ Users CRUD ------------------
+
+userRouter.get("/", verifyJWT, async (req, res) => {
+  if (!req.userPayload) {
+    return res.status(400).json({
+      status: "error",
+      error: "Request missing id",
+    });
+  }
+  console.log('id', req.userPayload.id);
   try {
-    const users = await getAllUsers();
+    const users = await findUserWithoutPw(req.userPayload.id);
     return res.status(200).json(users);
   } catch (error: any) {
     return res.status(500).json(error.message);
   }
 });
 
+
 userRouter.post("/", async (req, res) => {
   try {
+    console.log("hi");
     const user = await createUser(req.body);
     return res.status(201).json(user);
   } catch (error: any) {
@@ -26,6 +36,38 @@ userRouter.post("/", async (req, res) => {
   }
 });
 
+userRouter.post("/edit", verifyJWT, async (req, res) => {
+  if (!req.userPayload) {
+    return res.status(400).json({
+      status: "error",
+      error: "Request missing id",
+    });
+  }
+  try {
+    const user = await editUser(req.body, req.userPayload.id);
+    return res.status(201).json(user);
+  } catch (error: any) {
+    return res.status(500).json(error.message);
+  }
+});
+
+userRouter.delete("/", async (req, res) => {
+  if (!req.userPayload) {
+    return res.status(400).json({
+      status: "error",
+      error: "Request missing id",
+    });
+  }
+  try {
+    const users = await deleteUser(req.userPayload.id);
+    return res.status(200).json(users);
+  } catch (error: any) {
+    return res.status(500).json(error.message);
+  }
+});
+
+
+// ------------------ Authentication ------------------
 userRouter.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -35,7 +77,7 @@ userRouter.post("/login", async (req, res) => {
         error: "Request missing email or password",
       });
     }
-    const user = await findUser(username);
+    const user = await findUserAllFields(username);
     if (!user) {
       return res.status(400).json({ status: "error", error: "User Not Found" });
     }
@@ -56,11 +98,7 @@ userRouter.post("/login", async (req, res) => {
             if (token) {
               return res.status(200).json({
                 success: true,
-                user: {
-                  role: payload.role,
-                  username: payload.username,
-                  token: token,
-                },
+                token: "Bearer " + token,
               });
             }
           }
@@ -71,33 +109,6 @@ userRouter.post("/login", async (req, res) => {
         });
       }
     });
-  } catch (error: any) {
-    return res.status(500).json(error.message);
-  }
-});
-
-userRouter.post("/validate", async (req, res) => {
-  const token = req.headers.authorization;
-  console.log(token);
-  if (!token) {
-    return res.status(401).json({
-      error: "No token found",
-    });
-  }
-  try {
-    const decoded = jwt.verify(token.replace("Bearer ", ""), KEY);
-    return res.status(200).json(decoded);
-  } catch (error) {
-    return res.status(401).json({
-      error: "Invalid token",
-    });
-  }
-});
-
-userRouter.delete("/:userid", async (req, res) => {
-  try {
-    const users = await deleteUser(req.params.userid);
-    return res.status(200).json(users);
   } catch (error: any) {
     return res.status(500).json(error.message);
   }
