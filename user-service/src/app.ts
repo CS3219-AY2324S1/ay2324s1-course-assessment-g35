@@ -20,11 +20,7 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/users", userRouter);
-
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello World!");
-});
+app.use("/", userRouter);
 
 // Catch invalid routes and create a 404 error
 app.use((req: Request, res: Response, next: NextFunction) => {
