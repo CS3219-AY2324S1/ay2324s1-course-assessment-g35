@@ -48,24 +48,42 @@ export default function QuestionForm() {
     }
   }, []);
 
-  const handleInput = (e: any, field: string) => {
-    if (typeof window !== "undefined" && window.localStorage) {
-      localStorage.setItem(field, e.target.value)
-      
-      switch (field) {
-        case "title":
-          setTitle(e.target.value);
-        case "description":
-          setDescription(e.target.value);
-        case "link":
-          setLink(e.target.value);
-        case "categories":
-          setCategories(e);
-        case "complexity":
-          setComplexity(e);
-      }
+const handleInput = (e: any, field: string) => {
+  let value;
+
+  if (field === "categories" || field === "complexity") {
+    // For Select components
+    value = e;
+  } else {
+    // For text inputs
+    value = e.target.value;
+  }
+
+  if (typeof window !== "undefined" && window.localStorage) {
+    localStorage.setItem(field, value);
+
+    switch (field) {
+      case "title":
+        setTitle(value);
+        break;
+      case "description":
+        setDescription(value);
+        break;
+      case "link":
+        setLink(value);
+        break;
+      case "categories":
+        setCategories(value);
+        break;
+      case "complexity":
+        setComplexity(value);
+        break;
+      default:
+        break;
     }
   }
+};
+
 
   return (
     <div className={styles.container}>
