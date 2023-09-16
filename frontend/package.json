@@ -17,6 +17,7 @@
     "@types/node": "20.5.9",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
+    "anything": "^1.0.0",
     "axios": "^1.5.0",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
@@ -25,6 +26,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.11.0",
+    "react-redux": "^8.1.2",
     "react-select": "^5.7.4"
   },
   "devDependencies": {
