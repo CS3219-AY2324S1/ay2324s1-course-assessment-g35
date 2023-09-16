@@ -1,42 +1,55 @@
 import { User } from "@prisma/client";
 import db from "./utils/db.server";
-import bcrypt, { decodeBase64 } from "bcryptjs";
-import { PrismaClient, Prisma } from "@prisma/client";
+import bcrypt from "bcryptjs";
 
-type UserRequest = {
+type UserCreateRequestType = {
   username: string;
   password: string;
-  role: string;
+  email: string;
 };
 
-type UserResponse = {
+type UserEditRequestType = {
+  email: string;
+};
+
+type UserResponseType = {
   id: string;
   username: string;
-};
-
-export const getAllUsers = async (): Promise<UserResponse[]> => {
-  return await db.user.findMany({
-    select: {
-      id: true,
-      username: true,
-    },
-  });
+  // password: string;
+  role: string;
+  email: string;
 };
 
 export const createUser = async (
-  user: UserRequest
-): Promise<User | undefined> => {
+  user: UserCreateRequestType
+): Promise<UserResponseType | undefined> => {
   const hashedPassword = await bcrypt.hash(user.password, 10); // Hash the password
   return await prisma?.user.create({
     data: {
       username: user.username,
       password: hashedPassword, // Store the hashed password in the database
-      role: user.role,
+      role: 'USER',
+      email: user.email,
     },
   });
 };
 
-export const deleteUser = async (userid: string): Promise<User> => {
+
+//get id from req.reqPayload.id
+export const editUser = async (
+  user: UserEditRequestType, id: string
+): Promise<UserResponseType | undefined> => {
+  return await prisma?.user.update({
+    where: {
+      id: id,
+    },
+    data: {
+      email: user.email,
+    },
+  });
+};
+
+export const deleteUser = async (userid: string): Promise<UserResponseType> => {
   return await db.user.delete({
     where: {
       id: userid,
@@ -44,10 +57,24 @@ export const deleteUser = async (userid: string): Promise<User> => {
   });
 };
 
-export const findUser = async (username: string): Promise<User | null> => {
+export const findUserWithoutPw = async (userid: string): Promise<UserResponseType | null> => {
   return await db.user.findFirst({
     where: {
-      username: username,
+      id: userid,
+    },
+    select: {
+      id: true,
+      username: true,
+      role: true,
+      email: true,
+    },
+  });
+};
+
+export const findUserAllFields = async (id: string): Promise<User | null> => {
+  return await db.user.findFirst({
+    where: {
+      id: id,
     },
   });
 };
