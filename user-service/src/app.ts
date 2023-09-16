@@ -10,6 +10,7 @@ import express, {
 import { Server } from "http";
 import createHttpError from "http-errors";
 import { userRouter } from "./router";
+const cookieParser = require("cookie-parser");
 
 config();
 
@@ -17,6 +18,7 @@ const app: Application = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/users", userRouter);
 
@@ -41,7 +43,7 @@ const errorhandler: ErrorRequestHandler = (
 
 app.use(errorhandler);
 
-const PORT: number = Number(process.env.PORT) || 3000;
+const PORT: number = Number(process.env.PORT) || 8000;
 const server: Server = app.listen(PORT, () => {
   console.log(`The application is listening on port ${PORT}!`);
 });
