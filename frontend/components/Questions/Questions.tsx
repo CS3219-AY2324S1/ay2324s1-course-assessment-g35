@@ -35,7 +35,7 @@ export default function Questions() {
                 id={1}
                 title={'123'}
                 description={'123'}
-                category={'123'}
+                category={['123']}
                 complexity={'123'}
                 />
             </div>

@@ -29,8 +29,8 @@ export default function QuestionForm() {
   const [title, setTitle] = useState<string | null>(null);
   const [description, setDescription] = useState<string | null>(null);
   const [link, setLink] = useState<string | null>(null);
-  const [categories, setCategories] = useState<string[]>([]);
-  const [complexity, setComplexity] = useState(questionComplexities[0].value);
+  const [categories, setCategories] = useState<string[] | null>(null);
+  const [complexity, setComplexity] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
@@ -52,10 +52,8 @@ const handleInput = (e: any, field: string) => {
   let value;
 
   if (field === "categories" || field === "complexity") {
-    // For Select components
     value = e;
   } else {
-    // For text inputs
     value = e.target.value;
   }
 
@@ -84,9 +82,26 @@ const handleInput = (e: any, field: string) => {
   }
 };
 
+const isFormValid = () => {
+  if (title && link && categories && complexity) {
+    return true;
+  }
+  return false;
+};
+
+const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  if (isFormValid()) {
+    console.log("Form submitted with data:", title, description, link, categories, complexity);
+  } else {
+    alert("Please fill in all required fields.");
+  }
+};
+
 
   return (
     <div className={styles.container}>
+      <form onSubmit={handleSubmit}>
       <FormControl 
         isRequired
         className={styles.field}
@@ -162,6 +177,7 @@ const handleInput = (e: any, field: string) => {
       >
         Create question
       </button>
+      </form>
     </div>
   );
 }
