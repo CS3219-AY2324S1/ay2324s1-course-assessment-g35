@@ -53,14 +53,16 @@ userRouter.post("/login", async (req, res) => {
             expiresIn: 60 * 60 * 24 * 30,
           },
           (_err, token) => {
-            return res.status(200).json({
-              success: true,
-              user: {
-                role: payload.role,
-                username: payload.username,
-                token: token,
-              },
-            });
+            if (token) {
+              return res.status(200).json({
+                success: true,
+                user: {
+                  role: payload.role,
+                  username: payload.username,
+                  token: token,
+                },
+              });
+            }
           }
         );
       } else {
@@ -84,10 +86,8 @@ userRouter.post("/validate", async (req, res) => {
   }
   try {
     const decoded = jwt.verify(token.replace("Bearer ", ""), KEY);
-    console.log(decoded);
     return res.status(200).json(decoded);
   } catch (error) {
-    console.error("Invalid token:", error);
     return res.status(401).json({
       error: "Invalid token",
     });
