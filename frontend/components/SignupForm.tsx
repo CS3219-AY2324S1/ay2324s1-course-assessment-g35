@@ -26,7 +26,7 @@ const SignupForm: React.FC = ({}) => {
         role: role,
       };
       console.log(body);
-      const response = await axios.post("http://localhost:8000/register", body);
+      const response = await axios.post("http://localhost:8000/users", body);
       console.log(response.data);
     } catch (error) {
       console.error(error);
