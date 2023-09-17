@@ -1,8 +1,12 @@
 import QuestionField from "./QuestionField";
 import styles from "./Questions.module.css";
 import { useState } from "react";
-import QuestionForm from "../Question Form/QuestionForm";
-import { IoIosAddCircleOutline, IoIosCloseCircleOutline } from "react-icons/io"
+import QuestionForm from "./QuestionForm";
+import {
+  IoIosAddCircleOutline,
+  IoIosCloseCircleOutline,
+  IoIosTrash,
+} from "react-icons/io";
 
 export default function Questions() {
   const [modal, setModal] = useState(false);
@@ -15,10 +19,7 @@ export default function Questions() {
       <div className={styles.title}>
         <div className={styles.header}>Practice Questions</div>
 
-        <button 
-          onClick={toggleModal}
-          className={styles.button}
-        >
+        <button onClick={toggleModal} className={styles.button}>
           <IoIosAddCircleOutline size={40} />
         </button>
 
@@ -26,19 +27,14 @@ export default function Questions() {
           <div className={styles.overlay}>
             <div className={styles["modal-content"]}>
               <div className={styles["button-container"]}>
-                <button 
-                  onClick={toggleModal}
-                  className={styles.button}
-                >
-                  <IoIosCloseCircleOutline size={40}
-                  />
+                <button onClick={toggleModal} className={styles.button}>
+                  <IoIosCloseCircleOutline size={40} />
                 </button>
               </div>
               <QuestionForm />
             </div>
           </div>
         )}
-
       </div>
       <div className={styles.table}>
         <div className={styles["table-header"]}>
@@ -49,7 +45,7 @@ export default function Questions() {
           <div className={styles.section}>Complexity</div>
         </div>
         <div className={styles.line} />
-        <div>
+        <div className={styles["table-header"]}>
           <QuestionField
             id={1}
             title={"123"}
@@ -57,6 +53,10 @@ export default function Questions() {
             category={["123"]}
             complexity={"123"}
           />
+          {/* TODO: fix spacing between trash and questions */}
+          <button>
+            <IoIosTrash size={20} className={styles.button} />
+          </button>
         </div>
       </div>
     </div>

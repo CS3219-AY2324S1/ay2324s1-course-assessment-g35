@@ -90,3 +90,8 @@
     flex-direction: row;
     justify-content: flex-end;
 }
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
