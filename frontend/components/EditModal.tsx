@@ -3,9 +3,10 @@ import { useState } from "react";
 
 interface ModalProps {
   setIsModalOpen: (isOpen: boolean) => void;
+  fetchAndSetUser: () => void;
 }
 
-const EditModal: React.FC<ModalProps> = ({ setIsModalOpen }) => {
+const EditModal: React.FC<ModalProps> = ({ setIsModalOpen, fetchAndSetUser }) => {
   const [email, setEmail] = useState<string>("");
   // const [role, setRole] = useState<string>("");
 
@@ -39,6 +40,7 @@ const EditModal: React.FC<ModalProps> = ({ setIsModalOpen }) => {
         config
       );
       setIsModalOpen(false);
+      fetchAndSetUser();
 
     } catch (error: any) {
       console.error("An error occurred:", error);
