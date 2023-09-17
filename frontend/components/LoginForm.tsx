@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useRouter } from 'next/router';
 
 const LoginForm: React.FC = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const router = useRouter();
 
   const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -22,6 +24,8 @@ const LoginForm: React.FC = () => {
       });
       localStorage.setItem("token", response.data.token);
       console.log(response.data.token);
+      router.push('/');
+
     } catch (error: any) {
       console.error(error);
       alert(error.message || "An error occurred!");
