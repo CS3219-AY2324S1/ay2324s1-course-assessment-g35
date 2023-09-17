@@ -16,14 +16,15 @@ const LoginForm: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8000/users/login", {
+      const response = await axios.post("http://localhost:8000/login", {
         username: username,
         password: password,
       });
-      console.log(response.data);
-      localStorage.setItem("token", response.data.user.token);
-    } catch (error) {
+      localStorage.setItem("token", response.data.token);
+      console.log(response.data.token);
+    } catch (error: any) {
       console.error(error);
+      alert(error.message || "An error occurred!");
     }
   };
   return (
