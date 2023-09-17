@@ -29,7 +29,6 @@ userRouter.get("/", verifyJWT, async (req, res) => {
 // Create a new user
 userRouter.post("/", async (req, res) => {
   try {
-    console.log("hi");
     const user = await createUser(req.body);
     return res.status(201).json(user);
   } catch (error: any) {
