@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 
 interface ModalProps {
@@ -5,18 +6,45 @@ interface ModalProps {
 }
 
 const EditModal: React.FC<ModalProps> = ({ setIsModalOpen }) => {
-  const [username, setUsername] = useState<string>("");
-  const [role, setRole] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  // const [role, setRole] = useState<string>("");
 
-  const handleUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
+  const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
   };
 
-  const handleRole = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRole(e.target.value);
-  };
+  // const handleRole = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setRole(e.target.value);
+  // };
 
-  const handleSubmit = (e: React.FormEvent) => {};
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(email);
+    
+    const payload = {
+      email: email,
+    };
+  
+    try {
+      // get jwt from local storage and send it to backend
+      const token = localStorage.getItem("token");
+      const config = {
+        headers: {
+          Authorization: `${token}`,
+        },
+      };
+      const response = await axios.post(
+        "http://localhost:8000/edit",
+        payload,
+        config
+      );
+      setIsModalOpen(false);
+
+    } catch (error: any) {
+      console.error("An error occurred:", error);
+      alert(error.message || "An error occurred!");
+    }
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
@@ -26,17 +54,17 @@ const EditModal: React.FC<ModalProps> = ({ setIsModalOpen }) => {
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="inputField" className="block mb-2 font-semibold">
-              Username
+              Email
             </label>
             <input
               type="text"
               id="inputField"
               className="border border-gray-300 rounded px-4 py-2 w-full "
-              value={username}
-              onChange={handleUsername}
+              value={email}
+              onChange={handleEmail}
             />
           </div>
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <label className="block mb-2 font-semibold">Role:</label>
             <div className="flex">
               <label htmlFor="option1" className="flex items-center mb-2 mr-4">
@@ -62,7 +90,7 @@ const EditModal: React.FC<ModalProps> = ({ setIsModalOpen }) => {
                 User
               </label>
             </div>
-          </div>
+          </div> */}
           <div className="flex gap-4">
             <button
               type="button"
