@@ -12,7 +12,6 @@ export default function Home() {
       <div className="main">
        <Header />
        <Questions />
-       <QuestionForm />
       </div>
     </ChakraProvider>
   );
