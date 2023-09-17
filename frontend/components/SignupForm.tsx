@@ -1,10 +1,13 @@
 import axios from "axios";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 const SignupForm: React.FC = ({}) => {
   const [role, setRole] = useState<string>("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const router = useRouter();
 
   const handleRoleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRole(e.target.value);
@@ -17,19 +20,26 @@ const SignupForm: React.FC = ({}) => {
     setPassword(e.target.value);
   };
 
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const body = {
         username: username,
         password: password,
-        role: role,
+        email: email,
       };
       console.log(body);
-      const response = await axios.post("http://localhost:8000/users", body);
+      const response = await axios.post("http://localhost:8000/", body);
       console.log(response.data);
-    } catch (error) {
+      alert("Account created successfully!")
+      router.push("/Login");
+    } catch (error: any) {
       console.error(error);
+      alert(error.message || "An error occurred!");
     }
   };
 
@@ -79,6 +89,24 @@ const SignupForm: React.FC = ({}) => {
                 />
               </div>
               <div>
+                <label
+                  htmlFor="email"
+                  className="block mb-2 text-sm font-medium text-gray-900 "
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  value={email}
+                  onChange={handleEmailChange}
+                  placeholder="Enter email"
+                  className="bg-gray-50 border focus:outline-none border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 "
+                  required
+                />
+              </div>
+              {/* <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900">
                   Role
                 </label>
@@ -106,7 +134,7 @@ const SignupForm: React.FC = ({}) => {
                     <span className="ml-2">Admin</span>
                   </label>
                 </div>
-              </div>
+              </div> */}
 
               <button
                 onClick={handleSubmit}
