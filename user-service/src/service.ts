@@ -15,9 +15,30 @@ type UserEditRequestType = {
 type UserResponseType = {
   id: string;
   username: string;
-  // password: string;
   role: string;
   email: string;
+};
+
+export const findUserByIdReturnsWithoutPw = async (userid: string): Promise<UserResponseType | null> => {
+  return await db.user.findFirst({
+    where: {
+      id: userid,
+    },
+    select: { //exclude password from response
+      id: true,
+      username: true,
+      role: true,
+      email: true,
+    },
+  });
+};
+
+export const findUserByUsernameReturnsAllFields = async (username: string): Promise<User | null> => {
+  return await db.user.findFirst({
+    where: {
+      username: username,
+    },
+  });
 };
 
 export const createUser = async (
@@ -31,11 +52,15 @@ export const createUser = async (
       role: 'USER',
       email: user.email,
     },
+    select: {
+      id: true,
+      username: true,
+      role: true,
+      email: true,
+    },
   });
 };
 
-
-//get id from req.reqPayload.id
 export const editUser = async (
   user: UserEditRequestType, id: string
 ): Promise<UserResponseType | undefined> => {
@@ -46,22 +71,6 @@ export const editUser = async (
     data: {
       email: user.email,
     },
-  });
-};
-
-export const deleteUser = async (userid: string): Promise<UserResponseType> => {
-  return await db.user.delete({
-    where: {
-      id: userid,
-    },
-  });
-};
-
-export const findUserWithoutPw = async (userid: string): Promise<UserResponseType | null> => {
-  return await db.user.findFirst({
-    where: {
-      id: userid,
-    },
     select: {
       id: true,
       username: true,
@@ -71,10 +80,16 @@ export const findUserWithoutPw = async (userid: string): Promise<UserResponseTyp
   });
 };
 
-export const findUserAllFields = async (id: string): Promise<User | null> => {
-  return await db.user.findFirst({
+export const deleteUser = async (userid: string): Promise<UserResponseType> => {
+  return await db.user.delete({
     where: {
-      id: id,
+      id: userid,
+    },
+    select: {
+      id: true,
+      username: true,
+      role: true,
+      email: true,
     },
   });
 };
