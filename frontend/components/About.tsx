@@ -11,7 +11,7 @@ interface AboutProps {
 const About: React.FC<AboutProps> = ({ user, fetchAndSetUser }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   return (
-    <div className="w-full md:w-9/12 mx-2 h-64 shadow-lg">
+    <div className="w-full md:w-9/12 mx-2 shadow-lg">
       {isModalOpen && <EditModal setIsModalOpen={setIsModalOpen} fetchAndSetUser={fetchAndSetUser} />}
       <div className="bg-white p-3 shadow-sm rounded-sm">
         <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8 text-2xl">
