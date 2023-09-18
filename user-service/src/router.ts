@@ -75,15 +75,14 @@ userRouter.post("/login", async (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) {
       return res.status(400).json({
-        status: "error",
-        error: "Request missing email or password",
+        message: "Request is missing email or password",
       });
     }
     console.log(username, password);
     const user = await findUserByUsernameReturnsAllFields(username);
     console.log(user);
     if (!user) {
-      return res.status(400).json({ status: "error", error: "User Not Found" });
+      return res.status(400).json({ message: "Invalid username. User not found." });
     }
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (isMatch) {
@@ -109,7 +108,7 @@ userRouter.post("/login", async (req, res) => {
         );
       } else {
         res.status(400).json({
-          error: "Password and email does not match.",
+          message: "Wrong Password",
         });
       }
     });
