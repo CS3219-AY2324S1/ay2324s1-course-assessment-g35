@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axios, { Axios, AxiosError } from "axios";
 import { useRouter } from 'next/router';
 
 const LoginForm: React.FC = () => {
@@ -27,8 +27,8 @@ const LoginForm: React.FC = () => {
       router.push('/');
 
     } catch (error: any) {
-      console.error(error);
-      alert(error.message || "An error occurred!");
+      console.log(error);
+      alert(error.response.data.message || "An error occurred when signing in!");
     }
   };
   return (
