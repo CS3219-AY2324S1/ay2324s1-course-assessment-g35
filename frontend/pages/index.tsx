@@ -28,13 +28,13 @@ export default function Home() {
   return (
     <>
       <h1 className="text-3xl font-bold underline">Hello world!</h1>
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => router.push("/Profile")}>Profile</button>
+      <br />
       <button onClick={handleSubmit}>Click me</button>
       <br />
       <button onClick={() => localStorage.removeItem("token")}>
         Remove token
       </button>
-      <br />
-      <button onClick={() => router.push("/Profile")}>Profile</button>
     </>
   );
 }
