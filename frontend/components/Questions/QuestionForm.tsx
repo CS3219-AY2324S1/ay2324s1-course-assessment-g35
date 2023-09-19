@@ -117,9 +117,8 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
   }
 };
 
-
   return (
-    <div className={styles.container}>
+    <div>
       <form onSubmit={handleSubmit}>
       <FormControl 
         isRequired
