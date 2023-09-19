@@ -188,7 +188,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
           placeholder="Select a complexity"
         />
       </FormControl>
-
+      
       <button
         className={styles.button}
         type="submit"

@@ -5,7 +5,6 @@ import styles from './Questions.module.css';
 import {
   IoIosAddCircleOutline,
   IoIosCloseCircleOutline,
-  IoIosTrash,
 } from "react-icons/io";
 import QuestionForm from './QuestionForm';
 
@@ -53,10 +52,6 @@ export default function Questions() {
           {/* <QuestionField
             question={}}
           /> */}
-          {/* TODO: fix spacing between trash and questions */}
-          <button>
-            <IoIosTrash size={20} className={styles.button} />
-          </button>
         </div>
       </div>
     </div>

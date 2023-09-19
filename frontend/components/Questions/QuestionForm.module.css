@@ -6,6 +6,10 @@
   font-family: Georgia;
   color: #FFFFFF;
   background-color: #7D938A;
+  margin-top: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .button:hover {
