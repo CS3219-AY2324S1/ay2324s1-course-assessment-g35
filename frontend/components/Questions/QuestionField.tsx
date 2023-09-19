@@ -1,31 +1,28 @@
+import { QuestionsData } from '@/data/questionsData';
 import styles from './QuestionField.module.css';
 
 interface QuestionFieldProps {
-    id: number;
-    title: string;
-    description: string;
-    category: string[];
-    complexity: string;
+    question: QuestionsData
 }
 
-export default function QuestionField(props: QuestionFieldProps) {
+export default function QuestionField({ question }: QuestionFieldProps) {
     return (
     <div className={styles.main}>
         <div className={styles['table-content']}>
             <div className={styles.section}>
-                {props.id}
+                {question.id}
             </div>
             <div className={styles['md-section']}>
-                {props.title}
+                {question.title}
             </div>
             <div className={styles['lg-section']}>
-                {props.description}
+                {question.description}
             </div>
             <div className={styles.section}>
-            {props.category}
+            {question.categories}
             </div>
             <div className={styles.section}>
-            {props.complexity}
+            {question.complexity}
             </div>
         </div>
     </div>

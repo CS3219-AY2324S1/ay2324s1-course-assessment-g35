@@ -1,8 +1,13 @@
+import { useState } from 'react';
 import { AddIcon } from '@/icons/icons';
 import QuestionField from './QuestionField';
+import { QuestionsData } from '@/data/questionsData';
 import styles from './Questions.module.css';
 
 export default function Questions() {
+
+  const [questions, setQuestions] = useState<QuestionsData[]>([]);
+
   return (
     <div className={styles.container}>
         <div className={styles.title}>
@@ -31,13 +36,12 @@ export default function Questions() {
             </div>
             <div className={styles.line} />
             <div>
+              {
+                questions.map(question =>
                 <QuestionField
-                id={1}
-                title={'123'}
-                description={'123'}
-                category={['123']}
-                complexity={'123'}
-                />
+                question={question}
+                />)
+              }
             </div>
         </div>
     </div>

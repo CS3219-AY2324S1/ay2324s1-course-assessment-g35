@@ -8,6 +8,7 @@ import {
   FormControl,
   FormLabel,
 } from "@chakra-ui/react";
+import { QuestionsData } from "@/data/questionsData";
 
 export default function QuestionForm() {
   const questionCategories = [
@@ -31,6 +32,10 @@ export default function QuestionForm() {
   const [link, setLink] = useState<string | null>(null);
   const [categories, setCategories] = useState<string[] | null>(null);
   const [complexity, setComplexity] = useState<string | null>(null);
+  const [form, setFormData] = useState<QuestionsData> (
+    {
+      id: Math.floor(Math.random() * 500) + 50, title: "", description: "", link: "", categories: [], complexity: ""
+    })
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
@@ -48,13 +53,27 @@ export default function QuestionForm() {
     }
   }, []);
 
-const handleInput = (e: any, field: string) => {
-  let value;
+const handleInput = (e: any, field: string, value: any) => {
 
   if (field === "categories" || field === "complexity") {
     value = e;
+    if (field === "categories") {
+      setFormData((prevData) => ({
+        ...prevData,
+        categories: [...prevData.categories, value],
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        complexity: value.value,
+      }));
+    }
   } else {
     value = e.target.value;
+    setFormData((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }));
   }
 
   if (typeof window !== "undefined" && window.localStorage) {
@@ -92,7 +111,7 @@ const isFormValid = () => {
 const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
   if (isFormValid()) {
-    console.log("Form submitted with data:", title, description, link, categories, complexity);
+    console.log("Form submitted with data:", form);
   } else {
     alert("Please fill in all required fields.");
   }
@@ -110,7 +129,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         <Input
           type="title"
           onChange={(e) => {
-            handleInput(e, "title")
+            handleInput(e, "title", e.target.value)
           }}
           variant="flushed"
         />
@@ -123,7 +142,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         <Input 
           type="description" 
           onChange={(e) => {
-            handleInput(e, "description")
+            handleInput(e, "description", e.target.value)
           }}
           variant="flushed"
         />
@@ -137,7 +156,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         <Input 
           type="link" 
           onChange={(e) => {
-            handleInput(e, "link")
+            handleInput(e, "link", e.target.value)
           }}
           variant="flushed"
         />
@@ -151,7 +170,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         <Select
           options={questionCategories}
           onChange={(e: any) => {
-            handleInput(e, "categories")
+            handleInput(e, "categories", e)
           }}
           isMulti
           placeholder="Select categories"
@@ -165,7 +184,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         <Select
           options={questionComplexities}
           onChange={(e) =>
-            handleInput(e, "complexity")
+            handleInput(e, "complexity", e)
           }
           placeholder="Select a complexity"
         />
