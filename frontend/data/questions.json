@@ -2,7 +2,7 @@
   {
     "id": 1,
     "title": "Reverse a String",
-    "categories": ["Strings", "Algorithms"],
+    "categories": ["Strings, Algorithms"],
     "complexity": "Easy",
     "link": "https://leetcode.com/problems/reverse-string/",
     "description": "Write a function that reverses a string.\nThe input string is given as an array of characters.\n\nYou must do this by modifying the input array in-place with O(1) extra memory. "
@@ -10,7 +10,7 @@
   {
     "id": 2,
     "title": "Linked List Cycle Detection",
-    "categories": ["Data Structures", "Algorithms"],
+    "categories": ["Data Structures, Algorithms"],
     "complexity": "Easy",
     "link": "https://leetcode.com/problems/linked-list-cycle/",
     "description": "Given head, the head of a linked list, determine if the linked list has a cycle in it.\n\nThere is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is connected to.\nNote that pos is not passed as a parameter.\n\nReturn true if there is a cycle in the linked list. Otherwise, return false."
@@ -26,7 +26,7 @@
   {
     "id": 4,
     "title": "Add Binary",
-    "categories": ["Bit Manipulation", "Algorithms"],
+    "categories": ["Bit Manipulation, Algorithms"],
     "complexity": "Easy",
     "link": "https://leetcode.com/problems/add-binary/",
     "description": "Given two binary strings a and b, return their sum as a binary string."
@@ -34,7 +34,7 @@
   {
     "id": 5,
     "title": "Fibonacci Number",
-    "categories": ["Recursion", "Algorithms"],
+    "categories": ["Recursion, Algorithms"],
     "complexity": "Easy",
     "link": "https://leetcode.com/problems/fibonacci-number/",
     "description": "The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is, \n\nF(0) = 0, F(1) = 1\nF(n) = F(n - 1) + F(n - 2), for n > 1.\nGiven n, calculate F(n)."
@@ -58,7 +58,7 @@
   {
     "id": 8,
     "title": "Repeated DNA Sequences",
-    "categories": ["Algorithms", "Bit Manipulation"],
+    "categories": ["Algorithms, Bit Manipulation"],
     "complexity": "Medium",
     "link": "https://leetcode.com/problems/repeated-dna-sequences/",
     "description": "The DNA sequence is composed of a series of nucleotides abbreviated as 'A','C', 'G', and 'T'.\n\nFor example, 'ACGAATTCCG' is a DNA sequence. When studying DNA, it is useful to identify repeated sequences within the DNA.\n\nGiven a string s that represents a DNA sequence, return all the 10-letter long sequences (substrings) that occur more than once in a DNA molecule. You may return the answer in any order."

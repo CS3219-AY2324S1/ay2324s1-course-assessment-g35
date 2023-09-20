@@ -34,6 +34,16 @@
     font-weight: 400;
 }
 
+.table-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #6D5F66;
+    font-family: Georgia;
+    font-style: normal;
+    font-weight: 400;
+}
+
 .section {
     width: 12vw;
 }

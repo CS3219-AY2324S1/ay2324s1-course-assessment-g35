@@ -29,6 +29,7 @@ export default function QuestionField({ question }: QuestionFieldProps) {
             <IoIosTrash size={20} className={styles.button} />
             </div>
         </div>
+        <div className={styles.line} />
     </div>
     )
 }

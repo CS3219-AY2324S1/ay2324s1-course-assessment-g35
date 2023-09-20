@@ -10,22 +10,15 @@ import {
 } from "@chakra-ui/react";
 import { QuestionsData } from "@/data/questionsData";
 
-export default function QuestionForm() {
-  const questionCategories = [
-    { value: "strings", label: "Strings" },
-    { value: "algorithms", label: "Algorithms" },
-    { value: "data structures", label: "Data Structures" },
-    { value: "bit manipulation", label: "Bit Manipulation" },
-    { value: "recursion", label: "Recursion" },
-    { value: "databases", label: "Databases" },
-    { value: "brainteaser", label: "Brainteaser" },
-  ];
+interface QuestionFormProps {
+  addQuestion: (newQuestion: QuestionsData) => void
+}
 
-  const questionComplexities = [
-    { value: "easy", label: "Easy" },
-    { value: "medium", label: "Medium" },
-    { value: "hard", label: "Hard" },
-  ];
+export default function QuestionForm({ addQuestion }: QuestionFormProps) {
+  const questionCategories = [ "Strings", "Algorithms" ,"Data Structures", "Bit Manipulation" ,
+"Recursion", "Databases","Brainteaser"];
+
+  const questionComplexities = [ "Easy","Medium","Hard"];
 
   const [title, setTitle] = useState<string | null>(null);
   const [description, setDescription] = useState<string | null>(null);
@@ -112,7 +105,8 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
   if (isFormValid()) {
     console.log("Form submitted with data:", form);
-  } else {
+    addQuestion(form);
+    } else {
     alert("Please fill in all required fields.");
   }
 };
