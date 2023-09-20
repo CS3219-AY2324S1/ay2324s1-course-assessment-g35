@@ -7,9 +7,13 @@ import { QuestionsData } from "@/data/questionsData";
 
 interface QuestionFormProps {
   addQuestion: (newQuestion: QuestionsData) => void;
+  nextId: number;
 }
 
-export default function QuestionForm({ addQuestion }: QuestionFormProps) {
+export default function QuestionForm({
+  addQuestion,
+  nextId,
+}: QuestionFormProps) {
   const questionCategories = [
     { value: "strings", label: "Strings" },
     { value: "algorithms", label: "Algorithms" },
@@ -32,7 +36,7 @@ export default function QuestionForm({ addQuestion }: QuestionFormProps) {
   const [categories, setCategories] = useState<string[] | null>(null);
   const [complexity, setComplexity] = useState<string | null>(null);
   const [form, setFormData] = useState<QuestionsData>({
-    id: Math.floor(Math.random() * 500) + 50,
+    id: nextId,
     title: "",
     description: "",
     link: "",

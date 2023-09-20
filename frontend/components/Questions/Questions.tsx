@@ -8,6 +8,7 @@ import QuestionForm from "./QuestionForm";
 
 export default function Questions() {
   const [questions, setQuestions] = useState<QuestionsData[]>([]);
+  const [nextId, setNextId] = useState(21);
 
   const [modal, setModal] = useState(false);
   const toggleModal = () => {
@@ -78,6 +79,7 @@ export default function Questions() {
       JSON.stringify(newQuestion)
     );
     setQuestions([...questions, newQuestion]);
+    setNextId(nextId + 1);
   }
 
   return (
@@ -97,7 +99,7 @@ export default function Questions() {
                   <IoIosCloseCircleOutline size={40} />
                 </button>
               </div>
-              <QuestionForm addQuestion={addQuestion} />
+              <QuestionForm addQuestion={addQuestion} nextId={nextId} />
             </div>
           </div>
         )}
