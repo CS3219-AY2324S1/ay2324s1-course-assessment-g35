@@ -4,8 +4,8 @@
   margin-top: 10px;
   border-radius: 5px;
   font-family: Georgia;
-  color: #FFFFFF;
-  background-color: #7D938A;
+  color: #ffffff;
+  background-color: #7d938a;
   margin-top: 20px;
   display: block;
   margin-left: auto;
@@ -13,11 +13,11 @@
 }
 
 .button:hover {
-  background-color: #5F6F68;
+  background-color: #5f6f68;
 }
 
 .field {
   margin-top: 10px;
   font-family: Georgia;
-  color: #6D5F66;
+  color: #6d5f66;
 }
