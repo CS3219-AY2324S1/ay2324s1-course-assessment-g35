@@ -1,21 +1,15 @@
 import express from "express";
 import { Server, Socket } from "socket.io";
 import http from "http";
-import {
-  initConnectionAndConsumeMatchingRequests,
-  processMatchingRequest,
-} from "./matching/Consumer.js";
-import { initializeProducerConnection } from "./matching/Producer.js";
 import cors from "cors";
-import produceMessage from "./test/producer.js";
-import { consumeMessage } from "./test/consumer.js";
-import amqplib from "amqplib";
 import { Queue } from "./queue.js";
 
 const app = express();
 const port = 3001;
 const server = http.createServer(app);
-const queue = new Queue();
+const easyQueue = new Queue();
+const mediumQueue = new Queue();
+const hardQueue = new Queue();
 
 const io = new Server(server, {
   cors: {
@@ -26,17 +20,22 @@ app.use(cors());
 
 // Define a connection event for Socket.IO
 io.on("connection", (socket) => {
-  console.log("A user connected" + socket.id);
-  console.log(queue.print());
   // Handle chat messages
-
   socket.on("queue", async (msg) => {
-    console.log(msg);
-    // Example usage:
-    console.log(queue.size());
+    let queue = easyQueue;
+    if (msg.difficulty == "Easy") {
+      queue = easyQueue;
+    } else if (msg.difficulty == "Medium") {
+      queue = mediumQueue;
+    } else {
+      queue = hardQueue;
+    }
     if (queue.size() === 0) {
       //create room with first guy id
-      console.log("adding to queue");
+      const obj = {
+        id: socket.id,
+        name: "test",
+      };
       queue.enqueue(socket.id);
       queue.print();
       socket.emit("queue", "you are in queueu");
@@ -44,41 +43,23 @@ io.on("connection", (socket) => {
       const firstGuy = queue.dequeue();
       socket.emit("match", "you have matched");
       socket.to(firstGuy).emit("match", "you match with");
-      //Emit to second guy
     }
   });
 
   socket.on("disconnect", async (msg) => {
-    queue.remove(socket.id);
-    queue.print();
+    // queue.remove(socket.id);
   });
 
-  socket.on("match", async (matchNotification) => {
-    console.log("Match notification received:", matchNotification);
-    processMatchingRequest(matchNotification);
-    socket.emit("match", matchNotification); // Send match notification to the client
-    await consumeMessage().then((msg) => {
-      console.log("consume", msg);
-      socket.emit("match", matchNotification); // Send match notification to the client
-    });
-  });
-
-  // Handle disconnection
-  socket.on("disconnect", () => {
+  // Handle user cancel matching
+  socket.on("leave", (msg) => {
+    if (msg.difficulty == "Easy") {
+      easyQueue.remove(socket.id);
+    } else if (msg.difficulty == "Medium") {
+      mediumQueue.remove(socket.id);
+    } else {
+      hardQueue.remove(socket.id);
+    }
     console.log("A user disconnected", socket.id);
-  });
-
-  // socket.on("match", async (msg) => {
-  //   console.log("match");
-  //   await consumeMessage().then((msg) => {
-  //     console.log("consume", msg);
-  //     io.emit(msg);
-  //   });
-  // });
-
-  // Handle disconnection
-  socket.on("disconnect", () => {
-    console.log("A user disconnected");
   });
 });
 
