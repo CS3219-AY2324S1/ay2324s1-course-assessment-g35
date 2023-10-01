@@ -82,6 +82,28 @@ export default function Questions() {
     setNextId(nextId + 1);
   }
 
+  function deleteQuestion(deleteQuestion: QuestionsData) {
+    const deleteQuestionTitle = deleteQuestion.title;
+    const deleteQuestionId = deleteQuestion.id;
+
+    const deleteQuestionKey = `question_${deleteQuestion.title}`;
+    if (!localStorage.getItem(deleteQuestionKey)) {
+      return;
+    } else {
+      localStorage.removeItem(deleteQuestionKey);
+      let filteredQuestions = questions.filter(
+        (question) => question.title != deleteQuestionTitle
+      );
+      filteredQuestions.forEach((question) => {
+        if (question.id > deleteQuestionId) {
+          question.id -= 1;
+        }
+      });
+      setQuestions(filteredQuestions);
+      setNextId(nextId - 1);
+    }
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.title}>
@@ -115,7 +137,11 @@ export default function Questions() {
         <div className={styles.line} />
         <div className={styles["table-content"]}>
           {questions.map((question) => (
-            <QuestionField key={question.id} question={question} />
+            <QuestionField
+              key={question.id}
+              question={question}
+              deleteQuestion={deleteQuestion}
+            />
           ))}
         </div>
       </div>

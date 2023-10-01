@@ -4,9 +4,10 @@ import { IoIosTrash } from "react-icons/io";
 
 interface QuestionFieldProps {
   question: QuestionsData;
+  deleteQuestion: (question: QuestionsData) => void
 }
 
-export default function QuestionField({ question }: QuestionFieldProps) {
+export default function QuestionField({ question, deleteQuestion }: QuestionFieldProps) {
   return (
     <div className={styles.main}>
       <div className={styles["table-content"]}>
@@ -16,7 +17,13 @@ export default function QuestionField({ question }: QuestionFieldProps) {
         <div className={styles.section}>{question.categories}</div>
         <div className={styles.section}>{question.complexity}</div>
         <div>
-          <IoIosTrash size={20} className={styles.button} />
+          <button>
+            <IoIosTrash 
+              size={20} 
+              className={styles.button}
+              onClick={() => deleteQuestion(question)}
+            />
+          </button>
         </div>
       </div>
       <div className={styles.line} />
