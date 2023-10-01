@@ -8,11 +8,13 @@ import { QuestionsData } from "@/data/questionsData";
 interface QuestionFormProps {
   addQuestion: (newQuestion: QuestionsData) => void;
   nextId: number;
+  existingQuestions: QuestionsData[]
 }
 
 export default function QuestionForm({
   addQuestion,
   nextId,
+  existingQuestions
 }: QuestionFormProps) {
   const questionCategories = [
     { value: "strings", label: "Strings" },
@@ -107,20 +109,33 @@ export default function QuestionForm({
     }
   };
 
-  const isFormValid = () => {
-    if (title && link && categories && complexity) {
-      return true;
-    }
-    return false;
-  };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const isFormValid = () => {
+      if (title && link && categories && complexity) {
+        return true;
+      }
+      return false;
+    };
+
+    const isDuplicate = () => {
+      let hasNoDuplicate = true
+      existingQuestions.forEach((question: QuestionsData) => {
+        const existingTitle = question.title
+        if (existingTitle == title) {
+          return false
+        }
+      })
+      return hasNoDuplicate
+    };
+
     e.preventDefault();
-    if (isFormValid()) {
+    if (isDuplicate()) {
+      alert("This question already exists. Please submit a unique one.")
+    } else if (!isFormValid()) {
+      alert("Please fill in all required fields.");
+    } else {
       console.log("Form submitted with data:", form);
       addQuestion(form);
-    } else {
-      alert("Please fill in all required fields.");
     }
   };
 

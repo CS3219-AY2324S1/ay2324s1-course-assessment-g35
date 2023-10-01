@@ -8,7 +8,7 @@ import QuestionForm from "./QuestionForm";
 
 export default function Questions() {
   const [questions, setQuestions] = useState<QuestionsData[]>([]);
-  const [nextId, setNextId] = useState(21);
+  const [nextId, setNextId] = useState(21 + questions.length);
 
   const [modal, setModal] = useState(false);
   const toggleModal = () => {
@@ -80,6 +80,7 @@ export default function Questions() {
     );
     setQuestions([...questions, newQuestion]);
     setNextId(nextId + 1);
+    toggleModal()
   }
 
   function deleteQuestion(deleteQuestion: QuestionsData) {
@@ -121,7 +122,11 @@ export default function Questions() {
                   <IoIosCloseCircleOutline size={40} />
                 </button>
               </div>
-              <QuestionForm addQuestion={addQuestion} nextId={nextId} />
+              <QuestionForm 
+                addQuestion={addQuestion} 
+                nextId={nextId}
+                existingQuestions={questions}
+              />
             </div>
           </div>
         )}
