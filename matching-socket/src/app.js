@@ -3,6 +3,7 @@ import { Server, Socket } from "socket.io";
 import http from "http";
 import cors from "cors";
 import { Queue } from "./queue.js";
+import authenticateSocket from "./middleware/authenticateSocket.js";
 
 const app = express();
 const port = 3001;
@@ -18,8 +19,11 @@ const io = new Server(server, {
 });
 app.use(cors());
 
+io.use(authenticateSocket); // Use the authentication middleware
+
 // Define a connection event for Socket.IO
 io.on("connection", (socket) => {
+  console.log(`Socket connected with user: ${socket.decoded.username}`);
   // Handle chat messages
   socket.on("queue", async (msg) => {
     let queue = easyQueue;

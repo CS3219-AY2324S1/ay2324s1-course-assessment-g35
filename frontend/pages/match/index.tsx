@@ -60,11 +60,21 @@ const Match = () => {
   };
 
   const socketInitializer = async () => {
-    socket = io("http://localhost:3001");
+    const token = localStorage.getItem("token");
+    socket = io("http://localhost:3001", {
+      auth: {
+        token: token,
+      },
+    });
 
     socket.on("connect", () => {
       console.log("connected", socket.id);
     });
+
+    socket.on("connect_error", (err: any) => {
+      alert(err.message);
+    });
+
     socket.on("match", (msg: string) => {
       setMatchFound(true);
       setShowSpinner(false);
