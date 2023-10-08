@@ -13,6 +13,7 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
+import Countdown from "@/components/Countdown";
 
 let socket: any;
 
@@ -33,22 +34,26 @@ const Match = () => {
     setShowModal(false);
   };
 
+  const stopMatching = () => {
+    setMatchingStarted(false);
+    setShowSpinner(false);
+    socket.emit("leave", { difficulty: difficulty });
+    setButtonText("START MATCHING");
+  };
+
   console.log(matchingStarted);
-  const matchButton = async () => {
+  const handleButtonClick = async () => {
     if (matchingStarted == true) {
-      setMatchingStarted(false);
-      setShowSpinner(false);
-      socket.emit("leave", { difficulty: difficulty });
-      setButtonText("START MATCHING");
+      stopMatching();
     } else {
       // Start matching PROCESS
       setMatchingStarted(true);
       setShowSpinner(true);
       const rando = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
       socket.emit("queue", {
-        id: rando.toString(),
+        id: rando.toString(), // not used
         difficulty: difficulty,
-        matchingBoolean: true,
+        matchingBoolean: true, // dont need
       });
       setButtonText("STOP MATCHING...");
     }
@@ -123,10 +128,12 @@ const Match = () => {
           <div className="flex items-center">
             <Button
               colorScheme="blue"
-              onClick={matchButton}
+              onClick={handleButtonClick}
               className="w-80 py-6 px-8"
             >
               {buttonText}
+              {" "}
+              {matchingStarted && (<Countdown seconds={10} isRunning={matchingStarted} onTimerEnd={stopMatching} />)}
             </Button>
             {showSpinner && <Spinner className="ml-4" />}
           </div>
