@@ -14,6 +14,9 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 import Countdown from "@/components/Countdown";
+import { useRouter } from "next/router";
+import axios from "axios";
+import Questions from "@/components/Questions";
 
 let socket: any;
 
@@ -49,11 +52,8 @@ const Match = () => {
       // Start matching PROCESS
       setMatchingStarted(true);
       setShowSpinner(true);
-      const rando = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
       socket.emit("queue", {
-        id: rando.toString(), // not used
         difficulty: difficulty,
-        matchingBoolean: true, // dont need
       });
       setButtonText("STOP MATCHING...");
     }
@@ -92,6 +92,34 @@ const Match = () => {
   useEffect(() => {
     socketInitializer();
   }, []);
+
+
+  const router = useRouter();
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const token = localStorage.getItem("token");
+    console.log(token);
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/users/validate",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the request headers
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleLogout = () => {
+    () => localStorage.removeItem("token");
+    router.push("/Login");
+  };
+  
   return (
     <div className="flex h-screen w-screen">
       <Center>
@@ -152,7 +180,14 @@ const Match = () => {
         {matchFound && <Confetti width={width} height={height} />}
       </div>
       <div className="bg-blue-500 h-full w-4/6">
-        <h1>Hello</h1>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => router.push("/Profile")}>Profile</button>
+        <br />
+        <button onClick={handleSubmit}>Validation test</button>
+        <br />
+        <button onClick={handleLogout}>
+          Logout
+        </button>
+        <Questions />
       </div>
     </div>
   );
