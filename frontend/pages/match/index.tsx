@@ -1,5 +1,5 @@
-import { Button, ButtonGroup, ModalFooter } from "@chakra-ui/react";
-import io from "Socket.IO-client";
+import { Button } from "@chakra-ui/react";
+import io from "socket.io-client";
 import { useEffect, useState } from "react";
 import { Spinner } from "@chakra-ui/react";
 import useWindowSize from "react-use/lib/useWindowSize";
