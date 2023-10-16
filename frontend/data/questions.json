@@ -80,6 +80,38 @@
     "description": "Design a data structure that follows the constraints of a Least Recently Used (LRU) cache. Implement the LRUCache class:\n\nLRUCache(int capacity) Initialize the LRU cache with positive size capacity. int get(int key) Return the value of the key if the key exists, otherwise return 1.\n\nvoid put(int key, int value) Update the value of the key if the key exists. \n\nOtherwise, add the key-value pair to the cache. If the number of keys exceeds the capacity from this operation, evict the least recently used key. The functions get and put must each run in O(1) average time complexity."
   },
   {
+    "id": 11,
+    "title": "Longest Common Subsequence",
+    "categories": ["Strings, Algorithms"],
+    "complexity": "Medium",
+    "link": "https://leetcode.com/problems/longest-common-subsequence/",
+    "description": "Given two strings text1 and text2, return the length of their longest common subsequence. If there is no common subsequence, return 0. A subsequence of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters. For example, 'ace' is a subsequence of 'abcde'. A common subsequence of two strings is a subsequence that is common to both strings."
+  },
+  {
+    "id": 12,
+    "title": "Rotate Image",
+    "categories": ["Arrays, Algorithms"],
+    "complexity": "Medium",
+    "link": "https://leetcode.com/problems/rotate-image/",
+    "description": "You are given an n x n 2D matrix representing an image, rotate the image by 90 degrees (clockwise). You have to rotate the image in-place, which means you have to modify the input 2D matrix directly. DO NOT allocate another 2D matrix and do the rotation."
+  },
+  {
+    "id": 13,
+    "title": "Airplane Seat Assignment Probability",
+    "categories": ["Brainteaser"],
+    "complexity": "Medium",
+    "link": "https://leetcode.com/problems/airplane-seat-assignment-probability/",
+    "description": "n passengers board an airplane with exactly n seats. The first passenger has lost the ticket and picks a seat randomly. But after that, the rest of the passengers will: Take their own seat if it is still available, and Pick other seats randomly when they find their seat occupied Return the probability that the nth person gets his own seat."
+  },
+  {
+    "id": 14,
+    "title": "Validate Binary Search Tree",
+    "categories": ["Data Structures, Algorithms"],
+    "complexity": "Medium",
+    "link": "https://leetcode.com/problems/validate-binary-search-tree/",
+    "description": "Given the root of a binary tree, determine if it is a valid binary search tree (BST)."
+  },
+  {
     "id": 15,
     "title": "Sliding Window Maximum",
     "categories": ["Arrays, Algorithms"],

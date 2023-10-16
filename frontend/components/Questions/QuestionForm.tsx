@@ -118,14 +118,9 @@ export default function QuestionForm({
     };
 
     const isDuplicate = () => {
-      let hasNoDuplicate = true
-      existingQuestions.forEach((question: QuestionsData) => {
-        const existingTitle = question.title
-        if (existingTitle == title) {
-          return false
-        }
-      })
-      return hasNoDuplicate
+      return existingQuestions.some((question: QuestionsData) => {
+        return question.title === title;
+      });
     };
 
     e.preventDefault();
