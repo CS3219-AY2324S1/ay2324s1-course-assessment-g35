@@ -12,19 +12,6 @@ spec:
     command:
     - cat
     tty: true
-  - name: docker
-    image: docker:latest
-    command:
-    - cat
-    tty: true
-  volumeMounts:
-  - mountPath: /var/run/docker.sock
-    name: docker-sock
-  volumes:
-  - name: docker-sock
-    hostPath:
-      path: /var/run/docker.sock
-
                 '''
         }
     }
@@ -54,11 +41,38 @@ spec:
         }
 
         stage ('Build docker image') {
-            steps {
-                container('docker') {
-                    sh 'docker build -t yuehern/history-service:latest .'
-                }
-            }
+  agent {
+    kubernetes {
+      label 'jenkinsrun'
+      defaultContainer 'builder'
+      yaml """
+kind: Pod
+metadata:
+  name: kaniko
+spec:
+  containers:
+  - name: builder
+    image: gcr.io/kaniko-project/executor:debug
+    imagePullPolicy: Always
+    command:
+    - /busybox/cat
+    tty: true
+    volumeMounts:
+      - name: docker-config
+        mountPath: /kaniko/.docker
+  volumes:
+    - name: docker-config
+      configMap:
+        name: docker-config
+"""
+    }
+  }
+steps {
+      script {
+        sh "/kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination=AWSACCOUNT.dkr.ecr.eu-west-1.amazonaws.com/app:${env.BUILD_ID}"
+    } //container
+  } //steps
+
         }
     }
 }
