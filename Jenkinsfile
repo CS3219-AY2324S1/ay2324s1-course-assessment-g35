@@ -29,7 +29,7 @@ spec:
                 container('node') {
                     sh '''
                         # Navigate to your Node.js app directory
-                        cd /history-service
+                        cd history-service
 
                         # Install dependencies
                         npm install
