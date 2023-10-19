@@ -1,7 +1,6 @@
 pipeline {
     agent {
         kubernetes {
-            label 'my-custom-label'  // Specify a custom label for your Kubernetes agents
             defaultContainer 'node' // Default container name
             yaml '''
 apiVersion: v1
