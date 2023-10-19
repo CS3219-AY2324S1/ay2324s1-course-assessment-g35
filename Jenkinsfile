@@ -5,13 +5,11 @@ pipeline {
         stage('Build') {
             steps {
                 // Change the working directory to your desired path
-                dir('/history-service') {
-                    sh 'ls'
-                    // Inside this block, you're in the specified directory
-                    sh 'npm install'
-                    sh 'npm run build'
-                    sh 'npx prisma generate'
-                }
+                sh 'cd history-service'
+                // Inside this block, you're in the specified directory
+                sh 'npm install'
+                sh 'npm run build'
+                sh 'npx prisma generate'
             }
         }
 
