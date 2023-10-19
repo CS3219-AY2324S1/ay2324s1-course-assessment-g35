@@ -41,10 +41,9 @@ spec:
             }
         }
 
-        stage('Publish Artifacts') {
-            steps {
-                archiveArtifacts artifacts: 'path/to/your/app/build/*', allowEmptyArchive: true
-            }
+        stage ('Build docker image') {
+            app = docker.build("yuehern/history-service")
         }
+
     }
 }
