@@ -12,6 +12,11 @@ spec:
     command:
     - cat
     tty: true
+  - name: docker
+    image: docker:24.0.6-dind
+    command:
+    - cat
+    tty: true
                 '''
         }
     }
@@ -40,12 +45,18 @@ spec:
             }
         }
 
-        stage ('Build docker image') {
-        steps {
-            sh 'cd history-service'
-            sh 'docker build -t history-service .'
-        }
+        stage ('Build Docker Image') {
+            steps {
+                container('docker'){
+                    sh '''
+                        # Navigate to your Node.js app directory
+                        cd history-service
 
+                        # Build the Docker image
+                        docker build -t history-service .
+                    '''
+                }
+            }
         }
     }
 }
