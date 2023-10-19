@@ -42,7 +42,9 @@ spec:
         }
 
         stage ('Build docker image') {
-            app = docker.build("yuehern/history-service")
+            steps {
+                docker.build("yuehern/history-service")
+            }
         }
 
     }
