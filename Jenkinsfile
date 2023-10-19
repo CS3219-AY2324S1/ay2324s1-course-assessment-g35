@@ -1,47 +1,52 @@
 pipeline {
-    agent any
+    agent {
+            docker {
+                image 'node:18.18.2-alpine3.18' 
+                args '-p 3000:3000' 
+            }
+        }
 
     stages {
-        // stage('Build') {
-        //     steps {
-        //         // Change the working directory to your desired path
-        //         sh 'cd history-service'
-        //         // Inside this block, you're in the specified directory
-        //         sh 'npm install'
-        //         sh 'npm run build'
-        //         sh 'npx prisma generate'
-        //     }
-        // }
-
-        stage('Build Docker Image') {
+        stage('Build') {
             steps {
-                dir('/history-service') {
-
-                script {
-                    // Define the Docker image name and tag
-                    def dockerImageName = 'history-service'
-                    def dockerImageTag = 'latest'
-
-                    // Build the Docker image
-                    docker.build("${dockerImageName}:${dockerImageTag}", "-f Dockerfile .")
-                    // Optionally, you can push the image to a Docker registry
-                    // docker.withRegistry('https://your-docker-registry-url', 'your-registry-credentials') {
-                    //     docker.image("${dockerImageName}:${dockerImageTag}").push()
-                    // }
-                }
-                }
+                // Change the working directory to your desired path
+                sh 'cd history-service'
+                // Inside this block, you're in the specified directory
+                sh 'npm install'
+                sh 'npm run build'
+                sh 'npx prisma generate'
             }
         }
 
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-            }
-        }
+    //     stage('Build Docker Image') {
+    //         steps {
+    //             dir('/history-service') {
+
+    //             script {
+    //                 // Define the Docker image name and tag
+    //                 def dockerImageName = 'history-service'
+    //                 def dockerImageTag = 'latest'
+
+    //                 // Build the Docker image
+    //                 docker.build("${dockerImageName}:${dockerImageTag}", "-f Dockerfile .")
+    //                 // Optionally, you can push the image to a Docker registry
+    //                 // docker.withRegistry('https://your-docker-registry-url', 'your-registry-credentials') {
+    //                 //     docker.image("${dockerImageName}:${dockerImageTag}").push()
+    //                 // }
+    //             }
+    //             }
+    //         }
+    //     }
+
+    //     stage('Test') {
+    //         steps {
+    //             echo 'Testing..'
+    //         }
+    //     }
+    //     stage('Deploy') {
+    //         steps {
+    //             echo 'Deploying....'
+    //         }
+    //     }
     }
 }
