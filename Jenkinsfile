@@ -1,52 +1,53 @@
 pipeline {
     agent {
-            docker {
-                image 'node:18.18.2-alpine3.18' 
-                args '-p 3000:3000' 
-            }
+        kubernetes {
+            label 'my-custom-label'  // Specify a custom label for your Kubernetes agents
+            defaultContainer 'node' // Default container name
+            yaml '''
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: my-node-app
+spec:
+  containers:
+  - name: node
+    image: node:18  // Node.js 18 image
+    command:
+    - cat
+    tty: true
+'''
         }
+    }
 
     stages {
-        stage('Build') {
+        stage('Clone Repository') {
             steps {
-                // Change the working directory to your desired path
-                sh 'cd history-service'
-                // Inside this block, you're in the specified directory
-                sh 'npm install'
-                sh 'npm run build'
-                sh 'npx prisma generate'
+                checkout scm
             }
         }
 
-    //     stage('Build Docker Image') {
-    //         steps {
-    //             dir('/history-service') {
+        stage('Build') {
+            steps {
+                container('node') {
+                    sh '''
+                        # Navigate to your Node.js app directory
+                        cd /history-service
 
-    //             script {
-    //                 // Define the Docker image name and tag
-    //                 def dockerImageName = 'history-service'
-    //                 def dockerImageTag = 'latest'
+                        # Install dependencies
+                        npm install
 
-    //                 // Build the Docker image
-    //                 docker.build("${dockerImageName}:${dockerImageTag}", "-f Dockerfile .")
-    //                 // Optionally, you can push the image to a Docker registry
-    //                 // docker.withRegistry('https://your-docker-registry-url', 'your-registry-credentials') {
-    //                 //     docker.image("${dockerImageName}:${dockerImageTag}").push()
-    //                 // }
-    //             }
-    //             }
-    //         }
-    //     }
+                        # Build your Node.js application
+                        npm run build
+                    '''
+                }
+            }
+        }
 
-    //     stage('Test') {
-    //         steps {
-    //             echo 'Testing..'
-    //         }
-    //     }
-    //     stage('Deploy') {
-    //         steps {
-    //             echo 'Deploying....'
-    //         }
-    //     }
+        stage('Publish Artifacts') {
+            steps {
+                archiveArtifacts artifacts: 'path/to/your/app/build/*', allowEmptyArchive: true
+            }
+        }
     }
 }
