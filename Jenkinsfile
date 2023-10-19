@@ -2,16 +2,16 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
-            steps {
-                // Change the working directory to your desired path
-                sh 'cd history-service'
-                // Inside this block, you're in the specified directory
-                sh 'npm install'
-                sh 'npm run build'
-                sh 'npx prisma generate'
-            }
-        }
+        // stage('Build') {
+        //     steps {
+        //         // Change the working directory to your desired path
+        //         sh 'cd history-service'
+        //         // Inside this block, you're in the specified directory
+        //         sh 'npm install'
+        //         sh 'npm run build'
+        //         sh 'npx prisma generate'
+        //     }
+        // }
 
         stage('Build Docker Image') {
             steps {
