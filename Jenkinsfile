@@ -4,18 +4,16 @@ pipeline {
             label 'my-custom-label'  // Specify a custom label for your Kubernetes agents
             defaultContainer 'node' // Default container name
             yaml '''
-                apiVersion: v1
-                kind: Pod
-                metadata:
-                labels:
-                    app: my-node-app
-                spec:
-                containers:
-                - name: node
-                    image: node:18
-                    command:
-                    - cat
-                    tty: true
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: node
+    image: node:18
+    command:
+    - cat
+    tty: true
+
                 '''
         }
     }
