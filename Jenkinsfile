@@ -12,6 +12,18 @@ spec:
     command:
     - cat
     tty: true
+  - name: docker
+    image: docker:latest
+    command:
+    - cat
+    tty: true
+  volumeMounts:
+  - mountPath: /var/run/docker.sock
+    name: docker-sock
+  volumes:
+  - name: docker-sock
+    hostPath:
+      path: /var/run/docker.sock
 
                 '''
         }
@@ -43,9 +55,10 @@ spec:
 
         stage ('Build docker image') {
             steps {
-                docker.build("yuehern/history-service")
+                container('docker') {
+                    sh 'docker build -t yuehern/history-service:latest .'
+                }
             }
         }
-
     }
 }
