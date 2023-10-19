@@ -4,15 +4,24 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building..'
+                // Change the working directory to your desired path
+                dir('/history-service') {
+                    // Inside this block, you're in the specified directory
+                    sh 'npm install'
+                    sh 'npm run build'
+                    sh 'npx prisma generate'
+                }
             }
         }
-                stage('Build Docker Image') {
+
+        stage('Build Docker Image') {
             steps {
+                dir('/history-service') {
+
                 script {
                     // Define the Docker image name and tag
-                    def dockerImageName = 'your-image-name'
-                    def dockerImageTag = 'your-image-tag'
+                    def dockerImageName = 'history-service'
+                    def dockerImageTag = 'latest'
 
                     // Build the Docker image
                     docker.build("${dockerImageName}:${dockerImageTag}", "-f Dockerfile .")
@@ -20,6 +29,7 @@ pipeline {
                     // docker.withRegistry('https://your-docker-registry-url', 'your-registry-credentials') {
                     //     docker.image("${dockerImageName}:${dockerImageTag}").push()
                     // }
+                }
                 }
             }
         }
