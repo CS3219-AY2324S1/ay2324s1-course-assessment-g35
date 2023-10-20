@@ -180,13 +180,8 @@ const Match = () => {
         {matchFound && <Confetti width={width} height={height} />}
       </div>
       <div className="bg-blue-500 h-full w-4/6">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => router.push("/Profile")}>Profile</button>
-        <br />
         <button onClick={handleSubmit}>Validation test</button>
         <br />
-        <button onClick={handleLogout}>
-          Logout
-        </button>
         <Questions />
       </div>
     </div>
