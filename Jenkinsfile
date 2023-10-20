@@ -13,10 +13,19 @@ spec:
     - cat
     tty: true
   - name: docker
-    image: docker:24.0.6-dind
+    image: gcr.io/cloud-builders/docker
     command:
     - cat
     tty: true
+    volumeMounts:
+    - mountPath: /var/run/docker.sock
+      name: docker-sock
+  volumes:
+  - name: docker-sock
+    hostPath:
+      path: /var/run/docker.sock
+
+
                 '''
         }
     }
@@ -48,15 +57,16 @@ spec:
         stage ('Build Docker Image') {
             steps {
                 container('docker'){
-                    sh '''
-                        # Navigate to your Node.js app directory
-                        cd history-service
-
-                        # Build the Docker image
-                        docker build -t history-service .
-                    '''
+                    dir('history-service') {
+                        echo 'Build docker image Start'
+                        sh 'pwd'
+                        sh 'docker build -t history-service:latest .'
+                        echo 'Build docker image Finish'
+                    }
                 }
             }
         }
     }
 }
+
+
