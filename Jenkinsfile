@@ -12,20 +12,6 @@ spec:
     command:
     - cat
     tty: true
-  - name: docker
-    image: gcr.io/cloud-builders/docker
-    command:
-    - cat
-    tty: true
-    volumeMounts:
-    - mountPath: /var/log/docker.sock
-      name: docker-sock
-  volumes:
-  - name: docker-sock
-    hostPath:
-      path: /var/log/docker.sock
-
-
                 '''
         }
     }
