@@ -24,7 +24,7 @@ const LoginForm: React.FC = () => {
       });
       localStorage.setItem("token", response.data.token);
       console.log(response.data.token);
-      router.push('/match');
+      router.push('/Main');
 
     } catch (error: any) {
       console.log(error);

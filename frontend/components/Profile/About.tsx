@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AiOutlineUser } from "react-icons/ai";
-import EditModal from "@/components/EditModal";
+import EditModal from "@/components/Profile/EditModal";
 import { UserType } from "@/pages/Profile";
 
 interface AboutProps {

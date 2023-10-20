@@ -13,10 +13,10 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
-import Countdown from "@/components/Countdown";
+import Countdown from "@/components/Main/Countdown";
 import { useRouter } from "next/router";
 import axios from "axios";
-import Questions from "@/components/Questions";
+import Questions from "@/components/Main/Questions";
 
 let socket: any;
 
