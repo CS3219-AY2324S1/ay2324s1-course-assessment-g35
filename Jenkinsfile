@@ -58,10 +58,7 @@ spec:
             steps {
                 container('docker'){
                     dir('history-service') {
-                        echo 'Build docker image Start'
-                        sh 'pwd'
-                        sh 'docker build -t history-service:latest .'
-                        echo 'Build docker image Finish'
+                        dockerImage = docker.build "history-service:latest"
                     }
                 }
             }
