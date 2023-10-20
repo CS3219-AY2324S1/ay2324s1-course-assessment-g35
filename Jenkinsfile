@@ -56,10 +56,8 @@ spec:
 
         stage ('Build Docker Image') {
             steps {
-                container('docker'){
-                    dir('history-service') {
-                        dockerImage = docker.build "history-service:latest"
-                    }
+                dir('history-service') {
+                    dockerImage = docker.build("yuehern/history-service:latest")
                 }
             }
         }
