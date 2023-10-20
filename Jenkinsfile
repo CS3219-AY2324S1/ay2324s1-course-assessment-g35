@@ -69,13 +69,13 @@ spec:
             }
         }
 
-        stage ('Build Docker Image') {
-            steps {
-                dir('history-service') {
-                    dockerImage = docker.build("yuehern/history-service:latest")
-                }
-            }
-        }
+        // stage ('Build Docker Image') {
+        //     steps {
+        //         dir('history-service') {
+        //             dockerImage = docker.build("yuehern/history-service:latest")
+        //         }
+        //     }
+        // }
     }
 }
 
