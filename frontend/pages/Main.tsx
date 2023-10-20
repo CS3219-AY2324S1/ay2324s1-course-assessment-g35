@@ -155,7 +155,7 @@ const Match = () => {
               onChange={handleOptionChange}
               value={difficulty}
             >
-              <option value="">Difficulty level</option>
+              <option value="" hidden>Difficulty level</option>
               {dropdownOptions.map((option) => (
                 <option key={option} value={option}>
                   {option}
@@ -179,10 +179,10 @@ const Match = () => {
 
         {matchFound && <Confetti width={width} height={height} />}
       </div>
-      <div className="bg-blue-500 h-full w-4/6">
+      <div className="bg-gray-100 h-full w-4/6">
         <button onClick={handleSubmit}>Validation test</button>
         <br />
-        <Questions />
+        <div className="p-8"><Questions /></div>
       </div>
     </div>
   );
