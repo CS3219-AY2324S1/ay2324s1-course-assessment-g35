@@ -1,4 +1,6 @@
 pipeline {
+        agent any
+
 //     agent {
 //         kubernetes {
 //             defaultContainer 'node' // Default container name
