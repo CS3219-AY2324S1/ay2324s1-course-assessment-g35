@@ -1,5 +1,4 @@
 pipeline {
-        agent any
         environment{
             customImage = ""
         }
@@ -44,23 +43,18 @@ spec:
             }
         }
 
-        // stage('Build Docker Image') {
-        //     environment {
-        //         GCR_CRED = credentials('My First Project')
-        //         GCR_REPO = "gcr.io/${blahblah}"
-        //     }
-
-        //     steps {
-        //         dir('history-service') {
-        //             // Change the working directory to 'history-service'
+        stage('Build Docker Image') {
+            steps {
+                dir('history-service') {
+                    // Change the working directory to 'history-service'
                     
-        //             script {
-        //                 // Execute your Docker build command here
-        //                 customImage = docker.build("history-service:${env.BUILD_ID}")
-        //             }
-        //         }
-        //     }
-        // }
+                    script {
+                        // Execute your Docker build command here
+                        customImage = docker.build("history-service:${env.BUILD_ID}")
+                    }
+                }
+            }
+        }
 
         // stage("docker push") {
         //     steps {
