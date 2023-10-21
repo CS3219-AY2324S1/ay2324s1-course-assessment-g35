@@ -29,18 +29,16 @@ pipeline {
 
         stage('Build') {
             steps {
-                container('node') {
-                    sh '''
-                        # Navigate to your Node.js app directory
-                        cd history-service
+                sh '''
+                    # Navigate to your Node.js app directory
+                    cd history-service
 
-                        # Install dependencies
-                        npm install
+                    # Install dependencies
+                    npm install
 
-                        # Build your Node.js application
-                        npm run build
-                    '''
-                }
+                    # Build your Node.js application
+                    npm run build
+                '''
             }
         }
 
