@@ -41,8 +41,9 @@ spec:
         }
 
         stage ('Build Docker Image') {
-            steps {
                 dir('history-service') {
+
+            steps {
                     def customImage = docker.build("history-service:${env.BUILD_ID}")
                 }
             }
