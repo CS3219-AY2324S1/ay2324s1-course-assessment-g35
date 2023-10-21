@@ -3,6 +3,7 @@ import ChatComponent from "@/components/ChatComponent";
 import { useRouter } from "next/router";
 import { Socket } from "socket.io-client";
 import io from "socket.io-client";
+import VideoComponent from "@/components/VideoComponent";
 
 export default function Chat() {
   const router = useRouter();
@@ -16,9 +17,20 @@ export default function Chat() {
     });
     return newSocket;
   }, [roomId]);
+
   return (
-    <>
-      <ChatComponent socket={socket} roomId={(roomId as string) || ""} />
-    </>
+    <div className="h-screen w-screen flex">
+      <div className="bg-slate-500 w-1/2">
+        <h1>Here</h1>
+      </div>
+      <div className="flex w-1/2">
+        <div className="w-2/3">
+          <ChatComponent socket={socket} roomId={(roomId as string) || ""} />
+        </div>
+        <div className="w-1/2">
+          <VideoComponent />
+        </div>
+      </div>
+    </div>
   );
 }
