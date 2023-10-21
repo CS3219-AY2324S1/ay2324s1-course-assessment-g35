@@ -43,6 +43,11 @@ pipeline {
         // }
 
         stage('Build Docker Image') {
+            environment {
+                GCR_CRED = credentials('My First Project')
+                GCR_REPO = "gcr.io/${blahblah}"
+            }
+
             steps {
                 dir('history-service') {
                     // Change the working directory to 'history-service'
@@ -54,6 +59,13 @@ pipeline {
                 }
             }
         }
+
+        stage("docker push") {
+            docker.withRegistry('https://gcr.io', "gcr:credential-id") {
+                Img.push("imageTag")
+        }
+}
+
     }
 }
 
