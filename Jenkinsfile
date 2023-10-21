@@ -3,22 +3,24 @@ pipeline {
         environment{
             customImage = ""
         }
-//     agent {
-//         kubernetes {
-//             defaultContainer 'node' // Default container name
-//             yaml '''
-// apiVersion: v1
-// kind: Pod
-// spec:
-//   containers:
-//   - name: node
-//     image: node:18
-//     command:
-//     - cat
-//     tty: true
-//                 '''
-//         }
-//     }
+    agent {
+        kubernetes {
+            defaultContainer 'node' // Default container name
+            yaml '''
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+    - name: docker
+      image: docker:24.0.6-dind # Your custom Docker image with Docker and Kubernetes tools
+    - name: node
+      image: node:18
+      command:
+        - cat
+      tty: true
+                '''
+        }
+    }
 
     stages {
         stage('Clone Repository') {
