@@ -1,6 +1,6 @@
 pipeline {
         agent any
-
+        def customImage
 //     agent {
 //         kubernetes {
 //             defaultContainer 'node' // Default container name
@@ -54,7 +54,7 @@ pipeline {
                     
                     script {
                         // Execute your Docker build command here
-                        def customImage = docker.build("history-service:${env.BUILD_ID}")
+                        customImage = docker.build("history-service:${env.BUILD_ID}")
                     }
                 }
             }
@@ -63,7 +63,7 @@ pipeline {
         stage("docker push") {
             steps {
                 docker.withRegistry('https://gcr.io', "gcr:credential-id") {
-                Img.push("imageTag")
+                customImage.push("imageTag")
             }
         }
 }
