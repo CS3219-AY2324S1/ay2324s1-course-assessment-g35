@@ -62,8 +62,10 @@ pipeline {
 
         stage("docker push") {
             steps {
-                docker.withRegistry('https://gcr.io', "gcr:credential-id") {
-                customImage.push("imageTag")
+                script {
+                    docker.withRegistry('https://gcr.io', "gcr:credential-id") {
+                    customImage.push("imageTag")
+                }
             }
         }
 }
