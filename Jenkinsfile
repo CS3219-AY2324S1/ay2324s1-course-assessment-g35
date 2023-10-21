@@ -62,14 +62,14 @@ pipeline {
             }
         }
 
-        stage("docker push") {
-            steps {
-                script {
-                    docker.withRegistry('https://gcr.io', "gcr:credential-id") {
-                    customImage.push("imageTag")
-                }
-            }
-        }
+        // stage("docker push") {
+        //     steps {
+        //         script {
+        //             docker.withRegistry('https://gcr.io', "gcr:credential-id") {
+        //             customImage.push("imageTag")
+        //         }
+        //     }
+        // }
 }
 
     }
