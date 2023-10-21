@@ -1,6 +1,8 @@
 pipeline {
         agent any
-        def customImage
+        environment{
+            customImage = ""
+        }
 //     agent {
 //         kubernetes {
 //             defaultContainer 'node' // Default container name
