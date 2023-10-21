@@ -40,11 +40,15 @@ spec:
             }
         }
 
-        stage ('Build Docker Image') {
-                dir('history-service') {
-
+        stage('Build Docker Image') {
             steps {
-                    def customImage = docker.build("history-service:${env.BUILD_ID}")
+                dir('history-service') {
+                    // Change the working directory to 'history-service'
+                    
+                    script {
+                        // Execute your Docker build command here
+                        def customImage = docker.build("history-service:${env.BUILD_ID}")
+                    }
                 }
             }
         }
