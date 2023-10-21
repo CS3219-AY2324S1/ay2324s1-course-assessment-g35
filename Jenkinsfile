@@ -45,17 +45,19 @@ spec:
 
         stage('Build Docker Image') {
             steps {
-                dir('history-service') {
-                    // Change the working directory to 'history-service'
-                    
-                    script {
-                        // Execute your Docker build command here
-                        customImage = docker.build("history-service:${env.BUILD_ID}")
+                container('node') {
+                    // Inside the 'node' container
+                    dir('history-service') {
+                        // Change the working directory to 'history-service'
+
+                        script {
+                            // Execute your Docker build command here
+                            customImage = docker.build("history-service:${env.BUILD_ID}")
+                        }
                     }
                 }
             }
         }
-
         // stage("docker push") {
         //     steps {
         //         script {
