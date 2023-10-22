@@ -2,7 +2,10 @@ pipeline {
         environment{
             customImage = ""
         }
+
         agent any 
+        tools {nodejs "nodejs"}
+
 //     agent {
 //         kubernetes {
 //             defaultContainer 'node' // Default container name
