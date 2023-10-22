@@ -47,15 +47,13 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                container('node') {
-                    // Inside the 'node' container
-                    dir('history-service') {
-                        // Change the working directory to 'history-service'
+                // Inside the 'node' container
+                dir('history-service') {
+                    // Change the working directory to 'history-service'
 
-                        script {
-                            // Execute your Docker build command here
-                            customImage = docker.build("history-service:${env.BUILD_ID}")
-                        }
+                    script {
+                        // Execute your Docker build command here
+                        customImage = docker.build("history-service:${env.BUILD_ID}")
                     }
                 }
             }
