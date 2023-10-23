@@ -64,7 +64,7 @@ pipeline {
                         script {
                             sh "gcloud auth configure-docker asia.gcr.io"
                             sh "docker tag history-service:${env.BUILD_ID} asia-southeast1-docker.pkg.dev/astral-shape-402017/cs3219/history-service:${env.BUILD_ID}"
-                            sh "docker push https://asia-southeast1-docker.pkg.dev/astral-shape-402017/cs3219/history-service:${env.BUILD_ID}"
+                            sh "docker push asia-southeast1-docker.pkg.dev/astral-shape-402017/cs3219/history-service:${env.BUILD_ID}"
 
                         }
             }
