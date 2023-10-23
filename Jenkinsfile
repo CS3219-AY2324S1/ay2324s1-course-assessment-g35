@@ -63,20 +63,12 @@ pipeline {
                     steps {
                         script {
                             sh "gcloud auth configure-docker asia.gcr.io"
-                            sh 'docker tag history-service asia-southeast1-docker.pkg.dev/astral-shape-402017/cs3219/history-service:latest'
-                            sh 'docker push https://asia-southeast1-docker.pkg.dev/astral-shape-402017/cs3219/history-service:latest'
+                            sh "docker tag history-service asia-southeast1-docker.pkg.dev/astral-shape-402017/cs3219/history-service:${env.BUILD_ID}"
+                            sh "docker push https://asia-southeast1-docker.pkg.dev/astral-shape-402017/cs3219/history-service:${env.BUILD_ID}"
 
                         }
             }
         }
-        // stage("docker push") {
-        //     steps {
-        //         script {
-        //             docker.withRegistry('https://gcr.io', "gcr:credential-id") {
-        //             customImage.push("imageTag")
-        //         }
-        //     }
-        // }
         }
 
     }
