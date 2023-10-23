@@ -62,10 +62,9 @@ pipeline {
                 stage('Authenticate with Google Cloud') {
                     steps {
                         script {
-                            docker.push("asia-southeast1-docker.pkg.dev/astral-shape-402017/cs3219/history-service:${env.BUILD_ID}")
-                            // sh "gcloud auth configure-docker asia-southeast1-docker.pkg.dev"
-                            // sh "docker tag history-service:${env.BUILD_ID} asia-southeast1-docker.pkg.dev/astral-shape-402017/cs3219/history-service:${env.BUILD_ID}"
-                            // sh "docker push asia-southeast1-docker.pkg.dev/astral-shape-402017/cs3219/history-service:${env.BUILD_ID}"
+                            sh "gcloud auth configure-docker asia-southeast1-docker.pkg.dev"
+                            sh "docker tag history-service:${env.BUILD_ID} asia-southeast1-docker.pkg.dev/astral-shape-402017/cs3219/history-service:${env.BUILD_ID}"
+                            sh "docker push asia-southeast1-docker.pkg.dev/astral-shape-402017/cs3219/history-service:${env.BUILD_ID}"
                         }
             }
         }
