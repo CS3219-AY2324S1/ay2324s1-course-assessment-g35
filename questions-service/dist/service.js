@@ -17,7 +17,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getRandomQuestionByTag = exports.getRandomQuestionByDifficulty = exports.getQuestionByName = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const questionModel_1 = require("./models/questionModel");
-const mongoURI = "mongodb://localhost:27017/CS3219";
+const mongoURI = "mongodb://localhost:27017/";
 mongoose_1.default.connect(mongoURI, {});
 const db = mongoose_1.default.connection;
 const getQuestionByName = (name) => __awaiter(void 0, void 0, void 0, function* () {

@@ -4,7 +4,7 @@
 import mongoose from "mongoose";
 import { Question } from "./models/questionModel";
 
-const mongoURI = "mongodb://34.118.230.187:27017/";
+const mongoURI = "mongodb://34.118.239.59/CS3219";
 mongoose.connect(mongoURI, {});
 const db = mongoose.connection;
 
@@ -18,6 +18,16 @@ type QuestionResponseType = {
 
 export const getQuestionByName = async (name: string) => {
   return await Question.find({ title: { $eq: name } });
+};
+
+export const getAllQuestions = async () => {
+  try {
+    // Use the `find` method to retrieve all documents from the "Question" collection
+    const allQuestions = await Question.find().exec();
+    return allQuestions;
+  } catch (error) {
+    throw new Error(`Error while fetching questions: ${error}`);
+  }
 };
 
 export const getRandomQuestionByDifficulty = async (difficulty: string) => {

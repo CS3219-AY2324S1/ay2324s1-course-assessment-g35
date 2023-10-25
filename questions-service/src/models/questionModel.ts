@@ -1,9 +1,9 @@
-import mongoose, { Schema, Document, Model } from 'mongoose'
+import mongoose, { Schema, Document, Model } from "mongoose";
 
 interface IQuestion extends Document {
   title: string;
   description: string;
-  difficulty: 'easy' | 'medium' | 'hard'
+  difficulty: "easy" | "medium" | "hard";
   tags: Array<string>[];
 }
 
@@ -19,13 +19,13 @@ const questionSchema = new Schema<IQuestion & Document>({
   difficulty: {
     type: String,
     required: true,
-    enum: ['easy', 'medium', 'hard'],
+    enum: ["easy", "medium", "hard"],
   },
   tags: {
     type: [String],
     required: true,
-  }
-})
+  },
+});
 
-const Question: Model<IQuestion> = mongoose.model('Question', questionSchema)
-export { Question, IQuestion }
+const Question: Model<IQuestion> = mongoose.model("Question", questionSchema);
+export { Question, IQuestion };
