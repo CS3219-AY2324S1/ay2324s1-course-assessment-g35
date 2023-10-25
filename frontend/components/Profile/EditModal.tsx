@@ -8,15 +8,10 @@ interface ModalProps {
 
 const EditModal: React.FC<ModalProps> = ({ setIsModalOpen, fetchAndSetUser }) => {
   const [email, setEmail] = useState<string>("");
-  // const [role, setRole] = useState<string>("");
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
-
-  // const handleRole = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setRole(e.target.value);
-  // };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

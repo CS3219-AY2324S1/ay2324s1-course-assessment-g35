@@ -2,7 +2,7 @@ import { AiFillQuestionCircle } from "react-icons/ai";
 
 const Questions: React.FC = () => {
   return (
-    <div className="bg-white p-3 shadow-sm rounded-sm">
+    <div className="bg-white p-3 shadow-sm rounded">
       <div className=" grid-colsgrid-2">
         <div>
           <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
