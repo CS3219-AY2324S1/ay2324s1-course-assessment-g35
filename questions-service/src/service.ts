@@ -4,7 +4,7 @@
 import mongoose from "mongoose";
 import { Question } from "./models/questionModel";
 
-const mongoURI = "mongodb://localhost:27017/CS3219";
+const mongoURI = "mongodb://34.118.230.187:27017/";
 mongoose.connect(mongoURI, {});
 const db = mongoose.connection;
 
