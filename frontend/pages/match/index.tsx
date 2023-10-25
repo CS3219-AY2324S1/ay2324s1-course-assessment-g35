@@ -1,5 +1,5 @@
-import { Button, ButtonGroup, ModalFooter } from "@chakra-ui/react";
-import io from "Socket.IO-client";
+import { Button } from "@chakra-ui/react";
+import io from "socket.io-client";
 import { useEffect, useState } from "react";
 import { Spinner } from "@chakra-ui/react";
 import useWindowSize from "react-use/lib/useWindowSize";
@@ -13,6 +13,10 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
+import Countdown from "@/components/Countdown";
+import { useRouter } from "next/router";
+import axios from "axios";
+import Questions from "@/components/Questions";
 
 let socket: any;
 
@@ -33,33 +37,44 @@ const Match = () => {
     setShowModal(false);
   };
 
+  const stopMatching = () => {
+    setMatchingStarted(false);
+    setShowSpinner(false);
+    socket.emit("leave", { difficulty: difficulty });
+    setButtonText("START MATCHING");
+  };
+
   console.log(matchingStarted);
-  const matchButton = async () => {
+  const handleButtonClick = async () => {
     if (matchingStarted == true) {
-      setMatchingStarted(false);
-      setShowSpinner(false);
-      socket.emit("leave", { difficulty: difficulty });
-      setButtonText("START MATCHING");
+      stopMatching();
     } else {
       // Start matching PROCESS
       setMatchingStarted(true);
       setShowSpinner(true);
-      const rando = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
       socket.emit("queue", {
-        id: rando.toString(),
         difficulty: difficulty,
-        matchingBoolean: true,
       });
       setButtonText("STOP MATCHING...");
     }
   };
 
   const socketInitializer = async () => {
-    socket = io("http://localhost:3001");
+    const token = localStorage.getItem("token");
+    socket = io("http://localhost:3001", {
+      auth: {
+        token: token,
+      },
+    });
 
     socket.on("connect", () => {
       console.log("connected", socket.id);
     });
+
+    socket.on("connect_error", (err: any) => {
+      alert(err.message);
+    });
+
     socket.on("match", (msg: string) => {
       setMatchFound(true);
       setShowSpinner(false);
@@ -77,6 +92,34 @@ const Match = () => {
   useEffect(() => {
     socketInitializer();
   }, []);
+
+
+  const router = useRouter();
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const token = localStorage.getItem("token");
+    console.log(token);
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/users/validate",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the request headers
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleLogout = () => {
+    () => localStorage.removeItem("token");
+    router.push("/Login");
+  };
+  
   return (
     <div className="flex h-screen w-screen">
       <Center>
@@ -123,10 +166,12 @@ const Match = () => {
           <div className="flex items-center">
             <Button
               colorScheme="blue"
-              onClick={matchButton}
+              onClick={handleButtonClick}
               className="w-80 py-6 px-8"
             >
               {buttonText}
+              {" "}
+              {matchingStarted && (<Countdown seconds={10} isRunning={matchingStarted} onTimerEnd={stopMatching} />)}
             </Button>
             {showSpinner && <Spinner className="ml-4" />}
           </div>
@@ -135,7 +180,14 @@ const Match = () => {
         {matchFound && <Confetti width={width} height={height} />}
       </div>
       <div className="bg-blue-500 h-full w-4/6">
-        <h1>Hello</h1>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => router.push("/Profile")}>Profile</button>
+        <br />
+        <button onClick={handleSubmit}>Validation test</button>
+        <br />
+        <button onClick={handleLogout}>
+          Logout
+        </button>
+        <Questions />
       </div>
     </div>
   );
