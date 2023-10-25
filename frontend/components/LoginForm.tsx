@@ -28,7 +28,7 @@ const LoginForm: React.FC = () => {
 
     } catch (error: any) {
       console.log(error);
-      alert(error.response.data.message || "An error occurred when signing in!");
+      alert(error?.response?.data?.message || "An error occurred when signing in!");
     }
   };
   return (
