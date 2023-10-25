@@ -39,7 +39,7 @@ const LoginForm: React.FC = () => {
 
           <div className="p-10">
 
-            <h1 className="text-gray-500 font-bold text-6xl leading-tight tracking-tight md:text-7xl my-24">PeerPrep</h1>
+            <h1 className="text-gray-500 font-bold text-6xl leading-tight tracking-tight md:text-7xl my-16">PeerPrep</h1>
 
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl my-6">
               Sign in to your account
@@ -127,8 +127,8 @@ const LoginForm: React.FC = () => {
           </div>
       </div>
 
-      <div className="bg-blue-500 h-full w-7/12 flex justify-center">
-        <div className="text-white font-bold text-6xl leading-tight tracking-tight md:text-7xl mt-96">
+      <div className="bg-blue-500 h-full w-7/12 flex justify-center items-center">
+        <div className="text-white font-bold text-6xl leading-tight tracking-tight md:text-7xl">
           Get to work
         </div>
       </div>

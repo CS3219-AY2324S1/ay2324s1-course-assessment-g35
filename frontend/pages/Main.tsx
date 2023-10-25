@@ -182,7 +182,7 @@ const Match = () => {
       <div className="bg-gray-100 h-full w-4/6">
         <button onClick={handleSubmit}>Validation test</button>
         <br />
-        <div className="p-8"><Questions /></div>
+        <div className="p-8 mt-20"><Questions /></div>
       </div>
     </div>
   );
