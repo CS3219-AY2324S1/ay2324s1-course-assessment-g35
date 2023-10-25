@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import { Socket } from "socket.io-client";
-import io from "socket.io-client";
 
 interface ChatComponentProps {
   roomId: string;
@@ -46,17 +45,21 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ socket, roomId }) => {
     socket.off("receive_message").on("receive_message", (data: Message) => {
       setAllMessage((prevMessages) => [...prevMessages, data]);
     });
-    return () => {};
+    return () => {
+      if (socket) {
+        socket.disconnect();
+      }
+    };
   }, [socket]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-800 p-10">
       <div className="flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden">
-        <div className="flex flex-col flex-grow h-0 p-4 overflow-auto">
+        <div className="flex flex-col flex-grow h-0 p-4 overflow-auto w-full">
           {allMessage.map((message, index) => (
             <div
               key={index}
-              className={`flex w-full mt-2 space-x-3 max-w-xs ${
+              className={`flex w-full mt-2 space-x-3 ${
                 message.author === socket?.id ? "justify-start" : "justify-end"
               }`}
             >
