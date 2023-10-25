@@ -56,6 +56,14 @@ pipeline {
                         customImage = docker.build("history-service:${env.BUILD_ID}")
                     }
                 }
+                dir('questions-service') {
+                    // Change the working directory to 'history-service'
+
+                    script {
+                        // Execute your Docker build command here
+                        customImage = docker.build("questions-service:${env.BUILD_ID}")
+                    }
+                }
             }
         }
 
