@@ -13,10 +13,10 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
-import Countdown from "@/components/Countdown";
+import Countdown from "@/components/Main/Countdown";
 import { useRouter } from "next/router";
 import axios from "axios";
-import Questions from "@/components/Questions";
+import Questions from "@/components/Main/Questions";
 
 let socket: any;
 
@@ -155,7 +155,7 @@ const Match = () => {
               onChange={handleOptionChange}
               value={difficulty}
             >
-              <option value="">Difficulty level</option>
+              <option value="" hidden>Difficulty level</option>
               {dropdownOptions.map((option) => (
                 <option key={option} value={option}>
                   {option}
@@ -179,15 +179,10 @@ const Match = () => {
 
         {matchFound && <Confetti width={width} height={height} />}
       </div>
-      <div className="bg-blue-500 h-full w-4/6">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => router.push("/Profile")}>Profile</button>
-        <br />
+      <div className="bg-gray-100 h-full w-4/6">
         <button onClick={handleSubmit}>Validation test</button>
         <br />
-        <button onClick={handleLogout}>
-          Logout
-        </button>
-        <Questions />
+        <div className="p-8 mt-20"><Questions /></div>
       </div>
     </div>
   );
