@@ -5,13 +5,12 @@ import { Spinner } from "@chakra-ui/react";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import {
-  Center,
+  Text,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
   ModalBody,
-  ModalCloseButton,
 } from "@chakra-ui/react";
 import Countdown from "@/components/Main/Countdown";
 import { useRouter } from "next/router";
@@ -19,6 +18,11 @@ import axios from "axios";
 import Questions from "@/components/Main/Questions";
 
 let socket: any;
+
+type MatchMessage = {
+  roomId: string;
+  match: string;
+};
 
 const Match = () => {
   const [showSpinner, setShowSpinner] = useState(false);
@@ -43,8 +47,6 @@ const Match = () => {
     socket.emit("leave", { difficulty: difficulty });
     setButtonText("START MATCHING");
   };
-
-  console.log(matchingStarted);
   const handleButtonClick = async () => {
     if (matchingStarted == true) {
       stopMatching();
@@ -75,14 +77,15 @@ const Match = () => {
       alert(err.message);
     });
 
-    socket.on("match", (msg: string) => {
+    socket.on("match", (msg: MatchMessage) => {
       setMatchFound(true);
       setShowSpinner(false);
       setShowModal(true);
       setButtonText("START MATCHING");
       setTimeout(() => {
-        setMatchFound(false);
-      }, 5000);
+        const chatLink = `http://localhost:3000/Chat?roomId=${msg.roomId}`;
+        router.push(chatLink);
+      }, 3000);
     });
     socket.on("queue", (msg: string) => {
       console.log(msg);
@@ -92,7 +95,6 @@ const Match = () => {
   useEffect(() => {
     socketInitializer();
   }, []);
-
 
   const router = useRouter();
   const handleSubmit = async (event: React.FormEvent) => {
@@ -119,24 +121,21 @@ const Match = () => {
     () => localStorage.removeItem("token");
     router.push("/Login");
   };
-  
+
   return (
     <div className="flex h-screen w-screen">
-      <Center>
-        <Modal isOpen={showModal} onClose={handleCloseModal}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Match Found!</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              Congratulations, you have found a match!
-              <Button colorScheme="blue" className="mt-6">
-                Start Coding Now
-              </Button>
-            </ModalBody>
-          </ModalContent>
-        </Modal>
-      </Center>
+      <Modal isOpen={showModal} onClose={handleCloseModal} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Match Found!</ModalHeader>
+          <ModalBody>
+            <Text fontWeight="medium" mb="1rem">
+              Taking you to your room now!
+              <Spinner className="ml-6" />
+            </Text>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
 
       <div className="bg-white h-full w-2/6 ">
         <div className="ml-10">
@@ -155,7 +154,9 @@ const Match = () => {
               onChange={handleOptionChange}
               value={difficulty}
             >
-              <option value="" hidden>Difficulty level</option>
+              <option value="" hidden>
+                Difficulty level
+              </option>
               {dropdownOptions.map((option) => (
                 <option key={option} value={option}>
                   {option}
@@ -169,9 +170,14 @@ const Match = () => {
               onClick={handleButtonClick}
               className="w-80 py-6 px-8"
             >
-              {buttonText}
-              {" "}
-              {matchingStarted && (<Countdown seconds={10} isRunning={matchingStarted} onTimerEnd={stopMatching} />)}
+              {buttonText}{" "}
+              {matchingStarted && (
+                <Countdown
+                  seconds={10}
+                  isRunning={matchingStarted}
+                  onTimerEnd={stopMatching}
+                />
+              )}
             </Button>
             {showSpinner && <Spinner className="ml-4" />}
           </div>
@@ -182,7 +188,9 @@ const Match = () => {
       <div className="bg-gray-100 h-full w-4/6">
         <button onClick={handleSubmit}>Validation test</button>
         <br />
-        <div className="p-8 mt-20"><Questions /></div>
+        <div className="p-8 mt-20">
+          <Questions />
+        </div>
       </div>
     </div>
   );

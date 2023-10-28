@@ -32,7 +32,6 @@
     "socket.io-client": "^4.7.2"
   },
   "devDependencies": {
-    "@types/react-copy-to-clipboard": "^5.0.5",
     "@types/simple-peer": "^9.11.6",
     "autoprefixer": "^10.4.15",
     "postcss": "^8.4.29",
