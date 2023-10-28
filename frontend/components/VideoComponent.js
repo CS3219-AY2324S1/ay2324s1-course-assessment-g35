@@ -32,13 +32,17 @@ export default function VideoComponent() {
       });
     exchangeId();
     socket.on("callUser", (data) => {
-      //when it receives call from another user, set the name, callerSignal, caller. setReceivingCall to true
+      //when it receives call from another user
       setReceivingCall(true);
       setCaller(data.from);
       setCallerSignal(data.signal); //it will receive caller signal, caller name and socketId
     });
     return () => {
+      if (connectionRef.current) {
+        connectionRef.current.destroy(); // Close the WebRTC connection
+      }
       if (socket) {
+        socket.emit("callEnded", { from: myId }); //signal to end call
         socket.disconnect();
       }
     };
@@ -66,14 +70,14 @@ export default function VideoComponent() {
 
   const callUser = (id) => {
     const peer = new Peer({
-      initiator: true,
+      initiator: true, //initiator true means that it is the initiating pair, emits a signal event when it's ready to establish
       trickle: false,
-      stream: stream,
+      stream: stream, //stream instantiated when
     });
     peer.on("signal", (data) => {
       //exchange of signaling data between peers to establish a connection.
       socket.emit("callUser", {
-        //emit callUser to server, which will emit callUser to the other peer. This will setReceivingCall to true, causing a notification to be sent to the other user
+        //emit callUser to server, which will emit callUser to the other peer.
         userToCall: id,
         signalData: data,
         from: myId, //my own socketId
@@ -85,7 +89,7 @@ export default function VideoComponent() {
     socket.on("callAccepted", (signal) => {
       //after the other peer click on answerCall, which will emit an answerCall event, which will emit a callAccepted event to here.
       setInCall(true);
-      peer.signal(signal); //call when the remote peer calls a peer.on("signal")
+      peer.signal(signal); //initiating peer complete connection process
     });
     connectionRef.current = peer;
   };
@@ -98,12 +102,13 @@ export default function VideoComponent() {
       stream: stream,
     });
     peer.on("signal", (data) => {
+      //after receiving caller's offer from signaling server
       socket.emit("answerCall", { signal: data, to: caller });
     });
     peer.on("stream", (stream) => {
       userVideo.current.srcObject = stream;
     });
-    peer.signal(callerSignal);
+    peer.signal(callerSignal); //passes the signaling data from caller
     connectionRef.current = peer;
   };
 

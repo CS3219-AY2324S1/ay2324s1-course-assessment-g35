@@ -37,9 +37,9 @@ io.on("connection", (socket) => {
     //emit a callAccepted event to the
     io.to(data.to).emit("callAccepted", data.signal);
   });
+  
 
   socket.on("send_id", (data) => {
-    console.log("sending socket-id to opposite peer " + data.id);
     socket.to(data.roomId).emit("receive_id", data.id);
   });
 
