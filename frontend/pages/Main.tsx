@@ -21,7 +21,8 @@ let socket: any;
 
 type MatchMessage = {
   roomId: string;
-  match: string;
+  myId: string;
+  otherId: string;
 };
 
 const Match = () => {
@@ -83,10 +84,11 @@ const Match = () => {
       setShowModal(true);
       setButtonText("START MATCHING");
       setTimeout(() => {
-        const chatLink = `http://localhost:3000/Chat?roomId=${msg.roomId}`;
+        const chatLink = `http://localhost:3000/Chat?roomId=${msg.roomId}&myId=${msg.myId}&otherId=${msg.otherId}`;
         router.push(chatLink);
       }, 3000);
     });
+
     socket.on("queue", (msg: string) => {
       console.log(msg);
     });
@@ -115,11 +117,6 @@ const Match = () => {
     } catch (error) {
       console.error(error);
     }
-  };
-
-  const handleLogout = () => {
-    () => localStorage.removeItem("token");
-    router.push("/Login");
   };
 
   return (

@@ -29,6 +29,8 @@ function VideoCall({myId, otherId}) {
             var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
             getUserMedia({ video: true, audio: true }, (mediaStream) => {
+                console.log('hi');
+                console.log('mediaStream is null', mediaStream==null);
                 currentUserVideoRef.current.srcObject = mediaStream;
                 currentUserVideoRef.current.play();
                 call.answer(mediaStream)
@@ -40,6 +42,12 @@ function VideoCall({myId, otherId}) {
         })
 
         peerInstance.current = peer;
+    }
+
+    return () => {
+        if (peerInstance.current) {
+            peerInstance.current.destroy();
+        }
     }
   }, [myId, otherId])
 
@@ -81,12 +89,12 @@ function VideoCall({myId, otherId}) {
       <input type="text" value={remotePeerIdValue} onChange={e => setRemotePeerIdValue(e.target.value)} />
       <button onClick={() => call(remotePeerIdValue)}>Call</button>
       <div>
-        <video playsInline muted ref={currentUserVideoRef} />
+        <video playsInline muted ref={currentUserVideoRef} className="w-3/4 rounded-lg" />
         <button onClick={toggleAudio}>Toggle Audio</button>
         <button onClick={toggleVideo}>Toggle Video</button>
       </div>
       <div>
-        <video playsInline ref={remoteVideoRef} autoPlay />
+        <video playsInline ref={remoteVideoRef} autoPlay className="w-3/4 rounded-lg" />
       </div>
     </div>
   );
