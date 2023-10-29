@@ -15,33 +15,32 @@ function VideoCall({myId, otherId}) {
     if (typeof window !== 'undefined' && myId && otherId) {
         const Peer = require('peerjs').default; // Import PeerJS here
     
-    const peer = new Peer(myId, {
-        host: '/',
-        port: '4001',
-    }); // where peerjs server is hosted 
+        const peer = new Peer(myId, {
+            host: '/',
+            port: '4001',
+        }); // where peerjs server is hosted 
 
-    peer.on('open', (id) => {
-      setPeerId(id)
-    });
-
-    peer.on('call', (call) => {
-      var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-
-      getUserMedia({ video: true, audio: true }, (mediaStream) => {
-        currentUserVideoRef.current.srcObject = mediaStream;
-        currentUserVideoRef.current.play();
-        call.answer(mediaStream)
-        call.on('stream', function(remoteStream) {
-          remoteVideoRef.current.srcObject = remoteStream
-          remoteVideoRef.current.play();
+        peer.on('open', (id) => {
+            setPeerId(id)
+            call(otherId);
         });
-      });
-    })
 
-    peerInstance.current = peer;
+        peer.on('call', (call) => {
+            var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-    call(otherId);
-}
+            getUserMedia({ video: true, audio: true }, (mediaStream) => {
+                currentUserVideoRef.current.srcObject = mediaStream;
+                currentUserVideoRef.current.play();
+                call.answer(mediaStream)
+                call.on('stream', function(remoteStream) {
+                remoteVideoRef.current.srcObject = remoteStream
+                remoteVideoRef.current.play();
+                });
+            });
+        })
+
+        peerInstance.current = peer;
+    }
   }, [myId, otherId])
 
   const call = (remotePeerId) => {
@@ -61,6 +60,21 @@ function VideoCall({myId, otherId}) {
     });
   }
 
+  const toggleAudio = () => {
+    const tracks = currentUserVideoRef.current.srcObject.getAudioTracks();
+    tracks.forEach(track => {
+      track.enabled = !track.enabled; // Toggle audio track
+    });
+  };
+  
+  const toggleVideo = () => {
+    const tracks = currentUserVideoRef.current.srcObject.getVideoTracks();
+    tracks.forEach(track => {
+      track.enabled = !track.enabled; // Toggle video track
+    });
+  };
+  
+
   return (
     <div className="App">
       <h1>Current user id is {peerId}</h1>
@@ -68,12 +82,15 @@ function VideoCall({myId, otherId}) {
       <button onClick={() => call(remotePeerIdValue)}>Call</button>
       <div>
         <video playsInline muted ref={currentUserVideoRef} />
+        <button onClick={toggleAudio}>Toggle Audio</button>
+        <button onClick={toggleVideo}>Toggle Video</button>
       </div>
       <div>
-        <video playsInline muted ref={remoteVideoRef} autoPlay />
+        <video playsInline ref={remoteVideoRef} autoPlay />
       </div>
     </div>
   );
+  
 }
 
 export default VideoCall;
