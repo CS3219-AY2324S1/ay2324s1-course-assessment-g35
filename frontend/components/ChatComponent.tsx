@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Socket } from "socket.io-client";
+import ScrollToBottom from "react-scroll-to-bottom";
 
 interface ChatComponentProps {
   roomId: string;
@@ -15,7 +16,11 @@ type Message = {
 
 const ChatComponent: React.FC<ChatComponentProps> = ({ socket, roomId }) => {
   const [currentMessage, setCurrentMessage] = useState<string>("");
-  const [allMessage, setAllMessage] = useState<Message[]>([]);
+  const [allMessage, setAllMessage] = useState<Message[]>(() => {
+    const storedMessages = localStorage.getItem("chatMessages");
+    return storedMessages ? JSON.parse(storedMessages) : [];
+  });
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -52,8 +57,15 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ socket, roomId }) => {
     };
   }, [socket]);
 
+  useEffect(() => {
+    localStorage.setItem("chatMessages", JSON.stringify(allMessage));
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [allMessage]);
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-800 p-10">
+    <div className="flex flex-col items-center justify-center h-full bg-gray-100 text-gray-800 p-10">
       <div className="flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden">
         <div className="flex flex-col flex-grow h-0 p-4 overflow-auto w-full">
           {allMessage.map((message, index) => (
@@ -84,6 +96,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ socket, roomId }) => {
               </div>
             </div>
           ))}
+          <div ref={messagesEndRef}></div>
         </div>
 
         <div className="bg-gray-300 p-4">
