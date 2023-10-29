@@ -45,19 +45,23 @@ io.on("connection", (socket) => {
       queue.print();
       socket.emit("queue", "you are in queue");
     } else {
-      const firstGuy = queue.dequeue();
+      const firstUserSocketId = queue.dequeue();
       const roomId = uuidv4();
+      const firstUserId = uuidv4();
+      const secondUserId = uuidv4();
       const roomDetails1 = {
         roomId: roomId,
-        match: firstGuy,
+        myId: firstUserId,
+        otherId: secondUserId,
       };
       const roomDetails2 = {
         roomId: roomId,
-        match: socket.id,
+        myId: secondUserId,
+        otherId: firstUserId,
       };
       console.log("RoomId is " + roomId);
       socket.emit("match", roomDetails1);
-      socket.to(firstGuy).emit("match", roomDetails2);
+      socket.to(firstUserSocketId).emit("match", roomDetails2);
     }
   });
 
