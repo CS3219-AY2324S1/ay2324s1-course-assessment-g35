@@ -57,6 +57,7 @@ function VideoCall({myId, otherId}) {
       currentUserVideoRef.current.srcObject = mediaStream;
       currentUserVideoRef.current.play();
 
+      // Get saved video and audio state
       const savedVideoState = localStorage.getItem('videoState');
       const isVideoOn = savedVideoState !== null ? (savedVideoState == 'on') : true;
       console.log('isVideoOn', isVideoOn);
@@ -64,7 +65,6 @@ function VideoCall({myId, otherId}) {
       videoTracks.forEach(track => {
         track.enabled = isVideoOn;
       });
-
       const savedAudioState = localStorage.getItem('audioState');
       const isAudioOn = savedAudioState !== null ? (savedAudioState == 'on') : true;
       console.log('isAudioOn', isAudioOn);
