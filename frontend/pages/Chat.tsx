@@ -3,13 +3,12 @@ import ChatComponent from "@/components/ChatComponent";
 import { useRouter } from "next/router";
 import { Socket } from "socket.io-client";
 import io from "socket.io-client";
-import VideoComponent from "@/components/VideoComponent";
+import VideoCall from "@/components/VideoCall";
 
 export default function Chat() {
   const router = useRouter();
-  const { roomId } = router.query; // Extracting roomId from the URL
+  const {roomId, myId, otherId} = router.query;
   const [showChat, setShowChat] = useState<boolean>(false);
-  // const [socket, setSocket] = useState<any>(null);
 
   const socket: Socket = useMemo(() => {
     const newSocket = io("http://localhost:3002");
@@ -32,7 +31,8 @@ export default function Chat() {
           </div>
         ) : (
           <div className="w-full ">
-            <VideoComponent />
+            {/* <VideoComponent /> */}
+            <VideoCall myId={myId} otherId={otherId} />
           </div>
         )}
       </div>

@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Socket } from "socket.io-client";
-import ScrollToBottom from "react-scroll-to-bottom";
 
 interface ChatComponentProps {
   roomId: string;
