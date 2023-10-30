@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Tooltip, Select } from "@chakra-ui/react";
 import io from "socket.io-client";
 import { useEffect, useState } from "react";
 import { Spinner } from "@chakra-ui/react";
@@ -16,6 +16,7 @@ import Countdown from "@/components/Main/Countdown";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Questions from "@/components/Main/Questions";
+import { LogoutIcon, ProfileIcon } from "@/icons";
 
 let socket: any;
 
@@ -27,26 +28,28 @@ type MatchMessage = {
 
 const Match = () => {
   const [showSpinner, setShowSpinner] = useState(false);
-  const [buttonText, setButtonText] = useState("START MATCHING");
+  const [buttonText, setButtonText] = useState("Get Matched");
   const [matchingStarted, setMatchingStarted] = useState(false);
   const [matchFound, setMatchFound] = useState(false);
   const { width, height } = useWindowSize();
   const [difficulty, setDifficulty] = useState("");
   const dropdownOptions = ["Easy", "Medium", "Hard"];
   const [showModal, setShowModal] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const handleOptionChange = (e: React.SyntheticEvent<HTMLSelectElement>) => {
     setDifficulty(e.currentTarget.value);
   };
   const handleCloseModal = () => {
     setShowModal(false);
+    setShowLogoutModal(false);
   };
 
   const stopMatching = () => {
     setMatchingStarted(false);
     setShowSpinner(false);
     socket.emit("leave", { difficulty: difficulty });
-    setButtonText("START MATCHING");
+    setButtonText("Get Matched");
   };
   const handleButtonClick = async () => {
     if (matchingStarted == true) {
@@ -58,7 +61,7 @@ const Match = () => {
       socket.emit("queue", {
         difficulty: difficulty,
       });
-      setButtonText("STOP MATCHING...");
+      setButtonText("Stop Matching...");
     }
   };
 
@@ -119,73 +122,142 @@ const Match = () => {
     }
   };
 
+
+  const handleLogout = () => {
+    setShowLogoutModal(true);
+  };
+
+  const confirmLogout = () => {
+    localStorage.removeItem("token");
+    router.push("/Login");
+  };
   return (
-    <div className="flex h-screen w-screen">
-      <Modal isOpen={showModal} onClose={handleCloseModal} isCentered>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Match Found!</ModalHeader>
+    <div className="flex flex-col h-screen w-screen bg-pp-darkpurple">
+      <Center>
+        <Modal isOpen={showModal} onClose={handleCloseModal} isCentered>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Match Found!</ModalHeader>
           <ModalBody>
             <Text fontWeight="medium" mb="1rem">
               Taking you to your room now!
               <Spinner className="ml-6" />
             </Text>
           </ModalBody>
-        </ModalContent>
-      </Modal>
+          </ModalContent>
+        </Modal>
+        <Modal
+          isOpen={showLogoutModal}
+          onClose={() => setShowLogoutModal(false)}
+          isCentered
+        >
+          <ModalOverlay />
+          <ModalContent className="p-2">
+            <ModalHeader>Log out from PeerPrep?</ModalHeader>
+            <ModalBody className="flex justify-between">
+              <div
+                onClick={confirmLogout}
+                className="bg-pp-blue w-40 rounded-[30px] p-2 text-white text-center font-bold cursor-pointer"
+              >
+                Yes, log out
+              </div>
+              <div
+                onClick={handleCloseModal}
+                className="w-40 p-2 text-black text-center font-bold cursor-pointer"
+              >
+                Cancel
+              </div>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+      </Center>
 
-      <div className="bg-white h-full w-2/6 ">
-        <div className="ml-10">
-          <h1 className="text-6xl font-bold mb-8 tracking-wide mt-36">
-            Welcome to Peerprep
-          </h1>
-          <h2 className="text-gray-400 mb-8 text-md">
-            Get matched with other students based on difficulty level.
-          </h2>
-          <div className="w-64 mb-24">
-            <label className="block text-md font-medium text-gray-700">
-              Select a difficulty level
-            </label>
-            <select
-              className="block w-full mt-1 border border-solid border-gray-300  shadow-sm focus:outline-none"
-              onChange={handleOptionChange}
-              value={difficulty}
+
+      <div className="bg-gradient-to-r from-pp-blue to-pp-lightpurple flex-col ml-11 mr-11 my-10 rounded-[30px]">
+        <div className="px-9 py-8">
+          <div className="flex justify-between">
+            <Tooltip
+              label="Profile"
+              aria-label="Profile"
+              bg="pp-blue"
+              closeDelay={200}
             >
-              <option value="" hidden>
-                Difficulty level
-              </option>
-              {dropdownOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
+
+              <div className="cursor-pointer">
+                <ProfileIcon />
+              </div>
+            </Tooltip>
+            <Tooltip
+              label="Log out"
+              aria-label="Profile"
+              bg="pp-darkpurple"
+              closeDelay={200}
+            >
+              <div className="cursor-pointer" onClick={handleLogout}>
+                <LogoutIcon />
+              </div>
+            </Tooltip>
           </div>
-          <div className="flex items-center">
-            <Button
-              colorScheme="blue"
-              onClick={handleButtonClick}
-              className="w-80 py-6 px-8"
-            >
-              {buttonText}{" "}
-              {matchingStarted && (
-                <Countdown
-                  seconds={10}
-                  isRunning={matchingStarted}
-                  onTimerEnd={stopMatching}
-                />
-              )}
-            </Button>
-            {showSpinner && <Spinner className="ml-4" />}
+          <div className="flex justify-between">
+            <div className="flex-col">
+              <h1 className="text-white text-6xl font-bold tracking-wide mt-40">
+                Hello Sonny!
+              </h1>
+
+              <h2 className="text-white text-md font-medium">
+                Ready to PeerPrep today?
+              </h2>
+            </div>
+            <div className="flex-col mt-44">
+              <label className="text-md font-medium text-white">
+                Select a difficulty level
+              </label>
+              <div className="flex items-center mt-2">
+                <Select
+                  bg="white"
+                  width={44}
+                  placeholder="Difficulty Level"
+                  className="cursor-pointer bg-white text-pp-darkpurple"
+                  onChange={handleOptionChange}
+                  value={difficulty}
+                >
+                  {dropdownOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </Select>
+
+                <div className="flex items-center ml-6">
+                  <div
+                    className="bg-pp-blue w-60 rounded-[30px] p-2 text-white text-center font-bold cursor-pointer"
+                    onClick={handleButtonClick}
+                  >
+                    {buttonText}{" "}
+                    {matchingStarted && (
+                      <Countdown
+                        seconds={10}
+                        isRunning={matchingStarted}
+                        onTimerEnd={stopMatching}
+                      />
+                    )}
+                  </div>
+                  {showSpinner && <Spinner className="ml-4" />}
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
 
         {matchFound && <Confetti width={width} height={height} />}
       </div>
-      <div className="bg-gray-100 h-full w-4/6">
-        <button onClick={handleSubmit}>Validation test</button>
-        <br />
-        <div className="p-8 mt-20">
+
+      <div>
+        {/* <button onClick={handleSubmit}>Validation test</button> */}
+        {/* <br /> */}
+        <div className="ml-11 mr-11">
+
           <Questions />
         </div>
       </div>
