@@ -10,9 +10,14 @@ module.exports = {
   ],
   theme: {
     extend: {
+      // fontFamily: {
+      //   'poppins': ['Poppins', 'sans'],
+      // },
+
       colors: {
         'pp-red': '#FF1053',
-        'pp-blue': '#88D9E6',
+        'pp-lightblue': '#88D9E6',
+        'pp-darkblue': '#69B6C2',
         'pp-gray': '#2E2A36',
         'pp-darkpurple': '#190B28',
         'pp-lightpurple': '#6C6EA0',
