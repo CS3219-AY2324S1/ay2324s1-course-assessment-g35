@@ -156,7 +156,7 @@ const Match = () => {
             <ModalBody className="flex justify-between">
               <div
                 onClick={confirmLogout}
-                className="bg-pp-blue w-40 rounded-[30px] p-2 text-white text-center font-bold cursor-pointer"
+                className="bg-pp-lightblue w-40 rounded-[30px] p-2 text-white text-center font-bold cursor-pointer"
               >
                 Yes, log out
               </div>
@@ -177,7 +177,7 @@ const Match = () => {
             <Tooltip
               label="Profile"
               aria-label="Profile"
-              bg="pp-blue"
+              bg="pp-lightblue"
               closeDelay={200}
             >
               <div className="cursor-pointer">
@@ -227,7 +227,7 @@ const Match = () => {
 
                 <div className="flex items-center ml-6">
                   <div
-                    className="bg-pp-blue w-60 rounded-[30px] p-2 text-white text-center font-bold cursor-pointer"
+                    className="bg-pp-lightblue w-60 rounded-[30px] p-2 text-white text-center font-bold cursor-pointer"
                     onClick={handleButtonClick}
                   >
                     {buttonText}{" "}

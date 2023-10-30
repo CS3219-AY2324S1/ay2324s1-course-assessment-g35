@@ -1,5 +1,5 @@
 import LoginForm from "@/components/LoginForm";
-import SignupForm from "@/components/SignUpForm";
+import SignupForm from "@/components/SignupForm";
 import React from "react";
 import { useState } from "react";
 
@@ -30,7 +30,11 @@ export default function Login() {
           </div>
         </div>
         <div className="w-7/12 h-full">
-          {form === "login" ? <LoginForm toggleForm={toggleForm}/> : <SignupForm toggleForm={toggleForm}/>}
+          {form === "login" ? (
+            <LoginForm toggleForm={toggleForm} />
+          ) : (
+            <SignupForm toggleForm={toggleForm} />
+          )}
         </div>
       </div>
     </>
