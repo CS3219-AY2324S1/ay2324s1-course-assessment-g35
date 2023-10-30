@@ -3,8 +3,7 @@ import SignupForm from "@/components/SignUpForm";
 import React from "react";
 import { useState } from "react";
 
-
-export default function userLogin() {
+export default function Login() {
   const [form, setForm] = useState("login");
   const toggleForm = () => {
     setForm(form === "login" ? "signup" : "login");

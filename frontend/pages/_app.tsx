@@ -11,7 +11,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const isSignUpPage = router.pathname === '/SignUp'
   return (
     <ChakraProvider>
-      {!isLoginPage && !isSignUpPage && <Navbar />}
+      {/* {!isLoginPage && !isSignUpPage && <Navbar />} */}
       <Component {...pageProps} />{" "}
     </ChakraProvider>
   );
