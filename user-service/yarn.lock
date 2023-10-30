@@ -9,12 +9,10 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-
 "@esbuild/darwin-x64@0.19.2":
   "integrity" "sha512-tP+B5UuIbbFMj2hQaUr6EALlHOIOmlLM2FK7jeFBobPy2ERdohI4Ka6ZFjZ1ZYsrHE/hZimGuU90jusRE0pwDw=="
   "resolved" "https://registry.npmjs.org/@esbuild/darwin-x64/-/darwin-x64-0.19.2.tgz"
   "version" "0.19.2"
-
 
 "@jridgewell/resolve-uri@^3.0.3":
   "integrity" "sha512-dSYZh7HhCDtCKm4QakX0xFpsRDqjjtZf/kjI/v3T3Nwt5r8/qz/M19F9ySyOqU94SXBmeG9ttTul+YnR4LOxFA=="
@@ -92,9 +90,9 @@
     "@types/node" "*"
 
 "@types/cookie-parser@^1.4.5":
-  version "1.4.5"
-  resolved "https://registry.npmjs.org/@types/cookie-parser/-/cookie-parser-1.4.5.tgz"
-  integrity sha512-cbpH1NldYslPt7WRHXZFm+G7DTfUg57dQSCf1qrHwT8wtGX41JHLYf3Cieiqg7waPWjorVgcSSllZov+A1PJbg==
+  "integrity" "sha512-cbpH1NldYslPt7WRHXZFm+G7DTfUg57dQSCf1qrHwT8wtGX41JHLYf3Cieiqg7waPWjorVgcSSllZov+A1PJbg=="
+  "resolved" "https://registry.npmjs.org/@types/cookie-parser/-/cookie-parser-1.4.5.tgz"
+  "version" "1.4.5"
   dependencies:
     "@types/express" "*"
 
@@ -127,12 +125,10 @@
     "@types/range-parser" "*"
     "@types/send" "*"
 
-
-"@types/express@^4.17.17":
+"@types/express@*", "@types/express@^4.17.17":
   "integrity" "sha512-Q4FmmuLGBG58btUnfS1c1r/NQdlp3DMfGDGig8WhfpA2YRUtEkxAjkZb0yvplJGYdF1fsQ81iMDcH24sSCNC/Q=="
   "resolved" "https://registry.npmjs.org/@types/express/-/express-4.17.17.tgz"
   "version" "4.17.17"
-
   dependencies:
     "@types/body-parser" "*"
     "@types/express-serve-static-core" "^4.17.33"
@@ -769,7 +765,6 @@
   "resolved" "https://registry.npmjs.org/minimatch/-/minimatch-3.1.2.tgz"
   "version" "3.1.2"
   dependencies:
-
     "brace-expansion" "^1.1.7"
 
 "ms@^2.1.1", "ms@2.1.2":
@@ -796,7 +791,6 @@
   "integrity" "sha512-g9AZ7HmkhQkqXkRc20w+ZfQ73cHLbE8hnPbtaFbFtCumZsjyMhKk9LajQ07U5Ux28lvFjZ5X7HvWR1xzU8jHVw=="
   "resolved" "https://registry.npmjs.org/nodemon/-/nodemon-3.0.1.tgz"
   "version" "3.0.1"
-
   dependencies:
     "chokidar" "^3.5.2"
     "debug" "^3.2.7"

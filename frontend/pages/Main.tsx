@@ -171,7 +171,7 @@ const Match = () => {
         </Modal>
       </Center>
 
-      <div className="bg-gradient-to-r from-pp-blue to-pp-lightpurple flex-col ml-11 mr-11 my-10 rounded-[30px]">
+      <div className="bg-gradient-to-r from-pp-lightblue to-pp-lightpurple flex-col ml-11 mr-11 my-10 rounded-[30px]">
         <div className="px-9 py-8">
           <div className="flex justify-between">
             <Tooltip
