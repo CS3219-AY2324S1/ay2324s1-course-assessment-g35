@@ -5,12 +5,11 @@ import Navbar from "@/components/NavBar";
 import { useRouter } from "next/router";
 
 export default function App({ Component, pageProps }: AppProps) {
-
   const router = useRouter();
-  const isLoginPage = router.pathname === '/Login';
+  const isLoginPage = router.pathname === "/Login";
   return (
     <ChakraProvider>
-      {!isLoginPage && <Navbar />}
+      {!isLoginPage}
       <Component {...pageProps} />{" "}
     </ChakraProvider>
   );
