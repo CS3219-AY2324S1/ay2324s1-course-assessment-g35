@@ -1,4 +1,4 @@
-import { Button, Tooltip, Select } from "@chakra-ui/react";
+import { Button, Tooltip, Select, Center } from "@chakra-ui/react";
 import io from "socket.io-client";
 import { useEffect, useState } from "react";
 import { Spinner } from "@chakra-ui/react";
@@ -122,7 +122,6 @@ const Match = () => {
     }
   };
 
-
   const handleLogout = () => {
     setShowLogoutModal(true);
   };
@@ -138,12 +137,12 @@ const Match = () => {
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>Match Found!</ModalHeader>
-          <ModalBody>
-            <Text fontWeight="medium" mb="1rem">
-              Taking you to your room now!
-              <Spinner className="ml-6" />
-            </Text>
-          </ModalBody>
+            <ModalBody>
+              <Text fontWeight="medium" mb="1rem">
+                Taking you to your room now!
+                <Spinner className="ml-6" />
+              </Text>
+            </ModalBody>
           </ModalContent>
         </Modal>
         <Modal
@@ -172,7 +171,6 @@ const Match = () => {
         </Modal>
       </Center>
 
-
       <div className="bg-gradient-to-r from-pp-blue to-pp-lightpurple flex-col ml-11 mr-11 my-10 rounded-[30px]">
         <div className="px-9 py-8">
           <div className="flex justify-between">
@@ -182,7 +180,6 @@ const Match = () => {
               bg="pp-blue"
               closeDelay={200}
             >
-
               <div className="cursor-pointer">
                 <ProfileIcon />
               </div>
@@ -246,7 +243,6 @@ const Match = () => {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
 
@@ -257,7 +253,6 @@ const Match = () => {
         {/* <button onClick={handleSubmit}>Validation test</button> */}
         {/* <br /> */}
         <div className="ml-11 mr-11">
-
           <Questions />
         </div>
       </div>
