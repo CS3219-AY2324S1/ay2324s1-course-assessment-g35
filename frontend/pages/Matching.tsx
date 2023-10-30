@@ -4,7 +4,7 @@ import { useState } from "react";
 import { matchingFacts } from "@/public/data/Facts";
 
 export default function Matching() {
-  // probably need some sort of state to change to the next stage
+  // TODO: link to Main page on Matching click
   const router = useRouter()
   const handleClick = () => {
     router.push('/Main')
