@@ -10,7 +10,7 @@ import express, {
 import { Server } from "http";
 import createHttpError from "http-errors";
 import { userRouter } from "./router";
-const cookieParser = require("cookie-parser");
+import cookieParser from "cookie-parser";
 
 config();
 

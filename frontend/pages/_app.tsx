@@ -7,9 +7,11 @@ import { useRouter } from "next/router";
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const isLoginPage = router.pathname === "/Login";
+  const isSignUpPage = router.pathname === '/SignUp'
   return (
     <ChakraProvider>
-      {!isLoginPage}
+      {!isLoginPage && !isSignupPage}
+
       <Component {...pageProps} />{" "}
     </ChakraProvider>
   );

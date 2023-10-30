@@ -5,13 +5,12 @@ import { Spinner } from "@chakra-ui/react";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import {
-  Center,
+  Text,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
   ModalBody,
-  ModalCloseButton,
 } from "@chakra-ui/react";
 import Countdown from "@/components/Main/Countdown";
 import { useRouter } from "next/router";
@@ -20,6 +19,12 @@ import Questions from "@/components/Main/Questions";
 import { LogoutIcon, ProfileIcon } from "@/icons";
 
 let socket: any;
+
+type MatchMessage = {
+  roomId: string;
+  myId: string;
+  otherId: string;
+};
 
 const Match = () => {
   const [showSpinner, setShowSpinner] = useState(false);
@@ -46,8 +51,6 @@ const Match = () => {
     socket.emit("leave", { difficulty: difficulty });
     setButtonText("Get Matched");
   };
-
-  console.log(matchingStarted);
   const handleButtonClick = async () => {
     if (matchingStarted == true) {
       stopMatching();
@@ -78,15 +81,17 @@ const Match = () => {
       alert(err.message);
     });
 
-    socket.on("match", (msg: string) => {
+    socket.on("match", (msg: MatchMessage) => {
       setMatchFound(true);
       setShowSpinner(false);
       setShowModal(true);
       setButtonText("START MATCHING");
       setTimeout(() => {
-        setMatchFound(false);
-      }, 5000);
+        const chatLink = `http://localhost:3000/Chat?roomId=${msg.roomId}&myId=${msg.myId}&otherId=${msg.otherId}`;
+        router.push(chatLink);
+      }, 3000);
     });
+
     socket.on("queue", (msg: string) => {
       console.log(msg);
     });
@@ -117,6 +122,7 @@ const Match = () => {
     }
   };
 
+
   const handleLogout = () => {
     setShowLogoutModal(true);
   };
@@ -132,13 +138,12 @@ const Match = () => {
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>Match Found!</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              Congratulations, you have found a match!
-              <Button colorScheme="blue" className="mt-6">
-                Start Coding Now
-              </Button>
-            </ModalBody>
+          <ModalBody>
+            <Text fontWeight="medium" mb="1rem">
+              Taking you to your room now!
+              <Spinner className="ml-6" />
+            </Text>
+          </ModalBody>
           </ModalContent>
         </Modal>
         <Modal
@@ -167,6 +172,7 @@ const Match = () => {
         </Modal>
       </Center>
 
+
       <div className="bg-gradient-to-r from-pp-blue to-pp-lightpurple flex-col ml-11 mr-11 my-10 rounded-[30px]">
         <div className="px-9 py-8">
           <div className="flex justify-between">
@@ -176,6 +182,7 @@ const Match = () => {
               bg="pp-blue"
               closeDelay={200}
             >
+
               <div className="cursor-pointer">
                 <ProfileIcon />
               </div>
@@ -239,15 +246,18 @@ const Match = () => {
                 </div>
               </div>
             </div>
+
           </div>
         </div>
 
         {matchFound && <Confetti width={width} height={height} />}
       </div>
+
       <div>
         {/* <button onClick={handleSubmit}>Validation test</button> */}
         {/* <br /> */}
         <div className="ml-11 mr-11">
+
           <Questions />
         </div>
       </div>

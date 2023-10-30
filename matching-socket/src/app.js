@@ -4,6 +4,7 @@ import http from "http";
 import cors from "cors";
 import { Queue } from "./queue.js";
 import authenticateSocket from "./middleware/authenticateSocket.js";
+import { v4 as uuidv4 } from "uuid";
 
 const app = express();
 const port = 3001;
@@ -42,11 +43,25 @@ io.on("connection", (socket) => {
       };
       queue.enqueue(socket.id);
       queue.print();
-      socket.emit("queue", "you are in queueu");
+      socket.emit("queue", "you are in queue");
     } else {
-      const firstGuy = queue.dequeue();
-      socket.emit("match", "you have matched");
-      socket.to(firstGuy).emit("match", "you match with");
+      const firstUserSocketId = queue.dequeue();
+      const roomId = uuidv4();
+      const firstUserId = uuidv4();
+      const secondUserId = uuidv4();
+      const roomDetails1 = {
+        roomId: roomId,
+        myId: firstUserId,
+        otherId: secondUserId,
+      };
+      const roomDetails2 = {
+        roomId: roomId,
+        myId: secondUserId,
+        otherId: firstUserId,
+      };
+      console.log("RoomId is " + roomId);
+      socket.emit("match", roomDetails1);
+      socket.to(firstUserSocketId).emit("match", roomDetails2);
     }
   });
 
