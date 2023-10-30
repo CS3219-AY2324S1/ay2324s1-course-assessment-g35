@@ -5,7 +5,8 @@ import { Select } from "@/components/collaboration/CollaborationSelect";
 import { codeExamples } from "@/code_examples/codeExamples";
 import { loadLanguage } from "@uiw/codemirror-extensions-langs";
 import { useParams } from "next/navigation";
-import { Button, Spinner } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
+import ResultSection from "./ResultSection";
 
 const CodeEditor = ({ roomId }: { roomId: string }) => {
   const params = useParams();
@@ -20,6 +21,9 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
 
   useEffect(() => {
     setSelectedLang("c");
+    try {
+      setCode(codeExamples["c"]);
+    } catch (error) {}
   }, []);
 
   const [code, setCode] = useState<string>();
@@ -123,49 +127,6 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
 
 const OutputShow = ({ output }: { output: string }) => {
   return <>{output}</>;
-};
-
-interface ResultSectionProps {
-  results: string;
-  isLoading: boolean;
-  errorMsg: string;
-  stderr: string;
-}
-
-const ResultSection: React.FC<ResultSectionProps> = ({
-  results,
-  isLoading,
-  errorMsg,
-  stderr,
-}) => {
-  return (
-    <div className="bg-gray-100 p-4">
-      <h2 className="text-2xl font-semibold mb-4">Results</h2>
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <div className="border rounded-lg p-4 bg-white shadow-sm">
-          <h3 className="text-lg font-semibold mb-2">Output</h3>
-          {errorMsg != "" ? (
-            <>
-              <ErrorComponent message={errorMsg} />
-              <ErrorComponent message={stderr} />
-            </>
-          ) : (
-            <p className="text-gray-600">{results}</p>
-          )}
-        </div>
-      )}
-    </div>
-  );
-};
-
-const ErrorComponent = ({ message }: { message: string }) => {
-  return (
-    <>
-      <p className="text-red-500">{message}</p>
-    </>
-  );
 };
 
 export default CodeEditor;

@@ -17,7 +17,7 @@ const Collaboration = ({ roomId }: { roomId: string }) => {
           <CodeEditor roomId={roomId} />
         </div>
         <div className="w-6/12	">
-          <ChatComponent messages={chatData} />
+          {/* <ChatComponent messages={chatData} /> */}
         </div>
       </div>
     </>

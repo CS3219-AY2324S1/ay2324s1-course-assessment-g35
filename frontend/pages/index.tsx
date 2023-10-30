@@ -72,7 +72,7 @@ const Match = () => {
     });
 
     socket.on("connect_error", (err: any) => {
-      alert(err.message);
+      console.error(err);
     });
 
     socket.on("match", (msg: string) => {
@@ -92,7 +92,6 @@ const Match = () => {
   useEffect(() => {
     socketInitializer();
   }, []);
-
 
   const router = useRouter();
   const handleSubmit = async (event: React.FormEvent) => {
@@ -119,7 +118,7 @@ const Match = () => {
     () => localStorage.removeItem("token");
     router.push("/Login");
   };
-  
+
   return (
     <div className="flex h-screen w-screen">
       <Center>
@@ -155,7 +154,9 @@ const Match = () => {
               onChange={handleOptionChange}
               value={difficulty}
             >
-              <option value="" hidden>Difficulty level</option>
+              <option value="" hidden>
+                Difficulty level
+              </option>
               {dropdownOptions.map((option) => (
                 <option key={option} value={option}>
                   {option}
@@ -169,9 +170,14 @@ const Match = () => {
               onClick={handleButtonClick}
               className="w-80 py-6 px-8"
             >
-              {buttonText}
-              {" "}
-              {matchingStarted && (<Countdown seconds={10} isRunning={matchingStarted} onTimerEnd={stopMatching} />)}
+              {buttonText}{" "}
+              {matchingStarted && (
+                <Countdown
+                  seconds={10}
+                  isRunning={matchingStarted}
+                  onTimerEnd={stopMatching}
+                />
+              )}
             </Button>
             {showSpinner && <Spinner className="ml-4" />}
           </div>
@@ -182,7 +188,9 @@ const Match = () => {
       <div className="bg-gray-100 h-full w-4/6">
         <button onClick={handleSubmit}>Validation test</button>
         <br />
-        <div className="p-8 mt-20"><Questions /></div>
+        <div className="p-8 mt-20">
+          <Questions />
+        </div>
       </div>
     </div>
   );
