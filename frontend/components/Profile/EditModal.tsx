@@ -61,33 +61,6 @@ const EditModal: React.FC<ModalProps> = ({ setIsModalOpen, fetchAndSetUser }) =>
               onChange={handleEmail}
             />
           </div>
-          {/* <div className="mb-4">
-            <label className="block mb-2 font-semibold">Role:</label>
-            <div className="flex">
-              <label htmlFor="option1" className="flex items-center mb-2 mr-4">
-                <input
-                  type="radio"
-                  id="option1"
-                  value="option1"
-                  checked={role === "option1"}
-                  onChange={handleRole}
-                  className="mr-2"
-                />
-                Admin
-              </label>
-              <label htmlFor="option2" className="flex items-center mb-2">
-                <input
-                  type="radio"
-                  id="option2"
-                  value="option2"
-                  checked={role === "option2"}
-                  onChange={handleRole}
-                  className="mr-2"
-                />
-                User
-              </label>
-            </div>
-          </div> */}
           <div className="flex gap-4">
             <button
               type="button"

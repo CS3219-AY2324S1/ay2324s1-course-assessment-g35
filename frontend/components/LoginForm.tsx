@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios, { Axios, AxiosError } from "axios";
+import axios from "axios";
 import { useRouter } from "next/router";
 
 interface LoginFormProps {
@@ -71,7 +71,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm }: LoginFormProps) => 
                     id="remember"
                     aria-describedby="remember"
                     type="checkbox"
-                    className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+                    className="w-4 h-4 border border-gray-300 bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                     required
                   />
                 </div>

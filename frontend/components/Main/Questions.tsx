@@ -1,5 +1,4 @@
-import { AiFillQuestionCircle } from "react-icons/ai";
-
+// TODO: get questions from the service rather than hardcoding
 const Questions: React.FC = () => {
   return (
     <div className="rounded-[30px] bg-pp-gray px-9 py-8">

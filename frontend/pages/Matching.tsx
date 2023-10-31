@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import React from "react";
-import { useState } from "react";
 import { matchingFacts } from "@/public/data/Facts";
 
 export default function Matching() {

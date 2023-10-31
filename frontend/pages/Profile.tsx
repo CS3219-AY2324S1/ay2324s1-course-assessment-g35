@@ -1,4 +1,4 @@
-import About from "@/components/Profile/About";
+import About from "@/components/Profile/Profile";
 import Description from "@/components/Profile/Description";
 import Questions from "@/components/Main/Questions";
 import axios from "axios";
@@ -6,14 +6,13 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Container } from "@chakra-ui/react";
 
- export interface UserType {
+export interface UserType {
   username: string;
   email: string;
   role: string;
 }
 
 export default function Profile() {
-
   //fetch user data using axios
   const [user, setUser] = useState<UserType>();
   const [loading, setLoading] = useState<boolean>(true);
