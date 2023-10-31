@@ -22,11 +22,14 @@ export default function Chat() {
 
   return (
     <div className="h-screen w-screen flex">
-      <div className="bg-slate-500 w-3/4 mt-12 h-screen">
+      <div className="bg-slate-500 w-2/6 h-screen">
+        Questions
+      </div>
+      <div className="bg-slate-500 w-3/6 h-screen">
         <CodeEditor roomId={roomId} />
         <button onClick={() => setShowChat(!showChat)}>Click here</button>
       </div>
-      <div className="flex w-1/4 h-screen mt-12">
+      <div className="flex w-1/6 h-screen">
         {showChat ? (
           <div className="w-full">
             <ChatComponent socket={socket} roomId={(roomId as string) || ""} />

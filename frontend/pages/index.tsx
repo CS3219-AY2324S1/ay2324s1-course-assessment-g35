@@ -14,10 +14,10 @@ import io from "socket.io-client";
 import { useEffect, useState } from "react";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
-import Countdown from "@/components/Main/Countdown";
+import Countdown from "@/components/Index/Countdown";
 import { useRouter } from "next/router";
 import axios from "axios";
-import Questions from "@/components/Main/Questions";
+import Questions from "@/components/Index/Questions";
 import Profile from "@/components/Profile/Profile";
 import { LogoutIcon, ProfileIcon } from "@/icons";
 
