@@ -110,7 +110,7 @@ function VideoCall({myId, otherId}) {
         <button onClick={toggleVideo}>Toggle Video</button>
       </div>
       <video playsInline ref={remoteVideoRef} autoPlay className="w-auto rounded-lg" />
-      // playsInline: dont play fullscreen on ios, autoPlay: play upon load
+      {/* playsInline: dont play fullscreen on ios, autoPlay: play upon load */}
     </div>
   );
   
