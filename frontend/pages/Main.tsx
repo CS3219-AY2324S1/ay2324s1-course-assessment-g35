@@ -152,7 +152,7 @@ const Match = () => {
     });
   };
 
-  useEffect(() => {
+  useEffect(() => { // todo: might need a cleanup function
     socketInitializer();
   }, []);
   // End of matching related

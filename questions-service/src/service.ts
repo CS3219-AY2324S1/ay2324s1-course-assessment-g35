@@ -4,9 +4,16 @@
 import mongoose from "mongoose";
 import { Question } from "./models/questionModel";
 
-const mongoURI = "mongodb://34.118.239.59/CS3219";
+// const mongoURI = "mongodb://34.118.239.59/CS3219";
+const mongoURI = "mongodb+srv://timothy:SThaeb4EvnBwD2YA@cluster0.jvtzlry.mongodb.net/?retryWrites=true&w=majority";
 mongoose.connect(mongoURI, {});
 const db = mongoose.connection;
+db.once("open", () => {
+  console.log("Connected to database");
+});
+db.on("error", (err) => {
+  console.log(`Database error: ${err}`);
+});
 
 // check if this is the correct response type
 type QuestionResponseType = {
