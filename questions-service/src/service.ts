@@ -38,10 +38,12 @@ export const getAllQuestions = async () => {
 };
 
 export const getRandomQuestionByDifficulty = async (difficulty: string) => {
-  return await Question.aggregate([
+  const [randomQuestion] =  await Question.aggregate([
     { $match: { difficulty: difficulty } },
     { $sample: { size: 1 } },
   ]);
+
+  return randomQuestion;
 };
 
 export const getRandomQuestionByTag = async (tag: string) => {
