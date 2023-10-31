@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { matchingFacts } from "@/public/data/Facts";
 
 export default function Matching() {
@@ -9,9 +9,14 @@ export default function Matching() {
     router.push('/Main')
   }
 
-  const randomIndex = Math.floor(Math.random() * matchingFacts.length)
-  const randomFact = matchingFacts[randomIndex]
+  const [randomFact, setRandomFact] = useState<string>("")
 
+  useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * matchingFacts.length)
+    const randomFact = matchingFacts[randomIndex]
+    setRandomFact(randomFact)
+  }, []);
+  
   return (
     <>
       <div 
@@ -67,7 +72,6 @@ export default function Matching() {
             </svg>
           </div>
           
-          {/* TODO: implement differently because it changes even when the page doesn't load + add automatic changing between facts every 10 sec with sliding out animation */}
           <p className="duration-1000 font-poppins text-white md:my-4">
               {randomFact}
           </p>
