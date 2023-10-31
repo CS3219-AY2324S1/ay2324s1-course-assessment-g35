@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 
 function VideoCall({myId, otherId}) {
   const [peerId, setPeerId] = useState('');
-  const [remotePeerIdValue, setRemotePeerIdValue] = useState('');
   const remoteVideoRef = useRef(null);
   const currentUserVideoRef = useRef(null);
   const peerInstance = useRef(null);
@@ -50,9 +49,10 @@ function VideoCall({myId, otherId}) {
   }, [myId, otherId])
 
   const call = (remotePeerId) => {
-    var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-    getUserMedia({ video: true, audio: true }, (mediaStream) => {
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: true })
+      .then((mediaStream) => {
 
       currentUserVideoRef.current.srcObject = mediaStream;
       currentUserVideoRef.current.play();
@@ -100,18 +100,17 @@ function VideoCall({myId, otherId}) {
   
 
   return (
-    <div className="App">
+    <div className="flex-col">
       <h1>Current user id is {peerId}</h1>
-      <input type="text" value={remotePeerIdValue} onChange={e => setRemotePeerIdValue(e.target.value)} />
-      <button onClick={() => call(remotePeerIdValue)}>Call</button>
+      {/* <input type="text" value={remotePeerIdValue} onChange={e => setRemotePeerIdValue(e.target.value)} />
+      <button onClick={() => call(remotePeerIdValue)}>Call</button> */}
+      <video playsInline muted ref={currentUserVideoRef} className="w-auto rounded-lg" />
       <div>
-        <video playsInline muted ref={currentUserVideoRef} className="w-3/4 rounded-lg" />
         <button onClick={toggleAudio}>Toggle Audio</button>
         <button onClick={toggleVideo}>Toggle Video</button>
       </div>
-      <div>
-        <video playsInline ref={remoteVideoRef} autoPlay className="w-3/4 rounded-lg" />
-      </div>
+      <video playsInline ref={remoteVideoRef} autoPlay className="w-auto rounded-lg" />
+      // playsInline: dont play fullscreen on ios, autoPlay: play upon load
     </div>
   );
   
