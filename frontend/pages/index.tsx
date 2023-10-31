@@ -133,7 +133,7 @@ const Match = () => {
     });
 
     socket.on("connect_error", (err: any) => {
-      alert(err.message);
+      console.error(err.message);
     });
 
     socket.on("match", (msg: MatchMessage) => {
@@ -229,7 +229,9 @@ const Match = () => {
         isCentered
       >
         <ModalOverlay />
-        <ModalContent style={{ padding: '20px', height: "400px", borderRadius: "20px" }}>
+        <ModalContent
+          style={{ padding: "20px", height: "400px", borderRadius: "20px" }}
+        >
           <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -305,7 +307,7 @@ const Match = () => {
                     </option>
                   ))}
                 </Select>
-                
+
                 {/* TODO: get the button to route to the matching screen instead */}
                 <div className="flex items-center ml-6">
                   <div
