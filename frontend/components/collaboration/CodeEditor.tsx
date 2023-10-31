@@ -8,11 +8,11 @@ import { useParams } from "next/navigation";
 import { Button } from "@chakra-ui/react";
 import ResultSection from "./ResultSection";
 
-const CodeEditor = ({ roomId }: { roomId: string }) => {
+const CodeEditor = () => {
   const params = useParams();
-  console.log(params);
+  const roomId = params?.roomid;
 
-  const [selectedLang, setSelectedLang] = useState<string>("c");
+  const [selectedLang, setSelectedLang] = useState<string>("javascript");
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -20,14 +20,13 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
   const langs = ["java", "go", "python", "c", "cpp", "javascript"];
 
   useEffect(() => {
-    setSelectedLang("c");
-    try {
-      setCode(codeExamples["c"]);
-    } catch (error) {}
+    setSelectedLang("javascript");
+    handleLangChange(selectedLang);
   }, []);
 
   const [code, setCode] = useState<string>();
   function writeUserData(code: string) {
+    console.log(roomId);
     const db = getDatabase();
     set(ref(db, "rooms/" + roomId), {
       username: roomId,
@@ -92,6 +91,7 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
     <>
       <div className="flex flex-col gap-3">
         <Select
+          value={selectedLang}
           options={langs.sort()}
           onChange={(evn) =>
             handleLangChange(evn.target.value as keyof typeof langs)
