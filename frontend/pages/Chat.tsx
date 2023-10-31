@@ -4,11 +4,10 @@ import { useRouter } from "next/router";
 import { Socket } from "socket.io-client";
 import io from "socket.io-client";
 import VideoCall from "@/components/VideoCall";
-import CodeEditor from "@/components/collaboration/CodeEditor";
 
 export default function Chat() {
   const router = useRouter();
-  const { roomId, myId, otherId } = router.query;
+  const {roomId, myId, otherId} = router.query;
   const [showChat, setShowChat] = useState<boolean>(false);
 
   const socket: Socket = useMemo(() => {
@@ -22,7 +21,7 @@ export default function Chat() {
   return (
     <div className="h-screen w-screen flex">
       <div className="bg-slate-500 w-3/4 mt-12 h-screen">
-        <CodeEditor roomId={roomId} />
+        <h1>Here</h1>
         <button onClick={() => setShowChat(!showChat)}>Click here</button>
       </div>
       <div className="flex w-1/4 h-screen mt-12">
