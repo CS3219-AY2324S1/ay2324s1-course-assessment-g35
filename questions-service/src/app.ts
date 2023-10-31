@@ -23,7 +23,7 @@ app.use(express.json()) // Parses incoming JSON data from HTTP requests
 app.use(cookieParser())
 app.use("/", questionsRouter) // Connects to the Questions Router
 
-const PORT: number = Number(process.env.PORT) || 8000
+const PORT: number = Number(process.env.PORT) || 8001
 const server: Server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`)
 })

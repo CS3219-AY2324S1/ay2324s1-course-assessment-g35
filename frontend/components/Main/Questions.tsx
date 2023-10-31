@@ -1,35 +1,37 @@
-import { AiFillQuestionCircle } from "react-icons/ai";
-
+// TODO: get questions from the service rather than hardcoding
 const Questions: React.FC = () => {
   return (
-    <div className="bg-white p-3 shadow-sm rounded">
+    <div className="rounded-[30px] bg-pp-gray px-9 py-8">
       <div className=" grid-colsgrid-2">
         <div>
           <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
-            <span className="text-black-500 text-2xl">
-              <AiFillQuestionCircle style={{ fontSize: "2rem" }} />
-            </span>
-            <span className="tracking-wide text-2xl font-bold mb-4">
-              Past Questions
+            <span className="tracking-wide text-2xl font-bold mb-4 text-white">
+              Questions you've completed
             </span>
           </div>
           <ul className="list-inside space-y-2">
-            <li>
-              <div className="text-teal-600">Largest Sum Of Averages</div>
-              <div className="text-gray-500 text-xs">12 September 2023</div>
-            </li>
-            <li>
-              <div className="text-teal-600">Maximum Profit As Salesman</div>
-              <div className="text-gray-500 text-xs">12 September 2023</div>
-            </li>
-            <li>
-              <div className="text-teal-600">Construct Longest New String</div>
-              <div className="text-gray-500 text-xs">12 September 2023</div>
-            </li>
-            <li>
-              <div className="text-teal-600">Sum Of Subarray Ranges</div>
-              <div className="text-gray-500 text-xs">12 September 2023</div>
-            </li>
+            <div className="flex justify-between">
+              <div className="text-white font-bold">
+                Largest Sum Of Averages
+              </div>
+              <div className="text-white">12 September 2023</div>
+            </div>
+            <div className="flex justify-between">
+              <div className="text-white font-bold">
+                Maximum Profit As Salesman
+              </div>
+              <div className="text-white">12 September 2023</div>
+            </div>
+            <div className="flex justify-between">
+              <div className="text-white font-bold">
+                Construct Longest New String
+              </div>
+              <div className="text-white">12 September 2023</div>
+            </div>
+            <div className="flex justify-between">
+              <div className="text-white font-bold">Sum Of Subarray Ranges</div>
+              <div className="text-white">12 September 2023</div>
+            </div>
           </ul>
         </div>
       </div>
