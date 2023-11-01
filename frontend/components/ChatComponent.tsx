@@ -22,6 +22,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
 }) => {
   const [currentMessage, setCurrentMessage] = useState<string>("");
   const [allMessage, setAllMessage] = useState<Message[]>([]);
+  const [sender, setSender] = useState<string>("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -39,7 +40,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
     if (currentMessage !== "") {
       const messageData: Message = {
         roomId: roomId,
-        author: socket?.id || "",
+        author: sender || "",
         message: currentMessage,
         time: `${hours}:${minutes}:${seconds}`,
       };
@@ -48,7 +49,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
     }
   };
 
-  useMemo(() => {
+  useEffect(() => {
     socket.off("receive_message").on("receive_message", (data: Message) => {
       setAllMessage((prevMessages) => [...prevMessages, data]); //update message state
     });
@@ -61,6 +62,9 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
 
   useEffect(() => {
     const storedMessages = localStorage.getItem("chatMessages");
+    const sender = localStorage.getItem("user");
+    setSender(sender || "Not set");
+    alert(sender);
     const messages: Message[] = storedMessages
       ? JSON.parse(storedMessages)
       : [];
@@ -87,20 +91,18 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
             <div
               key={index}
               className={`flex w-full mt-2 space-x-3 ${
-                message.author === socket?.id ? "justify-start" : "justify-end"
+                message.author === sender ? "justify-start" : "justify-end"
               }`}
             >
               <div
                 className={`flex-shrink-0 h-10 w-10 rounded-full  ${
-                  message.author === socket?.id ? "bg-blue-300 " : "bg-gray-300"
+                  message.author === sender ? "bg-blue-300 " : "bg-gray-300"
                 }`}
               ></div>
               <div>
                 <div
                   className={` p-3 rounded-r-lg rounded-bl-lg ${
-                    message.author === socket?.id
-                      ? "bg-blue-300"
-                      : "bg-gray-300"
+                    message.author === sender ? "bg-blue-300" : "bg-gray-300"
                   }`}
                 >
                   <p className="text-sm">{message.message}</p>

@@ -98,9 +98,9 @@ export default function Chat() {
         <CodeEditor roomId={roomId || ""} />
         <button onClick={() => setShowChat(!showChat)}>Click here</button>
       </div>
-      <div className="flex w-1/4 h-screen">
+      <div className="flex w-1/6 h-screen">
         <div
-          className={`w-1/4 absolute bottom-0 h-screen ${
+          className={`w-1/6 absolute bottom-0 h-screen ${
             showChat ? "block" : "hidden"
           }`}
         >
