@@ -143,7 +143,7 @@ const Match = () => {
       setShowModal(true);
       setButtonText("START MATCHING");
       setTimeout(() => {
-        const chatLink = `http://localhost:3000/Chat?roomId=${msg.roomId}&myId=${msg.myId}&otherId=${msg.otherId}&difficulty=${msg.difficulty}`;
+        const chatLink = `http://localhost:3000/Collab?roomId=${msg.roomId}&myId=${msg.myId}&otherId=${msg.otherId}&difficulty=${msg.difficulty}`;
         router.push(chatLink);
       }, 3000);
     });
