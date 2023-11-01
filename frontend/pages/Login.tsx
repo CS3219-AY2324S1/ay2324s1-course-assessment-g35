@@ -1,6 +1,7 @@
 import LoginForm from "@/components/LoginForm";
-import SignUpForm from "@/components/SignUpForm";
+import SignUpForm from "@/components/SignupForm";
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function Login() {
   const [form, setForm] = useState("login");
@@ -20,12 +21,22 @@ export default function Login() {
               flexDirection: "column",
             }}
           >
-            <h1 className="font-poppins text-white text-6xl leading-tight tracking-tight md:text-7xl">
+            <motion.h1
+              initial={{ opacity: 0 }} // Initial state (completely transparent)
+              animate={{ opacity: 1 }} // Animation state (fully visible)
+              transition={{ duration: 1.5 }}
+              className="font-poppins text-white text-6xl leading-tight tracking-tight md:text-7xl"
+            >
               PeerPrep
-            </h1>
-            <text className="font-poppins text-white">
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0 }} // Initial state (completely transparent)
+              animate={{ opacity: 1 }} // Animation state (fully visible)
+              transition={{ duration: 1.5 }}
+              className="font-poppins text-white mt-4"
+            >
               Prepare for your interviews with ease, with Peerprep.
-            </text>
+            </motion.p>
           </div>
         </div>
         <div className="w-7/12 h-full">

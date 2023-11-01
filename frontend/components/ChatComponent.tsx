@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Socket } from "socket.io-client";
+import { MdOutlineClose } from "react-icons/md";
 
 interface ChatComponentProps {
   roomId: string;
   socket: Socket;
+  setShowChat: (val: boolean) => void;
 }
 
 type Message = {
@@ -13,12 +15,13 @@ type Message = {
   time: string;
 };
 
-const ChatComponent: React.FC<ChatComponentProps> = ({ socket, roomId }) => {
+const ChatComponent: React.FC<ChatComponentProps> = ({
+  socket,
+  roomId,
+  setShowChat,
+}) => {
   const [currentMessage, setCurrentMessage] = useState<string>("");
-  const [allMessage, setAllMessage] = useState<Message[]>(() => {
-    const storedMessages = localStorage.getItem("chatMessages");
-    return storedMessages ? JSON.parse(storedMessages) : [];
-  });
+  const [allMessage, setAllMessage] = useState<Message[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -47,7 +50,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ socket, roomId }) => {
 
   useMemo(() => {
     socket.off("receive_message").on("receive_message", (data: Message) => {
-      setAllMessage((prevMessages) => [...prevMessages, data]);
+      setAllMessage((prevMessages) => [...prevMessages, data]); //update message state
     });
     return () => {
       if (socket) {
@@ -57,6 +60,14 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ socket, roomId }) => {
   }, [socket]);
 
   useEffect(() => {
+    const storedMessages = localStorage.getItem("chatMessages");
+    const messages: Message[] = storedMessages
+      ? JSON.parse(storedMessages)
+      : [];
+    setAllMessage(messages);
+  }, []);
+
+  useEffect(() => {
     localStorage.setItem("chatMessages", JSON.stringify(allMessage));
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -64,8 +75,13 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ socket, roomId }) => {
   }, [allMessage]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-full bg-gray-100 text-gray-800 p-10">
-      <div className="flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden">
+    <div className="flex flex-col items-center justify-center h-full  relative">
+      <MdOutlineClose
+        className="absolute top-4 right-6 cursor-pointer hover:text-red-500"
+        size={24}
+        onClick={() => setShowChat(false)}
+      />
+      <div className="flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden pt-6">
         <div className="flex flex-col flex-grow h-0 p-4 overflow-auto w-full">
           {allMessage.map((message, index) => (
             <div
