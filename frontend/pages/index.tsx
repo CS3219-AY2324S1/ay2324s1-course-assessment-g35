@@ -33,6 +33,7 @@ type MatchMessage = {
   roomId: string;
   myId: string;
   otherId: string;
+  difficulty: string;
 };
 
 const Match = () => {
@@ -142,7 +143,7 @@ const Match = () => {
       setShowModal(true);
       setButtonText("START MATCHING");
       setTimeout(() => {
-        const chatLink = `http://localhost:3000/Chat?roomId=${msg.roomId}&myId=${msg.myId}&otherId=${msg.otherId}`;
+        const chatLink = `http://localhost:3000/Chat?roomId=${msg.roomId}&myId=${msg.myId}&otherId=${msg.otherId}&difficulty=${msg.difficulty}`;
         router.push(chatLink);
       }, 3000);
     });

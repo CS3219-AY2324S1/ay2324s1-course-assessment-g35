@@ -52,6 +52,12 @@ io.on("connection", (socket) => {
   socket.on("send_message", (data) => {
     socket.to(data.roomId).emit("receive_message", data);
   });
+
+  
+  // question
+  socket.on("question", (data) => {
+    socket.to(data.roomId).emit("question", data.question);
+  });
 });
 
 server.listen(3002, () => {

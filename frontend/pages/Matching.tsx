@@ -6,7 +6,7 @@ export default function Matching() {
   // TODO: link to Main page on Matching click
   const router = useRouter()
   const handleClick = () => {
-    router.push('/Main')
+    router.push('/')
   }
 
   const [randomFact, setRandomFact] = useState<string>("")
