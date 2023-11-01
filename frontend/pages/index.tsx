@@ -13,10 +13,10 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
-import Countdown from "@/components/Countdown";
+import Countdown from "@/components/Main/Countdown";
 import { useRouter } from "next/router";
 import axios from "axios";
-import Questions from "@/components/Questions";
+import Questions from "@/components/Main/Questions";
 
 let socket: any;
 
@@ -72,7 +72,7 @@ const Match = () => {
     });
 
     socket.on("connect_error", (err: any) => {
-      alert(err.message);
+      console.error(err);
     });
 
     socket.on("match", (msg: string) => {
@@ -92,7 +92,6 @@ const Match = () => {
   useEffect(() => {
     socketInitializer();
   }, []);
-
 
   const router = useRouter();
   const handleSubmit = async (event: React.FormEvent) => {
@@ -119,7 +118,7 @@ const Match = () => {
     () => localStorage.removeItem("token");
     router.push("/Login");
   };
-  
+
   return (
     <div className="flex h-screen w-screen">
       <Center>
@@ -155,7 +154,9 @@ const Match = () => {
               onChange={handleOptionChange}
               value={difficulty}
             >
-              <option value="">Difficulty level</option>
+              <option value="" hidden>
+                Difficulty level
+              </option>
               {dropdownOptions.map((option) => (
                 <option key={option} value={option}>
                   {option}
@@ -169,9 +170,14 @@ const Match = () => {
               onClick={handleButtonClick}
               className="w-80 py-6 px-8"
             >
-              {buttonText}
-              {" "}
-              {matchingStarted && (<Countdown seconds={10} isRunning={matchingStarted} onTimerEnd={stopMatching} />)}
+              {buttonText}{" "}
+              {matchingStarted && (
+                <Countdown
+                  seconds={10}
+                  isRunning={matchingStarted}
+                  onTimerEnd={stopMatching}
+                />
+              )}
             </Button>
             {showSpinner && <Spinner className="ml-4" />}
           </div>
@@ -179,15 +185,12 @@ const Match = () => {
 
         {matchFound && <Confetti width={width} height={height} />}
       </div>
-      <div className="bg-blue-500 h-full w-4/6">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => router.push("/Profile")}>Profile</button>
-        <br />
+      <div className="bg-gray-100 h-full w-4/6">
         <button onClick={handleSubmit}>Validation test</button>
         <br />
-        <button onClick={handleLogout}>
-          Logout
-        </button>
-        <Questions />
+        <div className="p-8 mt-20">
+          <Questions />
+        </div>
       </div>
     </div>
   );

@@ -24,19 +24,24 @@ const LoginForm: React.FC = () => {
       });
       localStorage.setItem("token", response.data.token);
       console.log(response.data.token);
-      router.push('/match');
+      router.push('/Main');
 
     } catch (error: any) {
       console.log(error);
-      alert(error.response.data.message || "An error occurred when signing in!");
+      alert(error?.response?.data?.message || "An error occurred when signing in!");
     }
   };
   return (
-    <div className="bg-gray-50 w-full h-full">
+    <div className="bg-gray-50 w-full h-full flex">
 
-      <div className="bg-white h-full w-2/6">
-          <div className="p-6 mt-10 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
+      <div className="bg-white h-full w-5/12">
+
+
+          <div className="p-10">
+
+            <h1 className="text-gray-500 font-bold text-6xl leading-tight tracking-tight md:text-7xl my-16">PeerPrep</h1>
+
+            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl my-6">
               Sign in to your account
             </h1>
             <form className="space-y-4 md:space-y-6">
@@ -61,7 +66,7 @@ const LoginForm: React.FC = () => {
               <div>
                 <label
                   htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  className="block mb-2 text-sm font-medium text-gray-900"
                 >
                   Password
                 </label>
@@ -120,8 +125,15 @@ const LoginForm: React.FC = () => {
               </p>
             </form>
           </div>
-       
       </div>
+
+      <div className="bg-blue-500 h-full w-7/12 flex justify-center items-center">
+        <div className="text-white font-bold text-6xl leading-tight tracking-tight md:text-7xl">
+          Get to work
+        </div>
+      </div>
+
+
     </div>
   );
 };
