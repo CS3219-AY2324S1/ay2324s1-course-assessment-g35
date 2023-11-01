@@ -75,8 +75,8 @@ export default function Chat() {
   }, [roomId]);
 
   return (
-    <div className="h-screen w-screen flex">
-      <div className="bg-slate-500 w-2/6 h-screen flex flex-col">
+    <div className="h-screen w-screen flex bg-pp-darkpurple text-white">
+      <div className="w-2/6 flex flex-col gap-3 p-6">
         <QuestionDisplay question={question} />
         <button className="bg-slate-300 rounded p-2" onClick={getQuestion}>
           Change Question
@@ -94,9 +94,9 @@ export default function Chat() {
           Save and Leave
         </button>
       </div>
-      <div className="bg-slate-500 w-3/6 h-screen">
+      <div className="w-3/6">
         <CodeEditor roomId={roomId || ""} />
-        <button onClick={() => setShowChat(!showChat)}>Click here</button>
+        <button className="bg-slate-900 rounded p-2" onClick={() => setShowChat(!showChat)}>Show Chat / Video</button>
       </div>
       <div className="flex w-1/6 h-screen">
         <div
@@ -111,7 +111,7 @@ export default function Chat() {
           />
         </div>
 
-        <div className="w-full">
+        <div className="w-full h-full bg-pp-gray">
           {/* <VideoComponent /> */}
           <VideoCall myId={myId} otherId={otherId} />
         </div>

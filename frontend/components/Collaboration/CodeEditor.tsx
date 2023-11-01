@@ -86,7 +86,7 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
 
   return (
     <>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 text-black">
         <Select
           options={langs.sort()}
           onChange={(evn) =>

@@ -129,8 +129,8 @@ function VideoCall({myId, otherId}) {
   
 
   return (
-    <div className="flex-col">
-      <h1>Current user id is {peerId}</h1>
+    <div className="flex-col p-4">
+      {/* <h1>Current user id is {peerId}</h1> */}
       {/* <input type="text" value={remotePeerIdValue} onChange={e => setRemotePeerIdValue(e.target.value)} />
       <button onClick={() => call(remotePeerIdValue)}>Call</button> */}
       <video playsInline muted ref={currentUserVideoRef} className="w-auto rounded-lg" />
