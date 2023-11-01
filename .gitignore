@@ -2,3 +2,4 @@ yarn.lock
 node_modules/
 jenkins-gke-key.json
 frontend/credentials.ts
+frontend/.env
