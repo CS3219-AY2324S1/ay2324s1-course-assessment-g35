@@ -1,20 +1,21 @@
 import db from "./utils/db.server";
 import { Prisma } from "@prisma/client";
 
-type HistoryResponseType = {
-  id: string;
-  questionID: string;
-  timestamp: Date;
-  attemptNo: number;
-  userId: string;
+type HistoryResponse = {
+  roomid: string;
+  user1: string;
+  user2: string;
+  time: Date;
+  code: string;
+  questionid: number;
 };
 
 export const findHistoryByUserId = async (
   userId: string
-): Promise<HistoryResponseType[] | null> => {
+): Promise<HistoryResponse[]> => {
   return await db.history.findMany({
     where: {
-      userId: userId,
+      OR: [{ user1: userId }, { user2: userId }],
     },
   });
 };

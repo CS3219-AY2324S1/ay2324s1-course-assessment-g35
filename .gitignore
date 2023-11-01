@@ -1,2 +1,4 @@
 yarn.lock
 node_modules/
+history-service/.env
+history-service/.envrc

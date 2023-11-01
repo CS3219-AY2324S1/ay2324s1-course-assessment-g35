@@ -10,12 +10,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model History {
-  id         String   @id @default(uuid())
-  questionID String
-  timestamp  DateTime
-  attemptNo  Int
-  userId     String   @default(uuid())
-  // createdAt DateTime @default(now())
-  // updatedAt DateTime @updatedAt
+model history {
+  roomid     String   @id
+  user1      String
+  user2      String
+  time       DateTime
+  code       String
+  questionid Int
 }

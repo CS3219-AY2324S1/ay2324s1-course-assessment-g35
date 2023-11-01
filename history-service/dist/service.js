@@ -17,7 +17,7 @@ const db_server_1 = __importDefault(require("./utils/db.server"));
 const findHistoryByUserId = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     return yield db_server_1.default.history.findMany({
         where: {
-            userId: userId,
+            OR: [{ user1: userId }, { user2: userId }],
         },
     });
 });
