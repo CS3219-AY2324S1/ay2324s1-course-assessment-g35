@@ -44,6 +44,8 @@ export default function Chat() {
 
       socket.emit("question", questionPayload);
 
+    }).catch((err) => {
+      alert("Error getting question. Please try again later. " + err);
     });
   }
 

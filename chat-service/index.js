@@ -54,7 +54,7 @@ io.on("connection", (socket) => {
   });
 
   
-  // question
+  //question exchange
   socket.on("question", (data) => {
     socket.to(data.roomId).emit("question", data.question);
   });
