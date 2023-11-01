@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: questions-service-deployment
+  name: questions-deployment
 spec:
   replicas: 1  # Adjust the number of replicas as needed
   selector:
     matchLabels:
-      app: questions-service
+      app: questions
   template:
     metadata:
       labels:
-        app: questions-service
+        app: questions
     spec:
       containers:
-        - name: questions-service
+        - name: questions
           image: yuehern/questions-service:latest
           env:
             - name: HISTORY_DB_URL
-              value: "34.118.238.6" # Set the database connection URL
+              value: "34.118.229.101" # Set the database connection URL
 
           ports:
             - containerPort: 80  # Adjust the port as needed
@@ -30,12 +30,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: questions-service-service
+  name: questions-service
 spec:
   selector:
-    app: questions-service
+    app: questions
   ports:
     - protocol: TCP
-      port: 80
+      port: 8000
       targetPort: 80
-  type: LoadBalancer  # Specifies a LoadBalancer service type
+  type: ClusterIP  # Specifies a LoadBalancer service type

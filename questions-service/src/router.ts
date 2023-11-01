@@ -5,6 +5,7 @@ import {
   getQuestionByName,
   getRandomQuestionByTag,
   getAllQuestions,
+  getQuestionByID,
 } from "./service";
 
 export const questionsRouter = express.Router();
@@ -14,6 +15,16 @@ questionsRouter.get("/name", async (req, res) => {
     const name: string = req.query.name as string;
     const questionByName = await getQuestionByName(name);
     return res.status(200).json(questionByName);
+  } catch (error: any) {
+    return res.status(500).json(error.message);
+  }
+});
+
+questionsRouter.get("/id", async (req, res) => {
+  try {
+    const id: string = req.query.id as string;
+    const questionById = await getQuestionByID(id);
+    return res.status(200).json(questionById);
   } catch (error: any) {
     return res.status(500).json(error.message);
   }

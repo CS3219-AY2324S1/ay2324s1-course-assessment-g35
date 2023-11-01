@@ -4,8 +4,11 @@
 import mongoose from "mongoose";
 import { Question } from "./models/questionModel";
 
-const mongoURI = "mongodb://34.118.239.59/CS3219";
-mongoose.connect(mongoURI, {});
+const mongoURI = `mongodb://root:cs3219isgood@${process.env.HISTORY_DB_URL}:27017`;
+console.log(mongoURI);
+mongoose.connect(mongoURI, {
+  dbName: "CS3219",
+});
 const db = mongoose.connection;
 
 // check if this is the correct response type
@@ -14,6 +17,10 @@ type QuestionResponseType = {
   description: string;
   difficulty: string;
   tags: Array<string>[];
+};
+
+export const getQuestionByID = async (id: string) => {
+  return await Question.findById(id);
 };
 
 export const getQuestionByName = async (name: string) => {
