@@ -1,5 +1,5 @@
 import LoginForm from "@/components/LoginForm";
-import SignUpForm from "@/components/SignupForm";
+import SignUpForm from "@/components/SignUpForm";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 

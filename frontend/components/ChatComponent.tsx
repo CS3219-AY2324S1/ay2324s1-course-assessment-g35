@@ -94,7 +94,52 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
                 message.author === sender ? "justify-start" : "justify-end"
               }`}
             >
-              <div
+              {message.author === sender ? (
+                <>
+                  <div
+                    className={`flex-shrink-0 h-10 w-10 rounded-full  ${
+                      message.author === sender ? "bg-blue-300 " : "bg-gray-300"
+                    }`}
+                  ></div>
+                  <div>
+                    <div
+                      className={` p-3 rounded-r-lg rounded-bl-lg ${
+                        message.author === sender
+                          ? "bg-blue-300"
+                          : "bg-gray-300"
+                      }`}
+                    >
+                      <p className="text-sm">{message.message}</p>
+                    </div>
+                    <span className="text-xs text-gray-500 leading-none">
+                      {message.time}
+                    </span>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div>
+                    <div
+                      className={` p-3 rounded-r-lg rounded-bl-lg ${
+                        message.author === sender
+                          ? "bg-blue-300"
+                          : "bg-gray-300"
+                      }`}
+                    >
+                      <p className="text-sm">{message.message}</p>
+                    </div>
+                    <span className="text-xs text-gray-500 leading-none">
+                      {message.time}
+                    </span>
+                  </div>
+                  <div
+                    className={`flex-shrink-0 h-10 w-10 rounded-full  ${
+                      message.author === sender ? "bg-blue-300 " : "bg-gray-300"
+                    }`}
+                  ></div>
+                </>
+              )}
+              {/* <div
                 className={`flex-shrink-0 h-10 w-10 rounded-full  ${
                   message.author === sender ? "bg-blue-300 " : "bg-gray-300"
                 }`}
@@ -110,7 +155,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
                 <span className="text-xs text-gray-500 leading-none">
                   {message.time}
                 </span>
-              </div>
+              </div> */}
             </div>
           ))}
           <div ref={messagesEndRef}></div>

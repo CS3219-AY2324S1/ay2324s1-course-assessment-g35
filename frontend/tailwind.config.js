@@ -22,6 +22,7 @@ module.exports = {
         'pp-gray': '#2E2A36',
         'pp-darkpurple': '#190B28',
         'pp-lightpurple': '#6C6EA0',
+        'pp-green': '#BEE460',
 
       },
     },
