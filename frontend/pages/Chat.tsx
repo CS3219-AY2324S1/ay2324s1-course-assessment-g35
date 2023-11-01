@@ -8,6 +8,7 @@ import CodeEditor from "@/components/Collaboration/CodeEditor";
 import axios from "axios";
 import { Question } from "@/components/Collaboration/QuestionDisplay";
 import QuestionDisplay from "@/components/Collaboration/QuestionDisplay";
+import { motion } from "framer-motion";
 
 export default function Chat() {
   const router = useRouter();
@@ -59,6 +60,7 @@ export default function Chat() {
 
     //CLEANUP local storage only
     localStorage.removeItem("question");
+    localStorage.removeItem("chatMessages");
 
     router.push("/");
   };
@@ -99,17 +101,18 @@ export default function Chat() {
         <button onClick={() => setShowChat(!showChat)}>Click here</button>
       </div>
       <div className="flex w-1/6 h-screen">
-        <div
-          className={`w-1/6 absolute bottom-0 h-screen ${
-            showChat ? "block" : "hidden"
-          }`}
+        <motion.div
+          className={`w-1/6 absolute bottom-0 h-screen`}
+          initial={{ y: 0 }}
+          animate={{ y: showChat ? 0 : "100%" }}
+          transition={{ duration: 0.3 }}
         >
           <ChatComponent
             socket={socket}
             roomId={(roomId as string) || ""}
             setShowChat={setShowChat}
           />
-        </div>
+        </motion.div>
 
         <div className="w-full">
           {/* <VideoComponent /> */}
