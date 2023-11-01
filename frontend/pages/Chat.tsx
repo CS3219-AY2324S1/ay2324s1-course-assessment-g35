@@ -102,10 +102,12 @@ export default function Chat() {
       </div>
       <div className="flex w-1/6 h-screen">
         <motion.div
-          className={`w-1/6 absolute bottom-0 h-screen`}
-          initial={{ y: 0 }}
-          animate={{ y: showChat ? 0 : "100%" }}
-          transition={{ duration: 0.3 }}
+          className={`w-1/6 ${
+            showChat ? "block" : "hidden"
+          } absolute bottom-0 h-screen`}
+          initial={{ y: "100%", opacity: 0 }}
+          animate={{ y: showChat ? 0 : "100%", opacity: showChat ? 1 : 0 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
         >
           <ChatComponent
             socket={socket}
