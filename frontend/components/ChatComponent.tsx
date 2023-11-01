@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Socket } from "socket.io-client";
+import { MdOutlineClose } from "react-icons/md";
 
 interface ChatComponentProps {
   roomId: string;
   socket: Socket;
+  setShowChat: (val: boolean) => void;
 }
 
 type Message = {
@@ -13,12 +15,14 @@ type Message = {
   time: string;
 };
 
-const ChatComponent: React.FC<ChatComponentProps> = ({ socket, roomId }) => {
+const ChatComponent: React.FC<ChatComponentProps> = ({
+  socket,
+  roomId,
+  setShowChat,
+}) => {
   const [currentMessage, setCurrentMessage] = useState<string>("");
-  const [allMessage, setAllMessage] = useState<Message[]>(() => {
-    const storedMessages = localStorage.getItem("chatMessages");
-    return storedMessages ? JSON.parse(storedMessages) : [];
-  });
+  const [allMessage, setAllMessage] = useState<Message[]>([]);
+  const [sender, setSender] = useState<string>("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -36,7 +40,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ socket, roomId }) => {
     if (currentMessage !== "") {
       const messageData: Message = {
         roomId: roomId,
-        author: socket?.id || "",
+        author: sender || "",
         message: currentMessage,
         time: `${hours}:${minutes}:${seconds}`,
       };
@@ -45,9 +49,9 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ socket, roomId }) => {
     }
   };
 
-  useMemo(() => {
+  useEffect(() => {
     socket.off("receive_message").on("receive_message", (data: Message) => {
-      setAllMessage((prevMessages) => [...prevMessages, data]);
+      setAllMessage((prevMessages) => [...prevMessages, data]); //update message state
     });
     return () => {
       if (socket) {
@@ -57,6 +61,17 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ socket, roomId }) => {
   }, [socket]);
 
   useEffect(() => {
+    const storedMessages = localStorage.getItem("chatMessages");
+    const sender = localStorage.getItem("user");
+    setSender(sender || "Not set");
+    alert(sender);
+    const messages: Message[] = storedMessages
+      ? JSON.parse(storedMessages)
+      : [];
+    setAllMessage(messages);
+  }, []);
+
+  useEffect(() => {
     localStorage.setItem("chatMessages", JSON.stringify(allMessage));
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -64,27 +79,30 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ socket, roomId }) => {
   }, [allMessage]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-full bg-gray-100 text-gray-800 p-10">
-      <div className="flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden">
+    <div className="flex flex-col items-center justify-center h-full  relative">
+      <MdOutlineClose
+        className="absolute top-4 right-6 cursor-pointer hover:text-red-500"
+        size={24}
+        onClick={() => setShowChat(false)}
+      />
+      <div className="flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden pt-6">
         <div className="flex flex-col flex-grow h-0 p-4 overflow-auto w-full">
           {allMessage.map((message, index) => (
             <div
               key={index}
               className={`flex w-full mt-2 space-x-3 ${
-                message.author === socket?.id ? "justify-start" : "justify-end"
+                message.author === sender ? "justify-start" : "justify-end"
               }`}
             >
               <div
                 className={`flex-shrink-0 h-10 w-10 rounded-full  ${
-                  message.author === socket?.id ? "bg-blue-300 " : "bg-gray-300"
+                  message.author === sender ? "bg-blue-300 " : "bg-gray-300"
                 }`}
               ></div>
               <div>
                 <div
                   className={` p-3 rounded-r-lg rounded-bl-lg ${
-                    message.author === socket?.id
-                      ? "bg-blue-300"
-                      : "bg-gray-300"
+                    message.author === sender ? "bg-blue-300" : "bg-gray-300"
                   }`}
                 >
                   <p className="text-sm">{message.message}</p>
