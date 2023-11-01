@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { USER_URI } from "@/constants/uri";
 
 interface LoginFormProps {
   toggleForm: () => void;
@@ -25,7 +26,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8000/login", {
+      const response = await axios.post(USER_URI.LOGIN, {
         username: username,
         password: password,
       });

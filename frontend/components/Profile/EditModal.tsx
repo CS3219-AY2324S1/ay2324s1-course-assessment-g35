@@ -1,3 +1,4 @@
+import { USER_URI } from "@/constants/uri";
 import axios from "axios";
 import { useState } from "react";
 
@@ -30,7 +31,7 @@ const EditModal: React.FC<ModalProps> = ({ setIsModalOpen, fetchAndSetUser }) =>
         },
       };
       const response = await axios.post(
-        "http://localhost:8000/edit",
+        USER_URI.EDIT,
         payload,
         config
       );

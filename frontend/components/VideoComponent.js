@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Peer from "simple-peer";
 import io from "socket.io-client";
-import { Button, ButtonGroup } from "@chakra-ui/react";
+import Button from "@material-ui/core/Button";
 import { useRouter } from "next/router";
 
 let socket;

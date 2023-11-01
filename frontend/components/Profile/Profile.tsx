@@ -2,6 +2,7 @@ import { useState } from "react";
 import { UserType } from "@/pages/Profile";
 import axios from "axios";
 import router from "next/router";
+import { USER_URI } from "@/constants/uri";
 
 interface AboutProps {
   user: UserType | undefined;
@@ -14,7 +15,7 @@ const Profile: React.FC<AboutProps> = ({ user, fetchAndSetUser }) => {
   const handleDeleteClick = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.delete("http://localhost:8000/", {
+      const response = await axios.delete(USER_URI.DELETE, {
         headers: {
           Authorization: `${token}`,
         },
@@ -55,7 +56,7 @@ const Profile: React.FC<AboutProps> = ({ user, fetchAndSetUser }) => {
         },
       };
       const response = await axios.post(
-        "http://localhost:8000/edit",
+        USER_URI.EDIT,
         payload,
         config
       );

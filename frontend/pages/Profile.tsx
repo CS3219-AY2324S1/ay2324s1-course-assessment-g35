@@ -5,6 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Container } from "@chakra-ui/react";
+import { USER_URI } from "@/constants/uri";
 
 export interface UserType {
   username: string;
@@ -21,7 +22,7 @@ export default function Profile() {
   const fetchAndSetUser = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:8000/", {
+      const response = await axios.get(USER_URI.GET_TOKEN, {
         headers: {
           Authorization: `${token}`,
         },

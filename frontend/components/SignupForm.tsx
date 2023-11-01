@@ -1,3 +1,4 @@
+import { USER_URI } from "@/constants/uri";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -35,7 +36,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
         email: email,
       };
       console.log(body);
-      const response = await axios.post("http://localhost:8000/", body);
+      const response = await axios.post(USER_URI.REGISTER, body);
       console.log(response.data);
       alert("Account created successfully!");
       toggleForm()

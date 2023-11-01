@@ -8,6 +8,7 @@ import CodeEditor from "@/components/Collaboration/CodeEditor";
 import axios from "axios";
 import { Question } from "@/components/Collaboration/QuestionDisplay";
 import QuestionDisplay from "@/components/Collaboration/QuestionDisplay";
+import { CHATSERVICE_URI, QUESTION_URI } from "@/constants/uri";
 
 export default function Chat() {
   const router = useRouter();
@@ -31,7 +32,7 @@ export default function Chat() {
 
   const getQuestion = () => {
     axios
-      .get(`http://localhost:8001/random/difficulty?difficulty=${difficulty}`)
+      .get(`${QUESTION_URI.GET}?difficulty=${difficulty}`)
       .then((res) => {
         setQuestion(res.data);
         localStorage.setItem("question", JSON.stringify(res.data)); //todo: remove upon completion
@@ -64,7 +65,7 @@ export default function Chat() {
   };
 
   const socket: Socket = useMemo(() => {
-    const newSocket = io("http://localhost:3002");
+    const newSocket = io(CHATSERVICE_URI);
     newSocket.on("connect", () => {
       newSocket.emit("join_room", roomId);
     });

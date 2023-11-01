@@ -20,6 +20,7 @@ import axios from "axios";
 import Questions from "@/components/Index/Questions";
 import Profile from "@/components/Profile/Profile";
 import { LogoutIcon, ProfileIcon } from "@/icons";
+import { MATCHINGSERVICE_URI, USER_URI } from "@/constants/uri";
 
 export interface UserType {
   username: string;
@@ -56,7 +57,7 @@ const Match = () => {
   const fetchAndSetUser = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:8000/", {
+      const response = await axios.get(USER_URI.GET_TOKEN, {
         headers: {
           Authorization: `${token}`,
         },
@@ -123,7 +124,7 @@ const Match = () => {
 
   const socketInitializer = async () => {
     const token = localStorage.getItem("token");
-    socket = io("http://localhost:3001", {
+    socket = io(MATCHINGSERVICE_URI, {
       auth: {
         token: token,
       },
@@ -143,8 +144,7 @@ const Match = () => {
       setShowModal(true);
       setButtonText("START MATCHING");
       setTimeout(() => {
-        const chatLink = `http://localhost:3000/Collab?roomId=${msg.roomId}&myId=${msg.myId}&otherId=${msg.otherId}&difficulty=${msg.difficulty}`;
-        router.push(chatLink);
+        router.push(`/Collab?roomId=${msg.roomId}&myId=${msg.myId}&otherId=${msg.otherId}&difficulty=${msg.difficulty}`);
       }, 3000);
     });
 
