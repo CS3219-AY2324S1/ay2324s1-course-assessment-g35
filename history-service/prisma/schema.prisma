@@ -11,10 +11,12 @@ datasource db {
 }
 
 model history {
-  roomid     String   @id
+  roomid     String
   user1      String
   user2      String
   time       DateTime
   code       String
   questionid Int
+
+  @@id([roomid, questionid])
 }

@@ -28,8 +28,7 @@ exports.historyRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, f
 }));
 exports.historyRouter.get("/all", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userId = typeof req.query.userId === "string" ? req.query.userId : "";
-        const history = yield (0, service_1.findHistoryByUserId)(userId);
+        const history = yield (0, service_1.getAllHistory)();
         return res.status(200).json(history);
     }
     catch (error) {
