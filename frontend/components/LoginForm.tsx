@@ -28,7 +28,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ toggleForm }: LoginFormProps) => 
         password: password,
       });
       localStorage.setItem("token", response.data.token);
-      router.push("/Main");
+      router.push("/");
     } catch (error: any) {
       setError(error?.response?.data?.message || "Error signing in!");
     }

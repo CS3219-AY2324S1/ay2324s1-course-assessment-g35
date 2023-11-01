@@ -1,3 +1,4 @@
+import { get } from 'http';
 import { useEffect, useRef, useState } from 'react';
 
 function VideoCall({myId, otherId}) {
@@ -5,11 +6,9 @@ function VideoCall({myId, otherId}) {
   const remoteVideoRef = useRef(null);
   const currentUserVideoRef = useRef(null);
   const peerInstance = useRef(null);
+  const mediaStreamRef = useRef(null); // store the media stream so that we can stop it later
 
   useEffect(() => {
-
-    console.log('myId', myId);
-    console.log('otherId', otherId);
 
     if (typeof window !== 'undefined' && myId && otherId) {
         const Peer = require('peerjs').default; // Import PeerJS here
@@ -25,16 +24,29 @@ function VideoCall({myId, otherId}) {
         });
 
         peer.on('call', (call) => {
-            var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+            // check if there exists prior connection with other user
+            if (peerInstance.current && peerInstance.current._connections[otherId]) { // todo: might not work
+                console.log('already connected to ' + otherId);
+                return;
+            }
 
-            getUserMedia({ video: true, audio: true }, (mediaStream) => {
-                currentUserVideoRef.current.srcObject = mediaStream;
-                currentUserVideoRef.current.play();
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            .then((mediaStream) => { // get video and audio stream from device, stream contains mult tracks
+                mediaStreamRef.current = mediaStream;
+                currentUserVideoRef.current.srcObject = mediaStream; // set video's srcObject to the stream
+                currentUserVideoRef.current.onloadedmetadata = (e) => {
+                  currentUserVideoRef.current.play().catch(console.error);
+                };
                 call.answer(mediaStream)
                 call.on('stream', function(remoteStream) {
                     remoteVideoRef.current.srcObject = remoteStream
-                    remoteVideoRef.current.play();
+                    remoteVideoRef.current.onloadedmetadata = (e) => {
+                      remoteVideoRef.current.play().catch(console.error);
+                    }
                 });
+            })
+            .catch((err) => {
+                alert('Error getting user media: ' + err.message);
             });
         })
 
@@ -42,6 +54,12 @@ function VideoCall({myId, otherId}) {
     }
 
     return () => {
+      if (mediaStreamRef.current) {
+        // Stop all tracks in the media stream
+        mediaStreamRef.current.getTracks().forEach((track) => {
+          track.stop();
+        });
+      }
         if (peerInstance.current) {
             peerInstance.current.destroy();
         }
@@ -53,33 +71,44 @@ function VideoCall({myId, otherId}) {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((mediaStream) => {
+        mediaStreamRef.current = mediaStream;
+        currentUserVideoRef.current.srcObject = mediaStream;
+        currentUserVideoRef.current.onloadedmetadata = (e) => {
+          currentUserVideoRef.current.play().catch(console.error);
+        };
 
-      currentUserVideoRef.current.srcObject = mediaStream;
-      currentUserVideoRef.current.play();
+        applySavedState();
 
-      // Get saved video and audio state
-      const savedVideoState = localStorage.getItem('videoState');
-      const isVideoOn = savedVideoState !== null ? (savedVideoState == 'on') : true;
-      console.log('isVideoOn', isVideoOn);
-      const videoTracks = currentUserVideoRef.current.srcObject.getVideoTracks();
-      videoTracks.forEach(track => {
-        track.enabled = isVideoOn;
-      });
-      const savedAudioState = localStorage.getItem('audioState');
-      const isAudioOn = savedAudioState !== null ? (savedAudioState == 'on') : true;
-      console.log('isAudioOn', isAudioOn);
-      const audioTracks = currentUserVideoRef.current.srcObject.getAudioTracks();
-      audioTracks.forEach(track => {
-          track.enabled = isAudioOn;
-      });
+        const call = peerInstance.current.call(remotePeerId, mediaStream)
 
-      const call = peerInstance.current.call(remotePeerId, mediaStream)
-
-      call.on('stream', (remoteStream) => {
-        remoteVideoRef.current.srcObject = remoteStream
-        remoteVideoRef.current.play();
-      });
+        call.on('stream', (remoteStream) => {
+          remoteVideoRef.current.srcObject = remoteStream
+          remoteVideoRef.current.onloadedmetadata = (e) => {
+            remoteVideoRef.current.play().catch(console.error);
+          }
+        })
+    })
+    .catch((err) => {
+        alert('Error getting user media: ' + err.message);
     });
+  }
+
+  const applySavedState = () => {
+    // Get saved video and audio state
+    const savedVideoState = localStorage.getItem('videoState');
+    const isVideoOn = savedVideoState !== null ? (savedVideoState == 'on') : true;
+    const videoTracks = currentUserVideoRef.current.srcObject.getVideoTracks();
+    videoTracks.forEach(track => {
+      track.enabled = isVideoOn;
+    });
+    const savedAudioState = localStorage.getItem('audioState');
+    const isAudioOn = savedAudioState !== null ? (savedAudioState == 'on') : true;
+    const audioTracks = currentUserVideoRef.current.srcObject.getAudioTracks();
+    audioTracks.forEach(track => {
+        track.enabled = isAudioOn;
+    });
+    console.log('isVideoOn', isVideoOn);
+    console.log('isAudioOn', isAudioOn);
   }
 
   const toggleAudio = () => {

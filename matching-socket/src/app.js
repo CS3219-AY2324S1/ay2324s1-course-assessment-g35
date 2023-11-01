@@ -53,11 +53,13 @@ io.on("connection", (socket) => {
         roomId: roomId,
         myId: firstUserId,
         otherId: secondUserId,
+        difficulty: msg.difficulty,
       };
       const roomDetails2 = {
         roomId: roomId,
         myId: secondUserId,
         otherId: firstUserId,
+        difficulty: msg.difficulty,
       };
       console.log("RoomId is " + roomId);
       socket.emit("match", roomDetails1);

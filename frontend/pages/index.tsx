@@ -14,10 +14,10 @@ import io from "socket.io-client";
 import { useEffect, useState } from "react";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
-import Countdown from "@/components/Main/Countdown";
+import Countdown from "@/components/Index/Countdown";
 import { useRouter } from "next/router";
 import axios from "axios";
-import Questions from "@/components/Main/Questions";
+import Questions from "@/components/Index/Questions";
 import Profile from "@/components/Profile/Profile";
 import { LogoutIcon, ProfileIcon } from "@/icons";
 
@@ -33,6 +33,7 @@ type MatchMessage = {
   roomId: string;
   myId: string;
   otherId: string;
+  difficulty: string;
 };
 
 const Match = () => {
@@ -133,7 +134,7 @@ const Match = () => {
     });
 
     socket.on("connect_error", (err: any) => {
-      alert(err.message);
+      console.error(err.message);
     });
 
     socket.on("match", (msg: MatchMessage) => {
@@ -142,7 +143,7 @@ const Match = () => {
       setShowModal(true);
       setButtonText("START MATCHING");
       setTimeout(() => {
-        const chatLink = `http://localhost:3000/Chat?roomId=${msg.roomId}&myId=${msg.myId}&otherId=${msg.otherId}`;
+        const chatLink = `http://localhost:3000/Chat?roomId=${msg.roomId}&myId=${msg.myId}&otherId=${msg.otherId}&difficulty=${msg.difficulty}`;
         router.push(chatLink);
       }, 3000);
     });
@@ -152,7 +153,7 @@ const Match = () => {
     });
   };
 
-  useEffect(() => {
+  useEffect(() => { // todo: might need a cleanup function
     socketInitializer();
   }, []);
   // End of matching related
@@ -229,7 +230,9 @@ const Match = () => {
         isCentered
       >
         <ModalOverlay />
-        <ModalContent style={{ padding: '20px', height: "400px", borderRadius: "20px" }}>
+        <ModalContent
+          style={{ padding: "20px", height: "400px", borderRadius: "20px" }}
+        >
           <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -305,7 +308,7 @@ const Match = () => {
                     </option>
                   ))}
                 </Select>
-                
+
                 {/* TODO: get the button to route to the matching screen instead */}
                 <div className="flex items-center ml-6">
                   <div
