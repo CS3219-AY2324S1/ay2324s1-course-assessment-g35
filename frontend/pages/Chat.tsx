@@ -11,7 +11,6 @@ import QuestionDisplay from "@/components/Collaboration/QuestionDisplay";
 
 export default function Chat() {
   const router = useRouter();
-  console.log(router.query);
   const { roomId, myId, otherId, difficulty } = router.query;
   const [showChat, setShowChat] = useState<boolean>(false);
   const [question, setQuestion] = useState<Question>();
@@ -33,7 +32,6 @@ export default function Chat() {
 
   const getQuestion = () => {
     axios.get(`http://localhost:8001/random/difficulty?difficulty=${difficulty}`).then((res) => {
-      console.log("QUESTION RESPONSE DATA: ", res.data);
       setQuestion(res.data);
       localStorage.setItem("question", JSON.stringify(res.data)); //todo: remove upon completion
 
@@ -70,7 +68,6 @@ export default function Chat() {
       newSocket.emit("join_room", roomId);
     });
     newSocket.on("question", (question) => {
-      console.log(question);
       setQuestion(question);
     });
     return newSocket;
