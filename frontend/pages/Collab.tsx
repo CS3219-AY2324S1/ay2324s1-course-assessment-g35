@@ -102,26 +102,11 @@ function Collab() {
           />
         )}
 
-        <div className="w-2/6 flex flex-col gap-3 p-6">
-          <QuestionDisplay question={question} />
-          <button className="bg-slate-300 rounded p-2" onClick={getQuestion}>
-            Change Question
-          </button>
-
-          {/* <button
-            className="bg-slate-400 rounded p-2"
-            onClick={handleSaveProgress}
-          >
-            Save Progress
-          </button>
-          <button
-            className="bg-slate-500 rounded p-2"
-            onClick={handleSaveAndLeave}
-          >
-            Save and Leave
-          </button> */}
+        <div className="bg-pp-accentgray font-poppins w-4/12 h-screen flex flex-col gap-3 p-4">
+          <QuestionDisplay question={question} getQuestion={getQuestion}/>
         </div>
-        <div className="w-3/6">
+
+        <div className="w-6/12">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -146,7 +131,8 @@ function Collab() {
             Show Chat / Video
           </button>
         </div>
-        <div className="flex w-1/6 h-screen">
+
+        <div className="flex w-2/12 h-screen">
           <div
             className={`w-1/6 absolute bottom-0 h-screen ${
               showChat ? "block" : "hidden"
