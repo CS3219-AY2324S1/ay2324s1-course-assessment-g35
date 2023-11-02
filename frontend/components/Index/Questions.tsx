@@ -1,6 +1,8 @@
 // TODO: get questions from the service rather than hardcoding
 const Questions: React.FC = () => {
   return (
+    // TODO: when styling, add font-poppins to the texts
+    
     <div className="rounded-[30px] bg-pp-gray px-9 py-8">
       <div className=" grid-colsgrid-2">
         <div>
