@@ -4,7 +4,7 @@
 import mongoose from "mongoose";
 import { Question } from "./models/questionModel";
 
-const mongoURI = `mongodb://root:cs3219isgood@${process.env.HISTORY_DB_URL}:27017`;
+const mongoURI = `mongodb://root:cs3219isgood@${process.env.QUESTION_DB_URL}:27017`;
 console.log(mongoURI);
 mongoose.connect(mongoURI, {
   dbName: "CS3219",

@@ -16,7 +16,7 @@ spec:
         - name: questions
           image: yuehern/questions-service:latest
           env:
-            - name: HISTORY_DB_URL
+            - name: QUESTION_DB_URL
               value: "34.118.229.101" # Set the database connection URL
 
           ports:
