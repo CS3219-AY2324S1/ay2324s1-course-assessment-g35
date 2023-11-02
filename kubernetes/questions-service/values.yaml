@@ -20,7 +20,7 @@ spec:
               value: "34.118.229.101" # Set the database connection URL
 
           ports:
-            - containerPort: 80  # Adjust the port as needed
+            - containerPort: 8000  # Adjust the port as needed
           resources:
             limits:
               cpu: "0.5"  # Maximum CPU limit (0.5 CPU cores)
@@ -37,7 +37,7 @@ spec:
   ports:
     - protocol: TCP
       port: 8000
-      targetPort: 80
+      targetPort: 8000
   type: ClusterIP  # Specifies a LoadBalancer service type
 ---
 apiVersion: v1
@@ -50,5 +50,5 @@ spec:
   ports:
     - protocol: TCP
       port: 8000
-      targetPort: 80
+      targetPort: 8000
   type: LoadBalancer  # Specifies a LoadBalancer service type

@@ -3,3 +3,5 @@ node_modules/
 jenkins-gke-key.json
 frontend/credentials.ts
 frontend/.env
+questions-service/.env
+questions-service/.envrc
