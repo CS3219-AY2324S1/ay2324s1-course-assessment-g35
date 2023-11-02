@@ -20,6 +20,8 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
   const [stderr, setStderr] = useState("");
   const langs = ["java", "go", "python", "c", "cpp", "javascript"];
 
+  const [showResults, setShowResults] = useState<boolean>(false)
+
   useEffect(() => {
     setSelectedLang("c");
   }, []);
@@ -57,6 +59,7 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
 
   const runCode = () => {
     setLoading(true);
+    setShowResults(true);
     const body = {
       files: [
         {
@@ -91,10 +94,10 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
       {/* initialize the code mirror with spaces already */}
       <div className="flex flex-col gap-3 text-black">
         <Select
-          options={langs.sort()}
-          onChange={(evn) =>
-            handleLangChange(evn.target.value as keyof typeof langs)
-          }
+            options={langs.sort()}
+            onChange={(evn) =>
+              handleLangChange(evn.target.value as keyof typeof langs)
+            }
         />
         <CodeMirror
             value={code}
@@ -114,13 +117,15 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
         >
           Run code
         </div>
-
-        <CodeResults 
-            results={output}
-            isLoading={loading}
-            errorMsg={error}
-            stderr={stderr}
+        
+        {showResults && (
+          <CodeResults 
+          results={output}
+          isLoading={loading}
+          errorMsg={error}
+          stderr={stderr}
         />
+        )}
       </div>
     </>
   );
