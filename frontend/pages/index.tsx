@@ -13,6 +13,7 @@ import MatchingModal from "@/components/Index/MatchingModal";
 import LogOutModal from "@/components/Index/LogOutModal";
 import { MATCHINGSERVICE_URI, USER_URI } from "@/constants/uri";
 import withAuth from "@/components/withAuth";
+import QuestionRow from "@/components/Index/Questions/QuestionRow";
 
 export interface UserType {
   username: string;
@@ -276,13 +277,28 @@ const Dashboard = () => {
           </div>
         </div>
 
+        {/* NOTE: just for reference when building */}
+        {/* <QuestionRow 
+          title={"Question title"}
+          description={"Lorem ipsum"}
+          difficulty={"Hard"}
+          category={['Database', 'Algorithms', 'Strings']}   
+          date={"2/11/2023"}     
+        />
+        <QuestionRow 
+          title={"Question title"}
+          description={"Lorem ipsum"}
+          difficulty={"Hard"}
+          category={['Database', 'Algorithms', 'Strings']}   
+          date={"2/11/2023"}     
+        /> */}
+
         {/* TODO: get questions from question service */}
         <div>
           <div className="ml-11 mr-11 rounded-[20px]">
             <Questions />
           </div>
         </div>
-
         {/* TODO: activity sidebar */}
       </div>
     </>
