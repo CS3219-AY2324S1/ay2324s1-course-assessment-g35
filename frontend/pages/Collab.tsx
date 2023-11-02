@@ -11,12 +11,15 @@ import QuestionDisplay from "@/components/Collaboration/QuestionDisplay";
 import { CHATSERVICE_URI, QUESTION_URI } from "@/constants/uri";
 import withAuth from "@/components/withAuth";
 import SaveModal from "@/components/Collaboration/SaveModal";
+import { Button } from "@chakra-ui/react";
+import CodeGenModal from "@/components/Collaboration/CodeGenModal";
 
 function Collab() {
   const router = useRouter();
   const { roomId, myId, otherId, difficulty } = router.query;
   const [showChat, setShowChat] = useState<boolean>(false);
   const [question, setQuestion] = useState<Question>();
+  const [showGenerateModal, setShowGenerateModal] = useState<boolean>(false);
 
   // useEffect to retrieve question if none found in localstorage
   useEffect(() => {
@@ -82,8 +85,16 @@ function Collab() {
     router.push("/");
   };
 
+  const openCodeGenModal = () => {
+    setShowGenerateModal(true);
+  };
+
   const handleCloseModal = () => {
     setShowSaveModal(false);
+  };
+
+  const handleCloseCodeGenModal = () => {
+    setShowGenerateModal(false);
   };
 
   return (
@@ -92,6 +103,14 @@ function Collab() {
         href="https://fonts.googleapis.com/css?family=Poppins"
         rel="stylesheet"
       ></link>
+      <div>
+        {showGenerateModal && (
+          <CodeGenModal
+            handleCloseModal={handleCloseCodeGenModal}
+            setShowCodeGenModal={setShowGenerateModal}
+          />
+        )}
+      </div>
       <div className="h-screen w-screen flex bg-pp-darkpurple text-white">
         {showSaveModal && (
           <SaveModal
@@ -103,9 +122,8 @@ function Collab() {
         )}
 
         <div className="bg-pp-accentgray font-poppins w-4/12 h-screen flex flex-col gap-3 p-4">
-          <QuestionDisplay question={question} getQuestion={getQuestion}/>
+          <QuestionDisplay question={question} getQuestion={getQuestion} />
         </div>
-
         <div className="w-6/12">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -122,6 +140,8 @@ function Collab() {
               d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15M9 12l3 3m0 0l3-3m-3 3V2.25"
             />
           </svg>
+          <Button onClick={openCodeGenModal}>Generate</Button>
+
           <CodeEditor roomId={roomId || ""} />
 
           <button
