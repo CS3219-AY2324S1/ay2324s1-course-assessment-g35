@@ -1,5 +1,6 @@
 // boilerplate for displaying a question
 import React from "react";
+import ReactMarkdown from 'react-markdown';
 
 export type Question = {
     _id: string;
@@ -17,7 +18,8 @@ export default function QuestionDisplay({ question }: QuestionDisplayProps) {
     return (
         <div className="bg-pp-gray p-6 rounded-lg shadow-lg text-white">
             <h2 className="text-2xl font-semibold mb-4">{question?.title}</h2>
-            <p>{question?.description}</p>
+            {/* <p>{question?.description}</p> */}
+            <ReactMarkdown>{question?.description}</ReactMarkdown>
         </div>
     );
     }
