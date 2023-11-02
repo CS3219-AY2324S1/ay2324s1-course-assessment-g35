@@ -39,6 +39,7 @@ const Dashboard = () => {
 
   const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
   const [showLogOutModal, setShowLogOutModal] = useState<boolean>(false);
+  const [showMatchingModal, setShowMatchingModal] = useState<boolean>(false);
 
   const [matchWithoutDifficulty, setMatchWithoutDifficulty] =
     useState<boolean>(false);
@@ -92,6 +93,7 @@ const Dashboard = () => {
   // Start of matching related
   const stopMatching = () => {
     setMatchingStarted(false);
+    setShowMatchingModal(false);
     socket.emit("leave", { difficulty: difficulty });
   };
 
@@ -102,6 +104,7 @@ const Dashboard = () => {
       // Start matching PROCESS
       if (difficulty != "") {
         setMatchingStarted(true);
+        setShowMatchingModal(true);
         socket.emit("queue", {
           difficulty: difficulty,
         });
@@ -153,8 +156,7 @@ const Dashboard = () => {
         href="https://fonts.googleapis.com/css?family=Poppins"
         rel="stylesheet"
       ></link>
-      <div className="flex flex-col h-screen w-screen bg-pp-darkpurple">
-        {showProfileModal && (
+      {showProfileModal && (
           <ProfileModal
             user={user}
             fetchAndSetUser={fetchAndSetUser}
@@ -171,19 +173,22 @@ const Dashboard = () => {
           />
         )}
 
-        {matchingStarted && (
+        {showMatchingModal && matchingStarted && (
           <MatchingModal
             handleMatching={handleMatching}
             matchFound={matchFound}
+            setShowMatchingModal={setShowMatchingModal}
           />
         )}
+
+      <div className="flex flex-col h-screen w-screen bg-pp-darkpurple">
         {matchFound && (
           <Confetti
             width={width}
             height={height}
             colors={["#88D9E6", "#69B6C2", "#6C6EA0", "#FFFFFF", "#BEE460"]}
             drawShape={(ctx) => {
-              // NOTE: i can change this later i just thought it's fun that you can change the shapes
+              // NOTE: can change it later lol
               ctx.beginPath();
               for (let i = 0; i < 22; i++) {
                 const angle = 0.2 * i;
