@@ -10,10 +10,13 @@ module.exports = {
   ],
   theme: {
     extend: {
-
-      // fontFamily: {
-      //   'poppins': ['Poppins', 'sans'],
-      // },
+      fontFamily: {
+        poppins: ['Poppins'],
+      },
+      
+      backgroundImage: {
+        'login-pattern': "url('../public/images/login-title.png')",
+      },
 
       colors: {
         'pp-red': '#FF1053',

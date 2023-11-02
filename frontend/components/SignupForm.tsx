@@ -13,7 +13,6 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const router = useRouter();
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -39,7 +38,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
       const response = await axios.post(USER_URI.REGISTER, body);
       console.log(response.data);
       alert("Account created successfully!");
-      toggleForm()
+      toggleForm();
     } catch (error: any) {
       console.error(error);
       alert(error.message || "An error occurred!");
@@ -47,9 +46,15 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
   };
 
   return (
-    <div 
-      className="bg-pp-darkpurple h-full w-full flex justify-center items-center"
-      style={{ flexDirection: "column", }}>
+    <>
+      <link
+        href="https://fonts.googleapis.com/css?family=Poppins"
+        rel="stylesheet"
+      ></link>
+      <div
+        className="bg-pp-darkpurple h-full w-full flex justify-center items-center"
+        style={{ flexDirection: "column" }}
+      >
         <h1 className="font-poppins text-white text-xl font-bold leading-tight tracking-tight md:text-2xl my-4">
           Welcome to PeerPrep!
         </h1>
@@ -93,22 +98,23 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
 
           <button
             onClick={handleSubmit}
-            className="rounded-3xl w-full text-white bg-pp-lightblue hover:bg-pp-darkblue focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium text-sm px-5 py-2.5 text-center"
+            className="font-poppins rounded-3xl w-full text-white bg-pp-blue hover:bg-pp-accentblue focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium text-sm px-5 py-2.5 text-center"
           >
             Sign up
           </button>
 
-          <p className="text-sm font-light text-white">
+          <p className="font-poppins text-sm font-light text-white">
             Already have an account?{" "}
             <span
               onClick={toggleForm}
-              className="text-pp-lightblue font-bold text-primary-600 hover:underline dark:text-primary-500"
+              className="font-poppins text-pp-blue font-bold text-primary-600 hover:underline dark:text-primary-500"
             >
               Login
             </span>
           </p>
         </form>
       </div>
+    </>
   );
 };
 

@@ -29,7 +29,7 @@ type MatchMessage = {
   difficulty: string;
 };
 
-const Index = () => {
+const Dashboard = () => {
   const router = useRouter();
   const { width, height } = useWindowSize();
 
@@ -129,7 +129,9 @@ const Index = () => {
     socket.on("match", (msg: MatchMessage) => {
       setMatchFound(true);
       setTimeout(() => {
-        router.push(`/Collab?roomId=${msg.roomId}&myId=${msg.myId}&otherId=${msg.otherId}&difficulty=${msg.difficulty}`);
+        router.push(
+          `/Collab?roomId=${msg.roomId}&myId=${msg.myId}&otherId=${msg.otherId}&difficulty=${msg.difficulty}`
+        );
       }, 3000);
     });
 
@@ -145,142 +147,149 @@ const Index = () => {
   // End of matching related
 
   return (
-    <div className="flex flex-col h-screen w-screen bg-pp-darkpurple">
-      {showProfileModal && (
-        <ProfileModal
-          user={user}
-          fetchAndSetUser={fetchAndSetUser}
-          setShowProfileModal={setShowProfileModal}
-          handleCloseModal={handleCloseModal}
-        />
-      )}
+    <>
+      <link
+        href="https://fonts.googleapis.com/css?family=Poppins"
+        rel="stylesheet"
+      ></link>
+      <div className="flex flex-col h-screen w-screen bg-pp-darkpurple">
+        {showProfileModal && (
+          <ProfileModal
+            user={user}
+            fetchAndSetUser={fetchAndSetUser}
+            setShowProfileModal={setShowProfileModal}
+            handleCloseModal={handleCloseModal}
+          />
+        )}
 
-      {showLogOutModal && (
-        <LogOutModal
-          setShowLogOutModal={setShowLogOutModal}
-          confirmLogOut={confirmLogout}
-          handleCloseModal={handleCloseModal}
-        />
-      )}
+        {showLogOutModal && (
+          <LogOutModal
+            setShowLogOutModal={setShowLogOutModal}
+            confirmLogOut={confirmLogout}
+            handleCloseModal={handleCloseModal}
+          />
+        )}
 
-      {matchingStarted && (
-        <MatchingModal
-          handleMatching={handleMatching}
-          matchFound={matchFound}
-        />
-      )}
-      {matchFound && (
-        <Confetti
-          width={width}
-          height={height}
-          colors={["#88D9E6", "#69B6C2", "#6C6EA0", "#FFFFFF", "#BEE460"]}
-          drawShape={(ctx) => {
-            // NOTE: i can change this later i just thought it's fun that you can change the shapes
-            ctx.beginPath();
-            for (let i = 0; i < 22; i++) {
-              const angle = 0.2 * i;
-              const x = (0.2 + 1.5 * angle) * Math.cos(angle);
-              const y = (0.2 + 1.5 * angle) * Math.sin(angle);
-              ctx.lineTo(x, y);
-            }
-            ctx.stroke();
-            ctx.closePath();
-          }}
-        />
-      )}
+        {matchingStarted && (
+          <MatchingModal
+            handleMatching={handleMatching}
+            matchFound={matchFound}
+          />
+        )}
+        {matchFound && (
+          <Confetti
+            width={width}
+            height={height}
+            colors={["#88D9E6", "#69B6C2", "#6C6EA0", "#FFFFFF", "#BEE460"]}
+            drawShape={(ctx) => {
+              // NOTE: i can change this later i just thought it's fun that you can change the shapes
+              ctx.beginPath();
+              for (let i = 0; i < 22; i++) {
+                const angle = 0.2 * i;
+                const x = (0.2 + 1.5 * angle) * Math.cos(angle);
+                const y = (0.2 + 1.5 * angle) * Math.sin(angle);
+                ctx.lineTo(x, y);
+              }
+              ctx.stroke();
+              ctx.closePath();
+            }}
+          />
+        )}
 
-      <div className="bg-gradient-to-r from-pp-blue to-pp-lightpurple flex-col ml-11 mr-11 my-10 rounded-[20px]">
-        <div className="px-9 py-8">
-          <div className="flex justify-between">
-            <Tooltip
-              label="Profile"
-              aria-label="Profile"
-              bg="pp-blue"
-              closeDelay={200}
-            >
-              <div onClick={handleProfile} className="cursor-pointer">
-                <ProfileIcon />
-              </div>
-            </Tooltip>
-            <Tooltip
-              label="Log out"
-              aria-label="Logout"
-              bg="pp-darkpurple"
-              closeDelay={200}
-            >
-              <div className="cursor-pointer" onClick={handleLogout}>
-                <LogoutIcon />
-              </div>
-            </Tooltip>
-          </div>
-          <div className="flex justify-between">
-            <div className="flex-col">
-              <h1 className="text-white text-6xl font-bold tracking-wide mt-40">
-                Hello {user?.username}!
-              </h1>
-
-              <h2 className="text-white text-md font-medium">
-                Ready to PeerPrep today?
-              </h2>
+        <div className="bg-gradient-to-r from-pp-blue to-pp-lightpurple flex-col ml-11 mr-11 my-10 rounded-[20px]">
+          <div className="px-9 py-8">
+            <div className="flex justify-between">
+              <Tooltip
+                label="Profile"
+                aria-label="Profile"
+                bg="pp-blue"
+                closeDelay={200}
+              >
+                <div onClick={handleProfile} className="cursor-pointer">
+                  <ProfileIcon />
+                </div>
+              </Tooltip>
+              <Tooltip
+                label="Log out"
+                aria-label="Logout"
+                bg="pp-darkpurple"
+                closeDelay={200}
+              >
+                <div className="cursor-pointer" onClick={handleLogout}>
+                  <LogoutIcon />
+                </div>
+              </Tooltip>
             </div>
-            <div className="flex-col mt-44">
-              {matchWithoutDifficulty && (
-                <label className="text-md font-medium text-pp-red">
-                  Please choose a difficulty
-                </label>
-              )}
+            <div className="flex justify-between">
+              <div className="flex-col">
+                {/* TODO: edit the weight of the fonts */}
+                <h1 className="font-poppins text-white text-6xl font-bold tracking-wide mt-40">
+                  Hello {user?.username}!
+                </h1>
 
-              {!matchWithoutDifficulty && (
-                <label className="text-md font-medium text-white">
-                  Select a difficulty level
-                </label>
-              )}
+                <h2 className="font-poppins text-white text-md font-medium">
+                  Ready to PeerPrep today?
+                </h2>
+              </div>
+              <div className="flex-col mt-44">
+                {matchWithoutDifficulty && (
+                  <label className="font-poppins text-md font-medium text-pp-red">
+                    Please choose a difficulty
+                  </label>
+                )}
 
-              <div className="flex items-center mt-2">
-                <Select
-                  bg="white"
-                  width={44}
-                  placeholder="Difficulty Level"
-                  className="cursor-pointer bg-white text-pp-darkpurple"
-                  onChange={handleOptionChange}
-                  value={difficulty}
-                >
-                  {dropdownOptions.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </Select>
+                {!matchWithoutDifficulty && (
+                  <label className="font-poppins text-md font-medium text-white">
+                    Select a difficulty level
+                  </label>
+                )}
 
-                <div
-                  className="ml-6 bg-pp-blue hover:bg-pp-accentblue w-60 rounded-[30px] p-2 text-white text-center font-bold cursor-pointer"
-                  onClick={handleMatching}
-                >
-                  Get matched
-                  {matchingStarted && (
-                    <Countdown
-                      seconds={30}
-                      isRunning={matchingStarted}
-                      onTimerEnd={stopMatching}
-                    />
-                  )}
+                <div className="flex items-center mt-2">
+                  <Select
+                    bg="white"
+                    width={44}
+                    placeholder="Difficulty Level"
+                    className="font-poppins cursor-pointer bg-white text-pp-darkpurple"
+                    onChange={handleOptionChange}
+                    value={difficulty}
+                  >
+                    {dropdownOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </Select>
+
+                  <div
+                    className="font-poppins ml-6 bg-pp-blue hover:bg-pp-accentblue w-60 rounded-[30px] p-2 text-white text-center font-bold cursor-pointer"
+                    onClick={handleMatching}
+                  >
+                    Get matched
+                    {matchingStarted && (
+                      <Countdown
+                        seconds={30}
+                        isRunning={matchingStarted}
+                        onTimerEnd={stopMatching}
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* TODO: get questions from question service */}
-      <div>
-        <div className="ml-11 mr-11 rounded-[20px]">
-          <Questions />
+        {/* TODO: get questions from question service */}
+        <div>
+          <div className="ml-11 mr-11 rounded-[20px]">
+            <Questions />
+          </div>
         </div>
-      </div>
 
-      {/* TODO: activity sidebar */}
-    </div>
+        {/* TODO: activity sidebar */}
+      </div>
+    </>
   );
 };
 
-export default withAuth(Index);
+export default Dashboard;

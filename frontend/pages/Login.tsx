@@ -10,14 +10,14 @@ export default function Login() {
   };
 
   return (
+    <>
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet"></link>
     <div className="flex items-center justify-center h-screen w-screen">
       <div className="w-5/12 h-full">
 
         <div
-          className="bg-gradient-to-r from-pp-blue to-pp-lightpurple h-full flex justify-center items-center"
+          className="bg-login-pattern bg-no-repeat bg-center h-full flex justify-center items-center"
           style={{
-            backgroundImage: "../public/images/login-title.png",
-            backgroundSize: "cover",
             flexDirection: "column",
           }}
         >
@@ -47,5 +47,6 @@ export default function Login() {
         )}
       </div>
     </div>
+    </>
   );
 }
