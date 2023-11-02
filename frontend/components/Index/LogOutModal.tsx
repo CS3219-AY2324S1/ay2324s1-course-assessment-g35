@@ -1,9 +1,9 @@
 import {
   Modal,
-  ModalOverlay,
-  ModalContent,
   ModalBody,
+  ModalContent,
   ModalHeader,
+  ModalOverlay,
 } from "@chakra-ui/react";
 
 interface LogOutModalProps {

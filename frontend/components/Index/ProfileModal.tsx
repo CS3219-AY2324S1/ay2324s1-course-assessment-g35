@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import router from "next/router";
 
-import { Modal, ModalContent, ModalOverlay } from "@chakra-ui/react";
+import { Modal, ModalContent, ModalHeader, ModalOverlay } from "@chakra-ui/react";
 
 export interface UserType {
   username: string;
@@ -146,8 +146,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
 
               <div>
                 <button
-                  // TODO: get a pp-dark-red for the hover
-                  className="bg-pp-red hover:bg-pp-darkred text-white py-2 px-4 rounded-3xl"
+                  className="font-poppins bg-pp-red hover:bg-pp-darkred text-white py-2 px-4 rounded-3xl"
                   onClick={handleDeleteClick}
                 >
                   Delete account
