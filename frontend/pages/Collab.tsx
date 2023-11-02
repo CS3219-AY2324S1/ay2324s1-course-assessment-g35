@@ -9,8 +9,9 @@ import axios from "axios";
 import { Question } from "@/components/Collaboration/QuestionDisplay";
 import QuestionDisplay from "@/components/Collaboration/QuestionDisplay";
 import { CHATSERVICE_URI, QUESTION_URI } from "@/constants/uri";
+import withAuth from "@/components/withAuth";
 
-export default function Chat() {
+function Collab() {
   const router = useRouter();
   const { roomId, myId, otherId, difficulty } = router.query;
   const [showChat, setShowChat] = useState<boolean>(false);
@@ -120,3 +121,5 @@ export default function Chat() {
     </div>
   );
 }
+
+export default withAuth(Collab);

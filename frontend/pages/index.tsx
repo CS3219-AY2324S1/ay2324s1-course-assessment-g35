@@ -12,6 +12,7 @@ import ProfileModal from "@/components/Index/ProfileModal";
 import MatchingModal from "@/components/Index/MatchingModal";
 import LogOutModal from "@/components/Index/LogOutModal";
 import { MATCHINGSERVICE_URI, USER_URI } from "@/constants/uri";
+import withAuth from "@/components/withAuth";
 
 export interface UserType {
   username: string;
@@ -28,7 +29,7 @@ type MatchMessage = {
   difficulty: string;
 };
 
-const Match = () => {
+const Index = () => {
   const router = useRouter();
   const { width, height } = useWindowSize();
 
@@ -282,4 +283,4 @@ const Match = () => {
   );
 };
 
-export default Match;
+export default withAuth(Index);
