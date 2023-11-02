@@ -103,7 +103,7 @@ function Collab() {
         )}
 
         <div className="bg-pp-accentgray font-poppins w-4/12 h-screen flex flex-col gap-3 p-4">
-          <QuestionDisplay question={question} getQuestion={getQuestion}/>
+          <QuestionDisplay question={question} getQuestion={getQuestion} />
         </div>
 
         <div className="w-6/12">
