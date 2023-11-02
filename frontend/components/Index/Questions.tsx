@@ -1,5 +1,28 @@
+import { Spinner } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+type History = {
+  roomid: string;
+  user1: string;
+  user2: string;
+  time: string; // It's a string in the provided JSON, but consider using a Date if that's the actual type
+  code: string;
+  questionid: number; // Assuming it's a number, adjust the type if it's different
+};
+
 // TODO: get questions from the service rather than hardcoding
 const Questions: React.FC = () => {
+  const [historyData, setHistoryData] = useState<History[]>([]);
+  const [historyLoading, setHistoryLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    fetch(`http://35.227.201.105?userId=c69376b0-a16e-474e-8665-aca86e19e143`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setHistoryLoading(false);
+        setHistoryData(data);
+      });
+  }, []);
   return (
     // TODO: when styling, add font-poppins to the texts
     
@@ -12,32 +35,31 @@ const Questions: React.FC = () => {
             </span>
           </div>
           <ul className="list-inside space-y-2">
-            <div className="flex justify-between">
-              <div className="text-white font-bold">
-                Largest Sum Of Averages
-              </div>
-              <div className="text-white">12 September 2023</div>
-            </div>
-            <div className="flex justify-between">
-              <div className="text-white font-bold">
-                Maximum Profit As Salesman
-              </div>
-              <div className="text-white">12 September 2023</div>
-            </div>
-            <div className="flex justify-between">
-              <div className="text-white font-bold">
-                Construct Longest New String
-              </div>
-              <div className="text-white">12 September 2023</div>
-            </div>
-            <div className="flex justify-between">
-              <div className="text-white font-bold">Sum Of Subarray Ranges</div>
-              <div className="text-white">12 September 2023</div>
-            </div>
+            {historyData ? (
+              historyData.map((data) => {
+                return <HistoryItem question={data} />;
+              })
+            ) : (
+              <></>
+            )}
           </ul>
         </div>
       </div>
     </div>
+  );
+};
+
+const HistoryItem = (question: History) => {
+  console.log(question.question);
+  return (
+    <>
+      <div className="flex justify-between">
+        <div className="text-white font-bold">
+          {question.question.questionid}
+        </div>
+        <div className="text-white">12 September 2023</div>
+      </div>
+    </>
   );
 };
 export default Questions;
