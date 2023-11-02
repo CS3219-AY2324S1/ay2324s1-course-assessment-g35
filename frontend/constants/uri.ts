@@ -9,6 +9,7 @@ export const USER_URI = {
     EDIT: `${USERSERVICE_URI}/edit`,
     DELETE: `${USERSERVICE_URI}`,
     GET_TOKEN: `${USERSERVICE_URI}`,
+    VERIFY_TOKEN: `${USERSERVICE_URI}/verify`,
 };
 
 const QUESTIONSERVICE_URI = 'http://localhost:8001';

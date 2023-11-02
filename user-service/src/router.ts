@@ -124,3 +124,7 @@ userRouter.post("/login", async (req, res) => {
     return res.status(500).json(error.message);
   }
 });
+
+userRouter.get("/verify", verifyJWT, (_req, res) => {
+  return res.sendStatus(204);
+});
