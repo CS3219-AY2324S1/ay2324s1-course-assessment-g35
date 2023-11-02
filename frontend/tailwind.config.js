@@ -17,13 +17,20 @@ module.exports = {
 
       colors: {
         'pp-red': '#FF1053',
-        'pp-lightblue': '#88D9E6',
-        'pp-darkblue': '#69B6C2',
+        'pp-accentred': '#FF80A3',
+        'pp-darkred': '#E10B47',
+
+        'pp-blue': '#88D9E6',
+        'pp-accentblue': '#5F98A1',
+
+        'pp-green': '#BEE460',
+        'pp-accentgreen': '#A0BC5A',
+        
         'pp-gray': '#2E2A36',
+        'pp-accentgray': '#413D48',
+
         'pp-darkpurple': '#190B28',
         'pp-lightpurple': '#6C6EA0',
-        'pp-green': '#BEE460',
-
       },
     },
   },

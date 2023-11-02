@@ -188,13 +188,13 @@ const Match = () => {
         />
       )}
 
-      <div className="bg-gradient-to-r from-pp-lightblue to-pp-lightpurple flex-col ml-11 mr-11 my-10 rounded-[20px]">
+      <div className="bg-gradient-to-r from-pp-blue to-pp-lightpurple flex-col ml-11 mr-11 my-10 rounded-[20px]">
         <div className="px-9 py-8">
           <div className="flex justify-between">
             <Tooltip
               label="Profile"
               aria-label="Profile"
-              bg="pp-lightblue"
+              bg="pp-blue"
               closeDelay={200}
             >
               <div onClick={handleProfile} className="cursor-pointer">
@@ -252,7 +252,7 @@ const Match = () => {
                 </Select>
 
                 <div
-                  className="ml-6 bg-pp-lightblue w-60 rounded-[30px] p-2 text-white text-center font-bold cursor-pointer"
+                  className="ml-6 bg-pp-blue hover:bg-pp-accentblue w-60 rounded-[30px] p-2 text-white text-center font-bold cursor-pointer"
                   onClick={handleMatching}
                 >
                   Get matched

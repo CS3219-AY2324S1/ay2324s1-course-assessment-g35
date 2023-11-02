@@ -31,7 +31,7 @@ export default function LogOutModal({
         <ModalBody className="flex justify-between">
           <div
             onClick={confirmLogOut}
-            className="bg-pp-lightblue hover:bg-pp-darkblue w-40 rounded-3xl p-2 text-white text-center font-bold cursor-pointer"
+            className="bg-pp-blue hover:bg-pp-accentblue w-40 rounded-3xl p-2 text-white text-center font-bold cursor-pointer"
           >
             Yes, log out
           </div>

@@ -97,7 +97,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
 
         <button
           onClick={handleSubmit}
-          className="rounded-3xl w-full text-white bg-pp-lightblue hover:bg-pp-darkblue focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium text-sm px-5 py-2.5 text-center"
+          className="rounded-3xl w-full text-white bg-pp-blue hover:bg-pp-accentblue focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium text-sm px-5 py-2.5 text-center"
         >
           Login
         </button>
@@ -106,7 +106,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
           Don’t have an account yet?{" "}
           <span
             onClick={toggleForm}
-            className="text-pp-lightblue font-bold text-primary-600 hover:underline dark:text-primary-500"
+            className="text-pp-blue font-bold text-primary-600 hover:underline dark:text-primary-500"
           >
             Sign up
           </span>

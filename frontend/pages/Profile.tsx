@@ -1,6 +1,4 @@
-import About from "@/components/Profile/Profile";
-import Description from "@/components/Profile/Description";
-import Questions from "@/components/Index/Questions";
+import About from "@/components/Profile";
 import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -17,7 +15,6 @@ export default function Profile() {
   //fetch user data using axios
   const [user, setUser] = useState<UserType>();
   const [loading, setLoading] = useState<boolean>(true);
-  const router = useRouter();
 
   const fetchAndSetUser = async () => {
     try {

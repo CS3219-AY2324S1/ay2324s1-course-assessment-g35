@@ -36,7 +36,7 @@ export default function MatchingModal({
           viewBox="0 0 24 24"
           strokeWidth={3}
           stroke="currentColor"
-          className="w-6 h-6 text-pp-lightblue cursor-pointer"
+          className="w-6 h-6 text-pp-blue cursor-pointer"
           onClick={handleClick}
         >
           <path
@@ -69,7 +69,7 @@ export default function MatchingModal({
             <div role="status">
               <svg
                 aria-hidden="true"
-                className="w-8 h-8 mr-2 text-white animate-spin fill-pp-lightblue"
+                className="w-8 h-8 mr-2 text-white animate-spin fill-pp-blue"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"

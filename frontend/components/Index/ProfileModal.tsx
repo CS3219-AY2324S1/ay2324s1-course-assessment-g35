@@ -93,7 +93,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
             viewBox="0 0 24 24"
             strokeWidth={3}
             stroke="currentColor"
-            className="w-6 h-6 text-pp-lightblue cursor-pointer"
+            className="w-6 h-6 text-pp-blue cursor-pointer"
             onClick={handleCloseModal}
           >
             <path
@@ -137,7 +137,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
                   <button
                     onClick={handleSubmit}
                     type="submit"
-                    className="font-poppins bg-pp-lightblue text-white px-4 py-2 rounded-3xl hover:bg-pp-darkblue"
+                    className="font-poppins bg-pp-blue text-white px-4 py-2 rounded-3xl hover:bg-pp-accentblue"
                   >
                     Update profile
                   </button>
@@ -147,7 +147,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
               <div>
                 <button
                   // TODO: get a pp-dark-red for the hover
-                  className="bg-pp-red hover:bg-red-700 text-white py-2 px-4 rounded-3xl"
+                  className="bg-pp-red hover:bg-pp-darkred text-white py-2 px-4 rounded-3xl"
                   onClick={handleDeleteClick}
                 >
                   Delete account
