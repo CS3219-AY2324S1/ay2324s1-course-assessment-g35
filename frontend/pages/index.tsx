@@ -39,8 +39,7 @@ const Dashboard = () => {
   const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
   const [showLogOutModal, setShowLogOutModal] = useState<boolean>(false);
 
-  const [matchWithoutDifficulty, setMatchWithoutDifficulty] =
-    useState<boolean>(false);
+  const [matchWithoutDifficulty, setMatchWithoutDifficulty] = useState<boolean>(false);
   const [matchingStarted, setMatchingStarted] = useState<boolean>(false);
   const [matchFound, setMatchFound] = useState<boolean>(false);
 
