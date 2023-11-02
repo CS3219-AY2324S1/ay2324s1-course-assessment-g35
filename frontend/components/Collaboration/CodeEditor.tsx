@@ -111,12 +111,13 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
               indentOnInput: false,
             }}
         />
-        <div
-          className="h-2/12 w-40 bg-pp-blue hover:bg-pp-accentblue py-2 px-4 rounded-[30px] text-white text-center font-bold cursor-pointer"
+
+        <button
           onClick={runCode}
+          className="w-40 bg-pp-blue hover:bg-pp-accentblue rounded-3xl py-2 cursor-pointer font-poppins font-bold text-base text-white tracking-tight"
         >
           Run code
-        </div>
+        </button>
         
         {showResults && (
           <CodeResults 

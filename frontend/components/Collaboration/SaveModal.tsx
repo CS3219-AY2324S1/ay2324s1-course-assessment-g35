@@ -44,18 +44,18 @@ export default function SaveModal({
           </ModalHeader>
 
           <ModalBody className="flex justify-between">
-            <div
+            <button
               onClick={handleSave}
-              className="font-poppins bg-pp-blue hover:bg-pp-accentblue w-40 rounded-3xl p-2 text-white text-center font-bold cursor-pointer"
+              className="bg-pp-blue hover:bg-pp-accentblue rounded-3xl w-40 py-2 px-4 cursor-pointer font-poppins font-bold text-base text-white tracking-tighter"
             >
               Save
-            </div>
-            <div
+            </button>
+            <button
               onClick={handleSaveAndLeave}
-              className="font-poppins bg-pp-blue hover:bg-pp-accentblue w-40 rounded-3xl p-2 text-white text-center font-bold cursor-pointer"
+              className="bg-pp-blue hover:bg-pp-accentblue rounded-3xl w-40 py-2 px-4 cursor-pointer font-poppins font-bold text-base text-white tracking-tighter"
             >
               Save & leave
-            </div>
+            </button>
           </ModalBody>
         </ModalContent>
       </Modal>

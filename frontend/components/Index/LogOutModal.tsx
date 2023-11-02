@@ -21,22 +21,22 @@ export default function LogOutModal({
     <Modal isOpen={true} onClose={() => setShowLogOutModal(false)} isCentered>
       <ModalOverlay />
       <ModalContent className="p-2" style={{ borderRadius: "20px" }}>
-        <ModalHeader className="font-poppins text-pp-darkpurple">
+        <ModalHeader className="font-poppins text-2xl text-pp-darkpurple tracking-tighter">
           Log out from PeerPrep?
         </ModalHeader>
         <ModalBody className="flex justify-between">
-          <div
+          <button
             onClick={confirmLogOut}
-            className="font-poppins bg-pp-blue hover:bg-pp-accentblue w-40 rounded-3xl p-2 text-white text-center font-bold cursor-pointer"
+            className="bg-pp-blue hover:bg-pp-accentblue w-40 rounded-3xl p-2 cursor-pointer font-poppins font-bold text-base text-white tracking-tighter"
           >
             Yes, log out
-          </div>
-          <div
+          </button>
+          <button
             onClick={handleCloseModal}
-            className="font-poppins w-40 p-2 text-pp-darkpurple text-center font-bold cursor-pointer"
+            className="w-40 rounded-3xl p-2 cursor-pointer font-poppins font-bold text-base text-pp-darkpurple tracking-tighter"
           >
             Cancel
-          </div>
+          </button>
         </ModalBody>
       </ModalContent>
     </Modal>

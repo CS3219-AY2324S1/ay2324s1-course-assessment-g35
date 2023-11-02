@@ -39,7 +39,8 @@ const Dashboard = () => {
   const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
   const [showLogOutModal, setShowLogOutModal] = useState<boolean>(false);
 
-  const [matchWithoutDifficulty, setMatchWithoutDifficulty] = useState<boolean>(false);
+  const [matchWithoutDifficulty, setMatchWithoutDifficulty] =
+    useState<boolean>(false);
   const [matchingStarted, setMatchingStarted] = useState<boolean>(false);
   const [matchFound, setMatchFound] = useState<boolean>(false);
 
@@ -221,34 +222,32 @@ const Dashboard = () => {
             </div>
             <div className="flex justify-between">
               <div className="flex-col">
-                {/* TODO: edit the weight of the fonts */}
-                <h1 className="font-poppins text-white text-6xl font-bold tracking-wide mt-40">
+                <h1 className="font-poppins text-white text-6xl font-black tracking-tight mt-40">
                   Hello {user?.username}!
                 </h1>
-
-                <h2 className="font-poppins text-white text-md font-medium">
+                <p className="font-poppins text-white text-2xl mt-2 tracking-tight">
                   Ready to PeerPrep today?
-                </h2>
+                </p>
               </div>
               <div className="flex-col mt-44">
                 {matchWithoutDifficulty && (
-                  <label className="font-poppins text-md font-medium text-pp-red">
+                  <label className="font-poppins text-base tracking-tight text-pp-red">
                     Please choose a difficulty
                   </label>
                 )}
 
                 {!matchWithoutDifficulty && (
-                  <label className="font-poppins text-md font-medium text-white">
+                  <label className="font-poppins text-base tracking-tight text-white">
                     Select a difficulty level
                   </label>
                 )}
 
-                <div className="flex items-center mt-2">
+                <div className="flex flex-row space-x-4 items-center mt-2">
                   <Select
                     bg="white"
                     width={44}
                     placeholder="Difficulty Level"
-                    className="font-poppins cursor-pointer bg-white text-pp-darkpurple"
+                    className="font-poppins cursor-pointer bg-white text-pp-darkpurple tracking-tight"
                     onChange={handleOptionChange}
                     value={difficulty}
                   >
@@ -258,10 +257,9 @@ const Dashboard = () => {
                       </option>
                     ))}
                   </Select>
-
-                  <div
-                    className="font-poppins ml-6 bg-pp-blue hover:bg-pp-accentblue w-60 rounded-[30px] p-2 text-white text-center font-bold cursor-pointer"
+                  <button
                     onClick={handleMatching}
+                    className="bg-pp-blue hover:bg-pp-accentblue w-40 rounded-3xl p-2 cursor-pointer font-poppins font-bold text-lg text-white tracking-tight"
                   >
                     Get matched
                     {matchingStarted && (
@@ -271,7 +269,7 @@ const Dashboard = () => {
                         onTimerEnd={stopMatching}
                       />
                     )}
-                  </div>
+                  </button>
                 </div>
               </div>
             </div>

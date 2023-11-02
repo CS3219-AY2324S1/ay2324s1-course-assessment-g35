@@ -45,7 +45,7 @@ export default function MatchingModal({
             d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
           />
         </svg>
-        <p className="font-poppins text-white">Stop matching</p>
+        <p className="font-poppins text-white tracking-tight text-base">Stop matching</p>
       </div>
       <div
         className="flex items-center justify-center h-screen w-screen"
@@ -53,7 +53,7 @@ export default function MatchingModal({
           flexDirection: "column",
         }}
       >
-        <h1 className="font-poppins text-white text-xl font-bold leading-tight tracking-tight md:text-2xl">
+        <h1 className="font-poppins text-white text-2xl font-bold tracking-tighter">
           {matchFound
             ? "We've found you a peer!"
             : "Hold on...we're finding you a peer"}
@@ -87,7 +87,7 @@ export default function MatchingModal({
           </div>
         )}
 
-        <p className="duration-1000 font-poppins text-white md:mt-4">
+        <p className="duration-1000 font-poppins text-white text-base tracking-tight mt-4">
           {matchFound ? "Taking you to your collab room now" : randomFact}
         </p>
       </div>

@@ -19,7 +19,7 @@ export default function CodeResults({
 }: ResultSectionProps) {
   return (
     <div className="bg-white p-4 rounded-[20px] flex flex-col gap-4 p-4">
-      <h2 className="text-2xl font-semibold">Results</h2>
+      <p className="text-2xl font-bold tracking-tight">Results</p>
       {isLoading ? (
         <div role="status">
           <svg

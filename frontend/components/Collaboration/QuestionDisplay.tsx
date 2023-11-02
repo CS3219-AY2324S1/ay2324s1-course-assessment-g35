@@ -1,6 +1,6 @@
 import React from "react";
 import Tag from "../Tag";
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown from "react-markdown";
 
 export type Question = {
   _id: string;
@@ -21,10 +21,10 @@ export default function QuestionDisplay({
 }: QuestionDisplayProps) {
   return (
     <>
-      {/* NOTE: This is the actual implementation, will uncomment when the questions are linked */}
+      {/* NOTE: When questions linked, uncomment this but make sure the styling is the same as below if any changes */}
       {/* <div className="flex row justify-between items-center px-2">
-        <h2 className="text-2xl font-semibold">{question?.title}</h2>
-        <p className="text-sm">{question?.difficulty}</p>
+        <h2 className="text-2xl font-bold tracking-tight">{question?.title}</h2>
+        <p className="text-base tracking-tight">{question?.difficulty}</p>
       </div>
       
       <div className="flex row space-between space-x-1 px-2">
@@ -34,12 +34,12 @@ export default function QuestionDisplay({
       </div>
 
       <div className="overflow-scroll">
-        <p className="text-sm px-2">{question?.description}</p>
+        <p className="text-base px-2 tracking-tight">{question?.description}</p>
       </div>
 
       <div className="flex row justify-center">
         <div
-          className="h-2/12 w-60 bg-pp-blue hover:bg-pp-accentblue py-2 px-4 rounded-[30px] text-white text-center font-bold cursor-pointer"
+          className="h-2/12 w-60 bg-pp-blue hover:bg-pp-accentblue py-2 px-4 rounded-3xl text-white text-center font-bold cursor-pointer"
           onClick={getQuestion}
         >
           Change question
@@ -48,10 +48,10 @@ export default function QuestionDisplay({
 
       {/* NOTE: below is for display purposes only, will delete when the questions are linked */}
       <div className="flex row justify-between items-center px-2">
-        <h2 className="text-2xl font-semibold">Question Title</h2>
-        <p>Difficulty Level</p>
+        <h2 className="text-2xl font-bold tracking-tight">Question Title</h2>
+        <p className="text-base tracking-tight"> Difficulty Level</p>
       </div>
-      
+
       <div className="flex row space-between space-x-1 px-2">
         <Tag title={"Databses"} />
         <Tag title={"Strings"} />
@@ -60,8 +60,8 @@ export default function QuestionDisplay({
 
       <div className="overflow-scroll">
         <ReactMarkdown>{question?.description}</ReactMarkdown>
-        <p className="text-sm px-2">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+        <p className="text-base px-2 tracking-tight">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
           dignissim iaculis ipsum et porta. Ut sit amet metus ut neque
           vestibulum mollis. Praesent at erat augue. Duis a tortor ornare,
           gravida leo vel, dignissim elit. Aliquam vitae mi lacus. Aenean vitae
@@ -100,12 +100,12 @@ export default function QuestionDisplay({
       </div>
 
       <div className="flex row justify-center">
-        <div
-          className="h-2/12 w-60 bg-pp-blue hover:bg-pp-accentblue py-2 px-4 rounded-[30px] text-white text-center font-bold cursor-pointer"
+        <button
           onClick={getQuestion}
+          className="bg-pp-blue hover:bg-pp-accentblue rounded-3xl py-2 px-6 cursor-pointer font-poppins font-bold text-base text-white tracking-tight"
         >
           Change question
-        </div>
+        </button>
       </div>
     </>
   );

@@ -2,7 +2,11 @@ import { useState } from "react";
 import axios from "axios";
 import router from "next/router";
 
-import { Modal, ModalContent, ModalHeader, ModalOverlay } from "@chakra-ui/react";
+import {
+  Modal,
+  ModalContent,
+  ModalOverlay,
+} from "@chakra-ui/react";
 
 export interface UserType {
   username: string;
@@ -105,48 +109,44 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
         </div>
 
         <div className="w-full h-full">
-          <div
-            className="h-full flex justify-center"
-            style={{ flexDirection: "column" }}
-          >
-            <div>
-              <div className="font-poppins">Username</div>
-              <div className="mt-2 rounded-3xl text-pp-gray bg-gray-400 font-poppins sm:text-sm block w-full p-2.5 focus:outline-none">
-                {user?.username}
+          <div className="h-full flex flex-col gap-y-4 justify-center">
+              <div className="flex flex-col gap-y-2">
+                <p className="font-poppins text-base tracking-tigher">Username</p>
+                <div className="rounded-3xl text-pp-gray bg-gray-400 font-poppins text-sm block w-full p-2.5 focus:outline-none tracking-tight">
+                  {user?.username}
+                </div>
               </div>
-              <form className="md:space-y-4" onSubmit={handleSubmit}>
-                <div>
-                  <div className="font-poppins mt-2">Email</div>
+              <div className="flex flex-col gap-y-2">
+                <p className="font-poppins text-base">Email</p>
+                <form onSubmit={handleSubmit}>
                   <input
                     type="text"
                     name="email"
                     id="emailChange"
                     placeholder={user?.email}
-                    className="mt-2 rounded-3xl bg-pp-gray text-white font-poppins sm:text-sm block w-full p-2.5 focus:outline-none"
+                    className="rounded-3xl bg-pp-gray text-white font-poppins text-sm block w-full p-2.5 focus:outline-none tracking-tight"
                     required
                     value={email}
                     onChange={handleEmail}
                   />
-                </div>
-              </form>
-            </div>
+                </form>
+              </div>
 
-            <div className="mt-6 flex justify-between">
+            <div className="flex justify-between">
               <div>
                 {isChangedEmail && (
                   <button
                     onClick={handleSubmit}
                     type="submit"
-                    className="font-poppins bg-pp-blue text-white px-4 py-2 rounded-3xl hover:bg-pp-accentblue"
+                    className="bg-pp-blue hover:bg-pp-accentblue w-40 rounded-3xl p-2 cursor-pointer font-poppins text-base text-white tracking-tight"
                   >
                     Update profile
                   </button>
                 )}
               </div>
-
               <div>
                 <button
-                  className="font-poppins bg-pp-red hover:bg-pp-darkred text-white py-2 px-4 rounded-3xl"
+                  className="bg-pp-red hover:bg-pp-darkred w-40 rounded-3xl p-2 cursor-pointer font-poppins text-base text-white tracking-tight"
                   onClick={handleDeleteClick}
                 >
                   Delete account
