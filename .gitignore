@@ -1,5 +1,7 @@
 yarn.lock
 node_modules/
-jenkins-gke-key.json
+history-service/.env
+history-service/.envrc
 frontend/credentials.ts
 frontend/.env
+jenkins-gke-key.json
