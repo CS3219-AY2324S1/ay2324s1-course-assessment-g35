@@ -1,0 +1,158 @@
+import React, { useEffect, useMemo, useState } from "react";
+import ChatComponent from "@/components/ChatComponent";
+import { useRouter } from "next/router";
+import { Socket } from "socket.io-client";
+import io from "socket.io-client";
+import VideoCall from "@/components/VideoCall";
+import CodeEditor from "@/components/Collaboration/CodeEditor";
+import axios from "axios";
+import { Question } from "@/components/Collaboration/QuestionDisplay";
+import QuestionDisplay from "@/components/Collaboration/QuestionDisplay";
+import { CHATSERVICE_URI, QUESTION_URI } from "@/constants/uri";
+import withAuth from "@/components/withAuth";
+import SaveModal from "@/components/Collaboration/SaveModal";
+
+function Collab() {
+  const router = useRouter();
+  const { roomId, myId, otherId, difficulty } = router.query;
+  const [showChat, setShowChat] = useState<boolean>(false);
+  const [question, setQuestion] = useState<Question>();
+
+  // useEffect to retrieve question if none found in localstorage
+  useEffect(() => {
+    if (localStorage.getItem("question")) {
+      setQuestion(JSON.parse(localStorage.getItem("question") as string));
+    } else {
+      getQuestion();
+    }
+
+    // cleanup socket, but not local storage
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  const getQuestion = () => {
+    axios
+      .get(`${QUESTION_URI.GET}?difficulty=${difficulty}`)
+      .then((res) => {
+        setQuestion(res.data);
+        localStorage.setItem("question", JSON.stringify(res.data)); //todo: remove upon completion
+
+        const questionPayload = {
+          roomId: roomId,
+          question: res.data,
+        };
+
+        socket.emit("question", questionPayload);
+      })
+      .catch((err) => {
+        alert("Error getting question. Please try again later. " + err);
+      });
+  };
+
+  const socket: Socket = useMemo(() => {
+    const newSocket = io(CHATSERVICE_URI);
+    newSocket.on("connect", () => {
+      newSocket.emit("join_room", roomId);
+    });
+    newSocket.on("question", (question) => {
+      setQuestion(question);
+    });
+    return newSocket;
+  }, [roomId]);
+
+  const [showSaveModal, setShowSaveModal] = useState<boolean>(false);
+  const handleSaveClick = () => {
+    setShowSaveModal(true);
+  };
+
+  const handleSave = () => {
+    console.log("SAVING PROGRESS");
+    // make call to history service to save qid, uid1, uid2, roomid, and code
+  };
+
+  const handleSaveAndLeave = () => {
+    console.log("SAVING PROGRESS AND LEAVING");
+    // make call to history service to save qid, uid1, uid2, roomid, and code
+
+    //CLEANUP local storage only
+    localStorage.removeItem("question");
+
+    router.push("/");
+  };
+
+  const handleCloseModal = () => {
+    setShowSaveModal(false);
+  };
+
+  return (
+    <>
+      <link
+        href="https://fonts.googleapis.com/css?family=Poppins"
+        rel="stylesheet"
+      ></link>
+      <div className="h-screen w-screen flex bg-pp-darkpurple text-white">
+        {showSaveModal && (
+          <SaveModal
+            handleSave={handleSave}
+            handleSaveAndLeave={handleSaveAndLeave}
+            handleCloseModal={handleCloseModal}
+            setShowSaveModal={setShowSaveModal}
+          />
+        )}
+
+        <div className="bg-pp-accentgray font-poppins w-4/12 h-screen flex flex-col gap-3 p-4">
+          <QuestionDisplay question={question} getQuestion={getQuestion}/>
+        </div>
+
+        <div className="w-6/12">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="text-pp-blue w-6 h-6"
+            onClick={handleSaveClick}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15M9 12l3 3m0 0l3-3m-3 3V2.25"
+            />
+          </svg>
+          <CodeEditor roomId={roomId || ""} />
+
+          <button
+            className="bg-slate-900 rounded p-2"
+            onClick={() => setShowChat(!showChat)}
+          >
+            Show Chat / Video
+          </button>
+        </div>
+
+        <div className="flex w-2/12 h-screen">
+          <div
+            className={`w-1/6 absolute bottom-0 h-screen ${
+              showChat ? "block" : "hidden"
+            }`}
+          >
+            <ChatComponent
+              socket={socket}
+              roomId={(roomId as string) || ""}
+              setShowChat={setShowChat}
+            />
+          </div>
+
+          <div className="w-full h-full bg-pp-gray">
+            {/* <VideoComponent /> */}
+            <VideoCall myId={myId} otherId={otherId} />
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default withAuth(Collab);

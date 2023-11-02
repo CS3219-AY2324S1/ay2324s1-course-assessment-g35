@@ -1,5 +1,11 @@
 import express from "express";
-import { createUser, deleteUser, editUser, findUserByUsernameReturnsAllFields, findUserByIdReturnsWithoutPw } from "./service";
+import {
+  createUser,
+  deleteUser,
+  editUser,
+  findUserByUsernameReturnsAllFields,
+  findUserByIdReturnsWithoutPw,
+} from "./service";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import verifyJWT from "./middleware/verifyJWT";
@@ -17,7 +23,7 @@ userRouter.get("/", verifyJWT, async (req, res) => {
       error: "Request missing id",
     });
   }
-  console.log('id', req.userPayload.id);
+  console.log("id", req.userPayload.id);
   try {
     const users = await findUserByIdReturnsWithoutPw(req.userPayload.id);
     return res.status(200).json(users);
@@ -68,7 +74,6 @@ userRouter.delete("/", verifyJWT, async (req, res) => {
   }
 });
 
-
 // ------------------ Authentication ------------------
 userRouter.post("/login", async (req, res) => {
   try {
@@ -82,7 +87,9 @@ userRouter.post("/login", async (req, res) => {
     const user = await findUserByUsernameReturnsAllFields(username);
     console.log(user);
     if (!user) {
-      return res.status(400).json({ message: "Invalid username. User not found." });
+      return res
+        .status(400)
+        .json({ message: "Invalid username. User not found." });
     }
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (isMatch) {
@@ -102,6 +109,7 @@ userRouter.post("/login", async (req, res) => {
               return res.status(200).json({
                 success: true,
                 token: "Bearer " + token,
+                username: user.username,
               });
             }
           }
@@ -115,4 +123,8 @@ userRouter.post("/login", async (req, res) => {
   } catch (error: any) {
     return res.status(500).json(error.message);
   }
+});
+
+userRouter.get("/verify", verifyJWT, (_req, res) => {
+  return res.sendStatus(204);
 });

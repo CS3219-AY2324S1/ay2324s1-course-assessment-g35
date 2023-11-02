@@ -1,11 +1,19 @@
 import React, { useState } from "react";
-import axios, { Axios, AxiosError } from "axios";
-import { useRouter } from 'next/router';
+import axios from "axios";
+import { useRouter } from "next/router";
+import { USER_URI } from "@/constants/uri";
 
-const LoginForm: React.FC = () => {
+interface LoginFormProps {
+  toggleForm: () => void;
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({
+  toggleForm,
+}: LoginFormProps) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
 
   const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -18,111 +26,99 @@ const LoginForm: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8000/login", {
+      const response = await axios.post(USER_URI.LOGIN, {
         username: username,
         password: password,
       });
       localStorage.setItem("token", response.data.token);
-      console.log(response.data.token);
-      router.push('/');
-
+      localStorage.setItem("user", response.data.username);
+      router.push("/");
     } catch (error: any) {
-      console.log(error);
-      alert(error.response.data.message || "An error occurred when signing in!");
+      setError(error?.response?.data?.message || "Error signing in!");
     }
   };
   return (
-    <div className="bg-gray-50 w-full h-full">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0">
-          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
-              Sign in to your account
-            </h1>
-            <form className="space-y-4 md:space-y-6">
-              <div>
-                <label
-                  htmlFor="username"
-                  className="block mb-2 text-sm font-medium text-gray-900 "
-                >
-                  Username
-                </label>
-                <input
-                  type="username"
-                  name="username"
-                  id="username"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 focus:outline-none  "
-                  placeholder="john123"
-                  required
-                  value={username}
-                  onChange={handleUsernameChange}
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Password
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="••••••••"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 focus:outline-none"
-                  required
-                  value={password}
-                  onChange={handlePasswordChange}
-                />
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-start">
-                  <div className="flex items-center h-5">
-                    <input
-                      id="remember"
-                      aria-describedby="remember"
-                      type="checkbox"
-                      className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                      required
-                    />
-                  </div>
-                  <div className="ml-3 text-sm">
-                    <label
-                      htmlFor="remember"
-                      className="text-gray-500 dark:text-gray-300"
-                    >
-                      Remember me
-                    </label>
-                  </div>
-                </div>
-                <a
-                  href="#"
-                  className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
-                  Forgot password?
-                </a>
-              </div>
-              <button
-                onClick={handleSubmit}
-                className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-              >
-                Sign in
-              </button>
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Don’t have an account yet?{" "}
-                <a
-                  href="Register"
-                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
-                  Sign up
-                </a>
-              </p>
-            </form>
+    <>
+      <link
+        href="https://fonts.googleapis.com/css?family=Poppins"
+        rel="stylesheet"
+      ></link>
+      <div
+        className="bg-pp-darkpurple h-full w-full flex justify-center items-center"
+        style={{ flexDirection: "column" }}
+      >
+        <h1 className="font-poppins text-white text-xl font-bold leading-tight tracking-tight md:text-2xl my-4">
+          Welcome back!
+        </h1>
+        <form className="md:space-y-4 w-6/12">
+          <div>
+            <input
+              type="username"
+              name="username"
+              id="username"
+              className="font-poppins rounded-3xl bg-pp-gray text-white sm:text-sm block w-full p-2.5 focus:outline-none"
+              placeholder="Username"
+              required
+              value={username}
+              onChange={handleUsernameChange}
+            />
           </div>
-        </div>
+          <div>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Password"
+              className="font-poppins rounded-3xl bg-pp-gray text-white sm:text-sm block w-full p-2.5 focus:outline-none"
+              required
+              value={password}
+              onChange={handlePasswordChange}
+            />
+          </div>
+
+          <div className="flex items-start">
+            <div className="flex items-center h-5">
+              <input
+                id="remember"
+                aria-describedby="remember"
+                type="checkbox"
+                className="font-poppins w-4 h-4 border border-gray-300 bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+                required
+              />
+            </div>
+            <div className="ml-3 text-sm">
+              <label
+                htmlFor="remember"
+                className="font-poppins text-gray-500 dark:text-gray-300"
+              >
+                Remember me
+              </label>
+            </div>
+          </div>
+
+          {error && (
+            <div className="font-poppins text-pp-red text-md font-poppins">{error}</div>
+          )}
+
+          <button
+            onClick={handleSubmit}
+            className="font-poppins rounded-3xl w-full text-white bg-pp-blue hover:bg-pp-accentblue focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium text-sm px-5 py-2.5 text-center"
+          >
+            Login
+          </button>
+
+          <p className="font-poppins text-sm font-light text-white dark:text-gray-400">
+            Don’t have an account yet?{" "}
+            <span
+              onClick={toggleForm}
+              className="font-poppins text-pp-blue font-bold text-primary-600 hover:underline dark:text-primary-500"
+            >
+              Sign up
+            </span>
+          </p>
+        </form>
       </div>
-    </div>
+    </>
   );
 };
 

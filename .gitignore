@@ -4,3 +4,4 @@ history-service/.env
 history-service/.envrc
 frontend/credentials.ts
 frontend/.env
+jenkins-gke-key.json
