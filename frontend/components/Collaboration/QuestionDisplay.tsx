@@ -1,6 +1,5 @@
-// boilerplate for displaying a question
 import React from "react";
-import Tag from "./Tag";
+import Tag from "../Tag";
 import ReactMarkdown from 'react-markdown';
 
 export type Question = {
@@ -46,8 +45,6 @@ export default function QuestionDisplay({
           Change question
         </div>
       </div> */}
-
-  
 
       {/* NOTE: below is for display purposes only, will delete when the questions are linked */}
       <div className="flex row justify-between items-center px-2">

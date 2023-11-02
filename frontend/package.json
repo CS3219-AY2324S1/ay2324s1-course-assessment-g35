@@ -26,6 +26,7 @@
     "@types/socket.io-client": "^3.0.0",
     "@uiw/codemirror-extensions-basic-setup": "^4.21.20",
     "@uiw/codemirror-extensions-langs": "^4.21.20",
+    "@uiw/codemirror-theme-dracula": "^4.21.20",
     "@uiw/react-codemirror": "^4.21.20",
     "axios": "^1.5.0",
     "code-example": "^3.3.6",

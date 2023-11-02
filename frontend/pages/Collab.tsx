@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import ChatComponent from "@/components/ChatComponent";
+import Chat from "@/components/Collaboration/Chat";
 import { useRouter } from "next/router";
 import { Socket } from "socket.io-client";
 import io from "socket.io-client";
@@ -102,11 +102,13 @@ function Collab() {
           />
         )}
 
-        <div className="bg-pp-accentgray font-poppins w-4/12 h-screen flex flex-col gap-3 p-4">
+        {/* Question section */}
+        <div className="bg-pp-accentgray font-poppins w-4/12 h-screen flex flex-col gap-4 p-4">
           <QuestionDisplay question={question} getQuestion={getQuestion}/>
         </div>
 
-        <div className="w-6/12">
+        {/* Code editor section */}
+        <div className="bg-[#282A35] font-poppins w-6/12 h-screen flex flex-col gap-4 p-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -123,22 +125,22 @@ function Collab() {
             />
           </svg>
           <CodeEditor roomId={roomId || ""} />
+        </div>
 
-          <button
-            className="bg-slate-900 rounded p-2"
+        {/* Chat and video section */}
+        <div className="bg-pp-accentgray font-poppins w-2/12 h-screen flex flex-col gap-4">
+          {/* <button
+            className="text-pp-red bg-slate-900 rounded p-2"
             onClick={() => setShowChat(!showChat)}
           >
             Show Chat / Video
-          </button>
-        </div>
-
-        <div className="flex w-2/12 h-screen">
+          </button> */}
           <div
             className={`w-1/6 absolute bottom-0 h-screen ${
               showChat ? "block" : "hidden"
             }`}
           >
-            <ChatComponent
+            <Chat
               socket={socket}
               roomId={(roomId as string) || ""}
               setShowChat={setShowChat}

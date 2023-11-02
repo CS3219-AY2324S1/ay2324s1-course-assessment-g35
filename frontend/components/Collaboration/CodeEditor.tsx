@@ -4,8 +4,10 @@ import { getDatabase, onValue, ref, set } from "@firebase/database";
 import { codeExamples } from "@/code_examples/codeExamples";
 import { loadLanguage } from "@uiw/codemirror-extensions-langs";
 import { useParams } from "next/navigation";
-import { Button, Spinner } from "@chakra-ui/react";
 import { Select } from "./CollaborationSelect";
+
+import CodeResults from "./CodeResults";
+import { dracula } from "@uiw/codemirror-theme-dracula";
 
 const CodeEditor = ({ roomId }: { roomId: string }) => {
   const params = useParams();
@@ -86,6 +88,7 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
 
   return (
     <>
+      {/* initialize the code mirror with spaces already */}
       <div className="flex flex-col gap-3 text-black">
         <Select
           options={langs.sort()}
@@ -93,10 +96,10 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
             handleLangChange(evn.target.value as keyof typeof langs)
           }
         />
-        <div className="h-3/6">
-          <CodeMirror
+        <CodeMirror
             value={code}
             onChange={codeChanged}
+            theme={dracula}
             extensions={[loadLanguage(selectedLang)]}
             basicSetup={{
               foldGutter: false,
@@ -104,66 +107,21 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
               allowMultipleSelections: false,
               indentOnInput: false,
             }}
-          />
+        />
+        <div
+          className="h-2/12 w-40 bg-pp-blue hover:bg-pp-accentblue py-2 px-4 rounded-[30px] text-white text-center font-bold cursor-pointer"
+          onClick={runCode}
+        >
+          Run code
         </div>
 
-        <Button onClick={runCode}>RUN CODE</Button>
-        <div className="grow">
-          <ResultSection
+        <CodeResults 
             results={output}
             isLoading={loading}
             errorMsg={error}
             stderr={stderr}
-          />
-        </div>
+        />
       </div>
-    </>
-  );
-};
-
-const OutputShow = ({ output }: { output: string }) => {
-  return <>{output}</>;
-};
-
-interface ResultSectionProps {
-  results: string;
-  isLoading: boolean;
-  errorMsg: string;
-  stderr: string;
-}
-
-const ResultSection: React.FC<ResultSectionProps> = ({
-  results,
-  isLoading,
-  errorMsg,
-  stderr,
-}) => {
-  return (
-    <div className="bg-gray-100 p-4">
-      <h2 className="text-2xl font-semibold mb-4">Results</h2>
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <div className="border rounded-lg p-4 bg-white shadow-sm">
-          <h3 className="text-lg font-semibold mb-2">Output</h3>
-          {errorMsg != "" ? (
-            <>
-              <ErrorComponent message={errorMsg} />
-              <ErrorComponent message={stderr} />
-            </>
-          ) : (
-            <p className="text-gray-600">{results}</p>
-          )}
-        </div>
-      )}
-    </div>
-  );
-};
-
-const ErrorComponent = ({ message }: { message: string }) => {
-  return (
-    <>
-      <p className="text-red-500">{message}</p>
     </>
   );
 };

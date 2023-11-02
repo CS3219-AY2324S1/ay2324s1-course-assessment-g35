@@ -15,7 +15,7 @@ type Message = {
   time: string;
 };
 
-const ChatComponent: React.FC<ChatComponentProps> = ({
+const Chat: React.FC<ChatComponentProps> = ({
   socket,
   roomId,
   setShowChat,
@@ -176,4 +176,4 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
   );
 };
 
-export default ChatComponent;
+export default Chat;
