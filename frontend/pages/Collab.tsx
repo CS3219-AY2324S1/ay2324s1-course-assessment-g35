@@ -1,13 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
-import ChatComponent from "@/components/ChatComponent";
+import Chat from "@/components/Collaboration/Chat";
 import { useRouter } from "next/router";
-import { Socket } from "socket.io-client";
-import io from "socket.io-client";
+import io, { Socket } from "socket.io-client";
 import VideoCall from "@/components/VideoCall";
 import CodeEditor from "@/components/Collaboration/CodeEditor";
 import axios from "axios";
-import { Question } from "@/components/Collaboration/QuestionDisplay";
-import QuestionDisplay from "@/components/Collaboration/QuestionDisplay";
+import QuestionDisplay, { Question } from "@/components/Collaboration/QuestionDisplay";
 import { CHATSERVICE_URI, QUESTION_URI } from "@/constants/uri";
 import withAuth from "@/components/withAuth";
 import SaveModal from "@/components/Collaboration/SaveModal";
@@ -142,23 +140,48 @@ function Collab() {
           </svg>
           <Button onClick={openCodeGenModal}>Generate</Button>
 
-          <CodeEditor roomId={roomId || ""} />
+        {/* Question section */}
+        <div className="bg-pp-gray font-poppins w-4/12 h-screen flex flex-col gap-4 p-4">
+          <QuestionDisplay question={question} getQuestion={getQuestion}/>
+        </div>
 
-          <button
-            className="bg-slate-900 rounded p-2"
+        {/* Code editor section */}
+        <div className="bg-[#282A35] font-poppins w-6/12 h-screen flex flex-col gap-4 p-4 overflow-auto">
+          {/* TODO: maybe move the save button to inside the code editor if possible so that it can look nicer if it's on the same row as language options */}
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="text-pp-blue w-8 h-8 cursor-pointer"
+              onClick={handleSaveClick}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15M9 12l3 3m0 0l3-3m-3 3V2.25"
+              />
+            </svg>
+          </div>
+          <CodeEditor roomId={roomId || ""} />
+        </div>
+
+        {/* Chat and video section */}
+        <div className="bg-pp-gray font-poppins w-2/12 h-screen flex flex-col gap-4">
+          {/* <button
+            className="text-pp-red bg-slate-900 rounded p-2"
             onClick={() => setShowChat(!showChat)}
           >
             Show Chat / Video
-          </button>
-        </div>
-
-        <div className="flex w-2/12 h-screen">
+          </button> */}
           <div
             className={`w-1/6 absolute bottom-0 h-screen ${
               showChat ? "block" : "hidden"
             }`}
           >
-            <ChatComponent
+            <Chat
               socket={socket}
               roomId={(roomId as string) || ""}
               setShowChat={setShowChat}

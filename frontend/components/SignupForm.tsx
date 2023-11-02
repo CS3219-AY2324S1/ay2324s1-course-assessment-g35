@@ -55,7 +55,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
         className="bg-pp-darkpurple h-full w-full flex justify-center items-center"
         style={{ flexDirection: "column" }}
       >
-        <h1 className="font-poppins text-white text-xl font-bold leading-tight tracking-tight md:text-2xl my-4">
+        <h1 className="font-poppins text-white text-2xl font-bold tracking-tighter my-4">
           Welcome to PeerPrep!
         </h1>
         <form className="md:space-y-4 w-6/12">
