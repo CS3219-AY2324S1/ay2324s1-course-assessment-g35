@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: history-service-deployment
+  name: history-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: history-service
+      app: history
   template:
     metadata:
       labels:
-        app: history-service
+        app: history
     spec:
       containers:
-        - name: history-service
+        - name: history
           image: yuehern/history-service:latest
           ports:
             - containerPort: 8000
@@ -28,12 +28,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: history-service-service
+  name: history-service
 spec:
   selector:
-    app: history-service
+    app: history
   ports:
     - protocol: TCP
       port: 8000
       targetPort: 8000
-  type: LoadBalancer  # Specifies a LoadBalancer service type
+  type: ClusterIP 
