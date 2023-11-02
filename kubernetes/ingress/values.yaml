@@ -22,10 +22,10 @@ spec:
             name: history-service
             port:
               number: 8000
-      # - path: /questions
-      #   pathType: Prefix
-      #   backend:
-      #     service:
-      #       name: questions-service
-      #       port:
-      #         number: 8000
+      - path: /questions
+        pathType: Prefix
+        backend:
+          service:
+            name: questions-service
+            port:
+              number: 8000
