@@ -15,9 +15,7 @@ const Questions: React.FC = () => {
   const [historyLoading, setHistoryLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetch(
-      `http://35.247.158.91:8000?userId=2157b2e0-dfea-4394-b417-50aea0b09571`
-    )
+    fetch(`http://35.227.201.105?userId=c69376b0-a16e-474e-8665-aca86e19e143`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
