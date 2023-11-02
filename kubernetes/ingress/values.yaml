@@ -29,3 +29,10 @@ spec:
             name: questions-service
             port:
               number: 8000
+      - path: /user
+        pathType: Prefix
+        backend:
+          service:
+            name: user-service-5df6df7f4c-kwtmb-mdk67
+            port:
+              number: 8000
