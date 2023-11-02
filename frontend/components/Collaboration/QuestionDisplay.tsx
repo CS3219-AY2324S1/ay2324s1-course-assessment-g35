@@ -1,6 +1,7 @@
 // boilerplate for displaying a question
 import React from "react";
 import Tag from "./Tag";
+import ReactMarkdown from 'react-markdown';
 
 export type Question = {
   _id: string;
@@ -46,6 +47,8 @@ export default function QuestionDisplay({
         </div>
       </div> */}
 
+  
+
       {/* NOTE: below is for display purposes only, will delete when the questions are linked */}
       <div className="flex row justify-between items-center px-2">
         <h2 className="text-2xl font-semibold">Question Title</h2>
@@ -59,6 +62,7 @@ export default function QuestionDisplay({
       </div>
 
       <div className="overflow-scroll">
+        <ReactMarkdown>{question?.description}</ReactMarkdown>
         <p className="text-sm px-2">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
           dignissim iaculis ipsum et porta. Ut sit amet metus ut neque
