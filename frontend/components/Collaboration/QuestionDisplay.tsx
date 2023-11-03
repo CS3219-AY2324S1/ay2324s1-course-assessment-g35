@@ -53,7 +53,7 @@ export default function QuestionDisplay({
       </div>
 
       <div className="flex row space-between space-x-1 px-2">
-        <Tag title={"Databses"} />
+        <Tag title={"Databases"} />
         <Tag title={"Strings"} />
         <Tag title={"Algorithms"} />
       </div>

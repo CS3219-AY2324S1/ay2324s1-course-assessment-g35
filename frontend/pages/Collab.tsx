@@ -1,13 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Chat from "@/components/Collaboration/Chat";
 import { useRouter } from "next/router";
-import { Socket } from "socket.io-client";
-import io from "socket.io-client";
+import io, { Socket } from "socket.io-client";
 import VideoCall from "@/components/VideoCall";
 import CodeEditor from "@/components/Collaboration/CodeEditor";
 import axios from "axios";
-import { Question } from "@/components/Collaboration/QuestionDisplay";
-import QuestionDisplay from "@/components/Collaboration/QuestionDisplay";
+import QuestionDisplay, { Question } from "@/components/Collaboration/QuestionDisplay";
 import { CHATSERVICE_URI, QUESTION_URI } from "@/constants/uri";
 import withAuth from "@/components/withAuth";
 import SaveModal from "@/components/Collaboration/SaveModal";
@@ -144,8 +142,8 @@ function Collab() {
         )}
 
         {/* Question section */}
-        <div className="bg-pp-accentgray font-poppins w-4/12 h-screen flex flex-col gap-4 p-4">
-          <QuestionDisplay question={question} getQuestion={getQuestion} />
+        <div className="bg-pp-gray font-poppins w-4/12 h-screen flex flex-col gap-4 p-4">
+          <QuestionDisplay question={question} getQuestion={getQuestion}/>
         </div>
 
         {/* Code editor section */}
@@ -172,7 +170,7 @@ function Collab() {
         </div>
 
         {/* Chat and video section */}
-        <div className="bg-pp-accentgray font-poppins w-2/12 h-screen flex flex-col gap-4">
+        <div className="bg-pp-gray font-poppins w-2/12 h-screen flex flex-col gap-4">
           {/* <button
             className="text-pp-red bg-slate-900 rounded p-2"
             onClick={() => setShowChat(!showChat)}

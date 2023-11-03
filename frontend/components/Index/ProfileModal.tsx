@@ -56,7 +56,6 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     // TODO: automatically close the modal when the email has been changed or change how it looks,
     // ie. remove input text and hide update button
-
     e.preventDefault();
     console.log(email);
 
@@ -146,7 +145,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
               </div>
               <div>
                 <button
-                  className="bg-pp-red hover:bg-pp-darkred w-40 rounded-3xl p-2 cursor-pointer font-poppins text-base text-white tracking-tight"
+                  className="bg-pp-red hover:bg-pp-accentred w-40 rounded-3xl p-2 cursor-pointer font-poppins text-base text-white tracking-tight"
                   onClick={handleDeleteClick}
                 >
                   Delete account

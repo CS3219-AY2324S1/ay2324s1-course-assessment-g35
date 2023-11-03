@@ -5,8 +5,8 @@ interface TagProps {
 }
 
 export default function Tag({ title }: TagProps) {
-  const textColors = ['text-pp-red', 'text-pp-accentgreen', 'text-pp-darkpurple']
-  const backgroundColors = ['bg-pp-accentred', 'bg-pp-green', 'bg-pp-lightpurple']
+  const textColors = ['text-pp-accentred', 'text-pp-accentgreen', 'text-pp-darkpurple']
+  const backgroundColors = ['bg-pp-red', 'bg-pp-green', 'bg-pp-lightpurple']
   
   const [textColor, setTextColor] = useState<string>("");
   const [backgroundColor, setBackgroundColor] = useState<string>("");

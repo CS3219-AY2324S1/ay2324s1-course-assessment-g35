@@ -16,7 +16,7 @@ export default function LogOutModal({
   setShowLogOutModal,
   confirmLogOut,
   handleCloseModal,
-}: LogOutModalProps) {
+}: Readonly<LogOutModalProps>) {
   return (
     <Modal isOpen={true} onClose={() => setShowLogOutModal(false)} isCentered>
       <ModalOverlay />
