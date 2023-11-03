@@ -30,6 +30,7 @@
     "@uiw/react-codemirror": "^4.21.20",
     "axios": "^1.5.0",
     "code-example": "^3.3.6",
+    "dockerode": "^4.0.0",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
     "firebase": "^10.5.0",
@@ -50,6 +51,7 @@
     "socket.io-client": "^4.7.2"
   },
   "devDependencies": {
+    "@types/dockerode": "^3.3.21",
     "@types/simple-peer": "^9.11.6",
     "autoprefixer": "^10.4.15",
     "postcss": "^8.4.29",

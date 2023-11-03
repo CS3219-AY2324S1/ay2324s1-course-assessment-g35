@@ -210,7 +210,7 @@ function Collab() {
           </div>
           <Button onClick={openCodeGenModal}>Generate</Button>
 
-          <CodeEditor roomId={roomId || ""} />
+          <CodeEditor roomId={(roomId as string) || ""} />
         </div>
 
         {/* Chat and video section */}
