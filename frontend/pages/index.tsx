@@ -113,9 +113,15 @@ const Dashboard = () => {
     setShowTryAgainModal(true);
   };
 
+  const cancelMatching = () => {
+    setMatchingStarted(false);
+    setShowMatchingModal(false);
+    socket.emit("leave", { difficulty: difficulty });
+  };
+
   const handleMatching = async () => {
     if (matchingStarted == true) {
-      stopMatching();
+      cancelMatching();
     } else {
       // Start matching PROCESS
       if (difficulty != "") {
@@ -244,7 +250,7 @@ const Dashboard = () => {
           size="full"
         >
           <ModalOverlay />
-          <ModalContent className="p-2" style={{ borderRadius: "20px" }}>
+          <ModalContent>
             <div className="bg-pp-darkpurple flex flex-col h-screen w-screen">
               <div
                 className="flex items-center justify-center h-screen w-screen"
