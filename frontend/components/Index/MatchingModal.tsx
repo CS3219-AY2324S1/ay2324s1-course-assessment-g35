@@ -49,7 +49,6 @@ export default function MatchingModal({
 
   return (
     // TODO: remove the animation on opening the modal?
-
     <Modal
       isOpen={true}
       onClose={() => setShowMatchingModal(false)}

@@ -40,12 +40,13 @@ const Questions: React.FC = () => {
             <QuestionRow question={data} />
           })} */}
           
+          {/* TODO: to remove later when the history set up, just map to create QuestionRow components */}
           <QuestionRow
-            title={"Question title"}
-            description={"Lorem ipsum"}
-            difficulty={"Hard"}
-            category={["Database", "Algorithms", "Strings"]}
-            date={"2/11/2023"}
+            title={"Reverse a String"}
+            description={"Write a function that reverses a string. The input string is given as an array\nof characters s.\nYou must do this by modifying the input array in-place with O(1) extra\nmemory.\nExample 1:\nInput: s = [\"h\",\"e\",\"l\",\"l\",\"o\"]\nOutput: [\"o\",\"l\",\"l\",\"e\",\"h\"]\nExample 2:\nInput: s = [\"H\",\"a\",\"n\",\"n\",\"a\",\"h\"]\nOutput: [\"h\",\"a\",\"n\",\"n\",\"a\",\"H\"]\nConstraints:\n* 1 <= s.length <= 105\n* s[i] is a printable ascii character."}
+            difficulty={"Easy"}
+            category={["Algorithms", "Strings"]}
+            date={"3/11/2023"}
           />
           <QuestionRow
             title={"Question title"}
