@@ -32,9 +32,6 @@ const Questions: React.FC = () => {
           Questions you've completed
         </h2>
         <div className="flex flex-col gap-y-4 overflow-auto">
-          {/* When I put overflow here, it expands the whole section I think because it doesn't know the max height */}
-          {/* <div className="flex flex-col gap-y-4 overflow-auto"> */}
-
           {/* TODO: later, link the questions to the QuestionRow */}
           {/* {historyData.map((data) => {
             <QuestionRow question={data} />
@@ -49,7 +46,7 @@ const Questions: React.FC = () => {
             date={"3/11/2023"}
           />
           <QuestionRow
-            title={"Question title"}
+            title={"Super long question title to test overflow"}
             description={"Lorem ipsum"}
             difficulty={"Hard"}
             category={["Algorithms", "Data Structures"]}

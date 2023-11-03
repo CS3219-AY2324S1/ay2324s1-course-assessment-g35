@@ -1,5 +1,5 @@
 import { Modal, ModalContent, ModalOverlay } from "@chakra-ui/react";
-import CategoryRow from "@/components/CategoryRow";
+import CategoryRow from "@/components/Index/Questions/CategoryRow";
 
 interface QuestionModalProps {
   handleCloseModal: () => void;
@@ -60,6 +60,7 @@ export default function QuestionModal({
               {description}
             </p>
           </div>
+          
           {/* TODO: add in the actual code they wrote */}
         </div>
       </ModalContent>

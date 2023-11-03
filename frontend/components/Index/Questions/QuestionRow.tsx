@@ -17,7 +17,7 @@
 // }: QuestionDisplayProps) {
 
 import { useState } from "react";
-import CategoryRow from "@/components/CategoryRow";
+import CategoryRow from "@/components/Index/Questions/CategoryRow";
 import QuestionModal from "./QuestionModal";
 // NOTE: later, just have an input as the question rather than all the components of the question
 // TODO: change the props to link with the history
@@ -61,32 +61,42 @@ export default function QuestionRow({
         />
       )}
 
-      <div className="w-3/12 flex flex-row gap-x-2">
-        <p className="font-poppins font-bold text-lg text-white tracking-tight">
-          {title}
-        </p>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="w-6 h-6 text-pp-blue cursor-pointer"
-          onClick={handleOpenQuestion}
-        >
-          <path
-            fillRule="evenodd"
-            d="M15.75 2.25H21a.75.75 0 01.75.75v5.25a.75.75 0 01-1.5 0V4.81L8.03 17.03a.75.75 0 01-1.06-1.06L19.19 3.75h-3.44a.75.75 0 010-1.5zm-10.5 4.5a1.5 1.5 0 00-1.5 1.5v10.5a1.5 1.5 0 001.5 1.5h10.5a1.5 1.5 0 001.5-1.5V10.5a.75.75 0 011.5 0v8.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V8.25a3 3 0 013-3h8.25a.75.75 0 010 1.5H5.25z"
-            clipRule="evenodd"
-          />
-        </svg>
+      <div className="w-4/12 flex flex-row gap-x-2">
+        <div className="w-8/12">
+          <p className="font-poppins font-bold text-lg text-white tracking-tight truncate">
+            {title}
+          </p>
+        </div>
+        <div className="w-/12">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="w-6 h-6 text-pp-blue cursor-pointer"
+            onClick={handleOpenQuestion}
+          >
+            <path
+              fillRule="evenodd"
+              d="M15.75 2.25H21a.75.75 0 01.75.75v5.25a.75.75 0 01-1.5 0V4.81L8.03 17.03a.75.75 0 01-1.06-1.06L19.19 3.75h-3.44a.75.75 0 010-1.5zm-10.5 4.5a1.5 1.5 0 00-1.5 1.5v10.5a1.5 1.5 0 001.5 1.5h10.5a1.5 1.5 0 001.5-1.5V10.5a.75.75 0 011.5 0v8.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V8.25a3 3 0 013-3h8.25a.75.75 0 010 1.5H5.25z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </div>
       </div>
-
+      
+      {/* TODO: any styling to differentiate the levels needed? can refer to colors for tags */}
+      <div className="w-1/12 font-poppins font-bold text-lg text-white tracking-tight">
+        <p>
+          {difficulty}
+        </p>
+      </div>
       <div className="w-6/12 flex flex-row space-x-1">
         {category.map((item) => (
           <CategoryRow category={item} />
-        ))} 
+        ))}
       </div>
 
-      <div className="w-3/12">
+      <div className="w-1/12">
         <p className="font-poppins text-base text-white tracking-tight">
           {date}
         </p>

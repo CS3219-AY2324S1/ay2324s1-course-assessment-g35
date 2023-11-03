@@ -21,6 +21,7 @@ import { MATCHINGSERVICE_URI, USER_URI } from "@/constants/uri";
 import withAuth from "@/components/withAuth";
 import React from "react";
 import { Rain } from "react-rainfall";
+import Activity from "@/components/Index/Activity";
 
 export interface UserType {
   username: string;
@@ -277,10 +278,10 @@ const Dashboard = () => {
       )}
 
       <div className="flex flex-col gap-y-8 p-8 h-screen w-screen bg-pp-darkpurple">
-        <div className="flex flex-row gap-x-8">
+        <div className="flex flex-row gap-x-8 h-4/12">
           <div className="bg-gradient-to-r from-pp-blue to-pp-lightpurple flex-col rounded-[20px] w-8/12">
             {/* Start of profile dashboard */}
-            <div className="p-8">
+            <div className="p-8 flex flex-col justify-between">
               <div className="flex justify-between">
                 <Tooltip
                   label="Profile"
@@ -359,14 +360,10 @@ const Dashboard = () => {
             </div>
           </div>
           {/* End of profile dashboard */}
-
-          {/* Start of activity */}
-          <div className="w-4/12">
-            <div className="bg-pp-gray rounded-[20px]">
-              <p>activity will go here</p>
-            </div>
+          
+          <div className="bg-pp-gray w-4/12 rounded-[20px] flex flex-col px-8 gap-y-4 py-8 overflow-hidden">
+            <Activity />
           </div>
-          {/* End of activity */}
         </div>
         {/* TODO: I want to have the title be fixed and only scroll the questions but I can't configure it with the divs - either just the questions scroll but no BG or the whole thing scrolls  */}
         <Questions />

@@ -1,6 +1,6 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
-import CategoryRow from "../CategoryRow";
+import CategoryRow from "../Index/Questions/CategoryRow";
 
 export type Question = {
   _id: string;
@@ -57,7 +57,7 @@ export default function QuestionDisplay({
         <CategoryRow category={"Algorithms"} />
         <CategoryRow category={"Bit Manipulation"} /> */}
         {question?.category.map((item) => (
-          <CategoryRow category={item}/>
+          <CategoryRow category={item} />
         ))}
       </div>
 

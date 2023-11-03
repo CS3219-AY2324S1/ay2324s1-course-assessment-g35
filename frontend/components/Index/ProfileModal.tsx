@@ -67,8 +67,6 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    // TODO: automatically close the modal when the email has been changed or change how it looks,
-    // ie. remove input text and hide update button
     updateModalStatus();
     e.preventDefault();
     console.log(email);
