@@ -1,8 +1,11 @@
-import { get } from 'http';
-import { useEffect, useRef, useState } from 'react';
+import { AudioOnIcon, AudioOffIcon, VideoOnIcon, VideoOffIcon } from '@/constants/icons';
+import { use, useEffect, useRef, useState } from 'react';
 
 function VideoCall({myId, otherId}) {
   const [peerId, setPeerId] = useState('');
+  const [isVideoOn, setIsVideoOn] = useState(true);
+  const [isAudioOn, setIsAudioOn] = useState(true);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const remoteVideoRef = useRef(null);
   const currentUserVideoRef = useRef(null);
   const peerInstance = useRef(null);
@@ -35,6 +38,7 @@ function VideoCall({myId, otherId}) {
                 mediaStreamRef.current = mediaStream;
                 currentUserVideoRef.current.srcObject = mediaStream; // set video's srcObject to the stream
                 currentUserVideoRef.current.onloadedmetadata = (e) => {
+                  setIsVideoLoaded(true);
                   currentUserVideoRef.current.play().catch(console.error);
                 };
                 call.answer(mediaStream)
@@ -66,6 +70,11 @@ function VideoCall({myId, otherId}) {
     }
   }, [myId, otherId])
 
+  useEffect(() => {
+    console.log('isVideoLoaded', isVideoLoaded);
+  }
+  , [isVideoLoaded]);
+
   const call = (remotePeerId) => {
 
     navigator.mediaDevices
@@ -74,6 +83,7 @@ function VideoCall({myId, otherId}) {
         mediaStreamRef.current = mediaStream;
         currentUserVideoRef.current.srcObject = mediaStream;
         currentUserVideoRef.current.onloadedmetadata = (e) => {
+          setIsVideoLoaded(true);
           currentUserVideoRef.current.play().catch(console.error);
         };
 
@@ -101,12 +111,14 @@ function VideoCall({myId, otherId}) {
     videoTracks.forEach(track => {
       track.enabled = isVideoOn;
     });
+    setIsVideoOn(isVideoOn);
     const savedAudioState = localStorage.getItem('audioState');
     const isAudioOn = savedAudioState !== null ? (savedAudioState == 'on') : true;
     const audioTracks = currentUserVideoRef.current.srcObject.getAudioTracks();
     audioTracks.forEach(track => {
         track.enabled = isAudioOn;
     });
+    setIsAudioOn(isAudioOn);
     console.log('isVideoOn', isVideoOn);
     console.log('isAudioOn', isAudioOn);
   }
@@ -116,6 +128,7 @@ function VideoCall({myId, otherId}) {
     tracks.forEach(track => {
       track.enabled = !track.enabled; // Toggle audio track
       localStorage.setItem('audioState', track.enabled ? 'on' : 'off');
+      setIsAudioOn(track.enabled);
     });
   };
   
@@ -124,6 +137,7 @@ function VideoCall({myId, otherId}) {
     tracks.forEach(track => {
       track.enabled = !track.enabled; // Toggle video track
       localStorage.setItem('videoState', track.enabled ? 'on' : 'off');
+      setIsVideoOn(track.enabled);
     });
   };
   
@@ -134,10 +148,16 @@ function VideoCall({myId, otherId}) {
       {/* <input type="text" value={remotePeerIdValue} onChange={e => setRemotePeerIdValue(e.target.value)} />
       <button onClick={() => call(remotePeerIdValue)}>Call</button> */}
       <video playsInline muted ref={currentUserVideoRef} className="w-auto rounded-lg" />
-      <div>
-        <button onClick={toggleAudio}>Toggle Audio</button>
-        <button onClick={toggleVideo}>Toggle Video</button>
-      </div>
+      {!isVideoLoaded ? null :
+        <div className='flex gap-2'>
+          <button onClick={toggleAudio}>
+            {isAudioOn ? <AudioOnIcon /> : <AudioOffIcon />}
+          </button>
+          <button onClick={toggleVideo}>
+            {isVideoOn ? <VideoOnIcon /> : <VideoOffIcon />}
+          </button>
+        </div>
+      }
       <video playsInline ref={remoteVideoRef} autoPlay className="w-auto rounded-lg" />
       {/* playsInline: dont play fullscreen on ios, autoPlay: play upon load */}
     </div>

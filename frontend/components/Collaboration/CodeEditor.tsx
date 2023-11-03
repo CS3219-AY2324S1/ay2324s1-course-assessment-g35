@@ -20,7 +20,7 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
   const [stderr, setStderr] = useState("");
   const langs = ["java", "go", "python", "c", "cpp", "javascript"];
 
-  const [showResults, setShowResults] = useState<boolean>(false)
+  const [showResults, setShowResults] = useState<boolean>(false);
 
   useEffect(() => {
     setSelectedLang("c");
@@ -60,13 +60,10 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
   const runCode = () => {
     setLoading(true);
     setShowResults(true);
+    alert(code);
     const body = {
-      files: [
-        {
-          name: "index.js",
-          content: code,
-        },
-      ],
+      content: code,
+      language: selectedLang,
     };
     fetch("/api/code", {
       method: "POST",
@@ -75,15 +72,16 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
-        console.log(data.message);
-        if (data.message.error != "") {
-          setError(data.message.error);
-          setStderr(data.message.stderr);
+        alert(data);
+        if (data.stderr != "") {
+          setError(data.stderr);
+          setStderr(data.stderr);
         } else {
           setError("");
-          setOutput(data.message.stdout);
+          setOutput(data.stdout);
         }
       })
+
       .catch((error) => {
         console.error(error);
       });
@@ -94,22 +92,22 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
       {/* initialize the code mirror with spaces already */}
       <div className="flex flex-col gap-3 text-black">
         <Select
-            options={langs.sort()}
-            onChange={(evn) =>
-              handleLangChange(evn.target.value as keyof typeof langs)
-            }
+          options={langs.sort()}
+          onChange={(evn) =>
+            handleLangChange(evn.target.value as keyof typeof langs)
+          }
         />
         <CodeMirror
-            value={code}
-            onChange={codeChanged}
-            theme={dracula}
-            extensions={[loadLanguage(selectedLang)]}
-            basicSetup={{
-              foldGutter: false,
-              dropCursor: false,
-              allowMultipleSelections: false,
-              indentOnInput: false,
-            }}
+          value={code}
+          onChange={codeChanged}
+          theme={dracula}
+          extensions={[loadLanguage(selectedLang)]}
+          basicSetup={{
+            foldGutter: false,
+            dropCursor: false,
+            allowMultipleSelections: false,
+            indentOnInput: false,
+          }}
         />
 
         <button
@@ -118,14 +116,14 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
         >
           Run code
         </button>
-        
+
         {showResults && (
-          <CodeResults 
-          results={output}
-          isLoading={loading}
-          errorMsg={error}
-          stderr={stderr}
-        />
+          <CodeResults
+            results={output}
+            isLoading={loading}
+            errorMsg={error}
+            stderr={stderr}
+          />
         )}
       </div>
     </>
