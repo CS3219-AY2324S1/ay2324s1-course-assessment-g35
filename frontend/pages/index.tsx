@@ -170,6 +170,7 @@ const Dashboard = () => {
         href="https://fonts.googleapis.com/css?family=Poppins"
         rel="stylesheet"
       ></link>
+
       {showProfileModal && (
         <ProfileModal
           user={user}
@@ -211,8 +212,8 @@ const Dashboard = () => {
         </Modal>
       )}
 
-      <div className="flex flex-col h-screen w-screen bg-pp-darkpurple">
-        {matchFound && (
+      <div className="flex flex-col gap-y-8 p-8 h-screen w-screen bg-pp-darkpurple">
+        {matchFound && showMatchingModal && (
           <Confetti
             width={width}
             height={height}
@@ -232,109 +233,99 @@ const Dashboard = () => {
           />
         )}
 
-        <div className="bg-gradient-to-r from-pp-blue to-pp-lightpurple flex-col ml-11 mr-11 my-10 rounded-[20px]">
-          <div className="px-9 py-8">
-            <div className="flex justify-between">
-              <Tooltip
-                label="Profile"
-                aria-label="Profile"
-                bg="pp-blue"
-                closeDelay={200}
-              >
-                <div onClick={handleProfile} className="cursor-pointer">
-                  <ProfileIcon />
-                </div>
-              </Tooltip>
-              <Tooltip
-                label="Log out"
-                aria-label="Logout"
-                bg="pp-darkpurple"
-                closeDelay={200}
-              >
-                <div className="cursor-pointer" onClick={handleLogout}>
-                  <LogoutIcon />
-                </div>
-              </Tooltip>
-            </div>
-            <div className="flex justify-between">
-              <div className="flex-col">
-                <h1 className="font-poppins text-white text-6xl font-black tracking-tight mt-40">
-                  Hello {user?.username}!
-                </h1>
-                <p className="font-poppins text-white text-2xl mt-2 tracking-tight">
-                  Ready to PeerPrep today?
-                </p>
+        <div className="flex flex-row gap-x-8">
+          <div className="bg-gradient-to-r from-pp-blue to-pp-lightpurple flex-col rounded-[20px] w-8/12">
+            {/* Start of profile dashboard */}
+            <div className="p-8">
+              <div className="flex justify-between">
+                <Tooltip
+                  label="Profile"
+                  aria-label="Profile"
+                  bg="pp-blue"
+                  closeDelay={200}
+                >
+                  <div onClick={handleProfile} className="cursor-pointer">
+                    <ProfileIcon />
+                  </div>
+                </Tooltip>
+                <Tooltip
+                  label="Log out"
+                  aria-label="Logout"
+                  bg="pp-darkpurple"
+                  closeDelay={200}
+                >
+                  <div className="cursor-pointer" onClick={handleLogout}>
+                    <LogoutIcon />
+                  </div>
+                </Tooltip>
               </div>
-              <div className="flex-col mt-44">
-                {matchWithoutDifficulty && (
-                  <label className="font-poppins text-base tracking-tight text-pp-red">
-                    Please choose a difficulty
-                  </label>
-                )}
+              <div className="flex justify-between">
+                <div className="flex-col">
+                  <h1 className="font-poppins text-white text-6xl font-black tracking-tight mt-40">
+                    Hello {user?.username}!
+                  </h1>
+                  <p className="font-poppins text-white text-2xl mt-2 tracking-tight">
+                    Ready to PeerPrep today?
+                  </p>
+                </div>
+                <div className="flex-col mt-44">
+                  {matchWithoutDifficulty && (
+                    <label className="font-poppins text-base tracking-tight text-pp-red">
+                      Please choose a difficulty
+                    </label>
+                  )}
 
-                {!matchWithoutDifficulty && (
-                  <label className="font-poppins text-base tracking-tight text-white">
-                    Select a difficulty level
-                  </label>
-                )}
+                  {!matchWithoutDifficulty && (
+                    <label className="font-poppins text-base tracking-tight text-white">
+                      Select a difficulty level
+                    </label>
+                  )}
 
-                <div className="flex flex-row space-x-4 items-center mt-2">
-                  <Select
-                    bg="white"
-                    width={44}
-                    placeholder="Difficulty Level"
-                    className="font-poppins cursor-pointer bg-white text-pp-darkpurple tracking-tight"
-                    onChange={handleOptionChange}
-                    value={difficulty}
-                  >
-                    {dropdownOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </Select>
-                  <button
-                    onClick={handleMatching}
-                    className="bg-pp-blue hover:bg-pp-accentblue w-40 rounded-3xl p-2 cursor-pointer font-poppins font-bold text-lg text-white tracking-tight"
-                  >
-                    Get matched
-                    {matchingStarted && (
-                      <Countdown
-                        seconds={30}
-                        isRunning={matchingStarted}
-                        onTimerEnd={stopMatching}
-                      />
-                    )}
-                  </button>
+                  <div className="flex flex-row space-x-4 items-center mt-2">
+                    <Select
+                      bg="white"
+                      width={44}
+                      placeholder="Difficulty Level"
+                      className="font-poppins cursor-pointer bg-white text-pp-darkpurple tracking-tight"
+                      onChange={handleOptionChange}
+                      value={difficulty}
+                    >
+                      {dropdownOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </Select>
+                    <button
+                      onClick={handleMatching}
+                      className="bg-pp-blue hover:bg-pp-accentblue w-40 rounded-3xl p-2 cursor-pointer font-poppins font-bold text-lg text-white tracking-tight"
+                    >
+                      Get matched
+                      {matchingStarted && (
+                        <Countdown
+                          seconds={30}
+                          isRunning={matchingStarted}
+                          onTimerEnd={stopMatching}
+                        />
+                      )}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+          {/* End of profile dashboard */}
 
-        {/* NOTE: just for reference when building */}
-        {/* <QuestionRow 
-          title={"Question title"}
-          description={"Lorem ipsum"}
-          difficulty={"Hard"}
-          category={['Database', 'Algorithms', 'Strings']}   
-          date={"2/11/2023"}     
-        />
-        <QuestionRow 
-          title={"Question title"}
-          description={"Lorem ipsum"}
-          difficulty={"Hard"}
-          category={['Database', 'Algorithms', 'Strings']}   
-          date={"2/11/2023"}     
-        /> */}
-
-        {/* TODO: get questions from question service */}
-        <div>
-          <div className="ml-11 mr-11 rounded-[20px]">
-            <Questions />
+          {/* Start of activity */}
+          <div className="w-4/12">
+            <div className="bg-pp-gray rounded-[20px]">
+              <p>activity will go here</p>
+            </div>
           </div>
+          {/* End of activity */}
         </div>
-        {/* TODO: activity sidebar */}
+        {/* TODO: I want to have the title be fixed and only scroll the questions but I can't configure it with the divs - either just the questions scroll but no BG or the whole thing scrolls  */}
+        <Questions />
       </div>
     </>
   );

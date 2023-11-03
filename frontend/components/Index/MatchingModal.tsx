@@ -63,7 +63,7 @@ export default function MatchingModal({
             <h1 className="font-poppins text-white text-2xl font-bold tracking-tighter">
               {matchFound
                 ? "We've found you a peer!"
-                : "Hold on...we're finding you a peer"}
+                : "Hold on... We're finding you a peer"}
             </h1>
 
             {!matchFound && (

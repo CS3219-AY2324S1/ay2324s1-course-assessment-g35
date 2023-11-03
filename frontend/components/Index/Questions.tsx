@@ -1,5 +1,6 @@
-import { Spinner } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import QuestionRow from "./Questions/QuestionRow";
+
 type History = {
   roomid: string;
   user1: string;
@@ -23,11 +24,76 @@ const Questions: React.FC = () => {
         setHistoryData(data);
       });
   }, []);
+
   return (
-    // TODO: when styling, add font-poppins to the texts
-    
-    <div className="rounded-[30px] bg-pp-gray px-9 py-8">
-      <div className=" grid-colsgrid-2">
+    <>
+      <div className="flex flex-col gap-y-8 bg-pp-gray rounded-[20px] overflow-auto p-8">
+        <h2 className="font-poppins text-white text-2xl font-bold tracking-tight">
+          Questions you've completed
+        </h2>
+        <div className="flex flex-col gap-y-4">
+        {/* When I put overflow here, it expands the whole section I think because it doesn't know the max height */}
+        {/* <div className="flex flex-col gap-y-4 overflow-auto"> */}
+          
+          {/* TODO: later, link the questions to the QuestionRow */}
+          {/* {historyData.map((data) => {
+            <QuestionRow question={data} />
+          })} */}
+          
+          <QuestionRow
+            title={"Question title"}
+            description={"Lorem ipsum"}
+            difficulty={"Hard"}
+            category={["Database", "Algorithms", "Strings"]}
+            date={"2/11/2023"}
+          />
+          <QuestionRow
+            title={"Question title"}
+            description={"Lorem ipsum"}
+            difficulty={"Hard"}
+            category={["Database", "Algorithms", "Strings"]}
+            date={"2/11/2023"}
+          />
+          <QuestionRow
+            title={"Question title"}
+            description={"Lorem ipsum"}
+            difficulty={"Hard"}
+            category={["Database", "Algorithms", "Strings"]}
+            date={"2/11/2023"}
+          />
+          <QuestionRow
+            title={"Question title"}
+            description={"Lorem ipsum"}
+            difficulty={"Hard"}
+            category={["Database", "Algorithms", "Strings"]}
+            date={"2/11/2023"}
+          />
+          <QuestionRow
+            title={"Question title"}
+            description={"Lorem ipsum"}
+            difficulty={"Hard"}
+            category={["Database", "Algorithms", "Strings"]}
+            date={"2/11/2023"}
+          />
+          <QuestionRow
+            title={"Question title"}
+            description={"Lorem ipsum"}
+            difficulty={"Hard"}
+            category={["Database", "Algorithms", "Strings"]}
+            date={"2/11/2023"}
+          />
+          <QuestionRow
+            title={"Question title"}
+            description={"Lorem ipsum"}
+            difficulty={"Hard"}
+            category={["Database", "Algorithms", "Strings"]}
+            date={"2/11/2023"}
+          />
+        </div>
+      </div>
+
+      {/* <div className="rounded-[30px] bg-pp-gray px-9 py-8">
+      <div className="grid-colsgrid-2">
         <div>
           <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
             <span className="tracking-wide text-2xl font-bold mb-4 text-white">
@@ -45,21 +111,18 @@ const Questions: React.FC = () => {
           </ul>
         </div>
       </div>
-    </div>
+    </div> */}
+    </>
   );
 };
 
 const HistoryItem = (question: History) => {
   console.log(question.question);
   return (
-    <>
-      <div className="flex justify-between">
-        <div className="text-white font-bold">
-          {question.question.questionid}
-        </div>
-        <div className="text-white">12 September 2023</div>
-      </div>
-    </>
+    <div className="flex justify-between">
+      <div className="text-white font-bold">{question.question.questionid}</div>
+      <div className="text-white">12 September 2023</div>
+    </div>
   );
 };
 export default Questions;
