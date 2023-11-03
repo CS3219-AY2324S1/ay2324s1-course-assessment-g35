@@ -17,13 +17,32 @@ export default function MatchingModal({
     handleMatching();
   };
 
-  // TODO: add the facts to rotate if possible every x seconds, depends on how long we set timer for
-  const [randomFact, setRandomFact] = useState<string>("");
+  const [randomFact, setRandomFact] = useState("");
+  const [factIndex, setFactIndex] = useState(0);
+
+  const updateRandomFact = () => {
+    const randomIndex = (factIndex + 1) % matchingFacts.length;
+    const newRandomFact = matchingFacts[randomIndex];
+    setRandomFact(newRandomFact);
+    setFactIndex(randomIndex);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      updateRandomFact();
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [factIndex, matchingFacts]);
+
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * matchingFacts.length);
-    const randomFact = matchingFacts[randomIndex];
-    setRandomFact(randomFact);
-  }, []);
+    const initialRandomFact = matchingFacts[randomIndex];
+    setRandomFact(initialRandomFact);
+    setFactIndex(randomIndex);
+  }, [matchingFacts]);
 
   return (
     // TODO: remove the animation on opening the modal?
