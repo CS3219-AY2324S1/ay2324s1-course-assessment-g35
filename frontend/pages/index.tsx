@@ -20,7 +20,6 @@ import MatchingModal from "@/components/Index/MatchingModal";
 import LogOutModal from "@/components/Index/LogOutModal";
 import { MATCHINGSERVICE_URI, USER_URI } from "@/constants/uri";
 import withAuth from "@/components/withAuth";
-import QuestionRow from "@/components/Index/Questions/QuestionRow";
 
 export interface UserType {
   username: string;
@@ -388,9 +387,7 @@ const Dashboard = () => {
           {/* End of activity */}
         </div>
         {/* TODO: I want to have the title be fixed and only scroll the questions but I can't configure it with the divs - either just the questions scroll but no BG or the whole thing scrolls  */}
-        <div className="bg-pp-gray rounded-[20px]">
-          <Questions />
-        </div>
+        <Questions />
       </div>
     </>
   );
