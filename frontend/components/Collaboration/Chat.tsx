@@ -96,7 +96,6 @@ const Chat: React.FC<ChatComponentProps> = ({
             >
               {message.author === sender ? (
                 <>
-                  <div className="flex-shrink-0 h-10 w-10 rounded-full bg-pp-blue "></div>
                   <div>
                     <div className=" p-3 rounded-r-lg rounded-bl-lg  bg-pp-blue ">
                       <p className="text-sm text-gray-800">{message.message}</p>
@@ -116,7 +115,6 @@ const Chat: React.FC<ChatComponentProps> = ({
                       {message.time}
                     </span>
                   </div>
-                  <div className="flex-shrink-0 h-10 w-10 rounded-full bg-pp-lightpurple"></div>
                 </>
               )}
             </div>
