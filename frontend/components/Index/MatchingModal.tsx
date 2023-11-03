@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { matchingFacts } from "@/public/data/Facts";
 import { Modal, ModalContent } from "@chakra-ui/react";
+import Confetti from "react-confetti";
+import useWindowSize from "react-use/lib/useWindowSize";
 
 interface MatchingModalProps {
   handleMatching: () => void;
@@ -17,16 +19,37 @@ export default function MatchingModal({
     handleMatching();
   };
 
-  // TODO: add the facts to rotate if possible every x seconds, depends on how long we set timer for
-  const [randomFact, setRandomFact] = useState<string>("");
+  const [randomFact, setRandomFact] = useState("");
+  const [factIndex, setFactIndex] = useState(0);
+  const { width, height } = useWindowSize();
+
+  const updateRandomFact = () => {
+    const randomIndex = (factIndex + 1) % matchingFacts.length;
+    const newRandomFact = matchingFacts[randomIndex];
+    setRandomFact(newRandomFact);
+    setFactIndex(randomIndex);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      updateRandomFact();
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [factIndex, matchingFacts]);
+
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * matchingFacts.length);
-    const randomFact = matchingFacts[randomIndex];
-    setRandomFact(randomFact);
-  }, []);
+    const initialRandomFact = matchingFacts[randomIndex];
+    setRandomFact(initialRandomFact);
+    setFactIndex(randomIndex);
+  }, [matchingFacts]);
 
   return (
     // TODO: remove the animation on opening the modal?
+
     <Modal
       isOpen={true}
       onClose={() => setShowMatchingModal(false)}
@@ -34,6 +57,25 @@ export default function MatchingModal({
     >
       <ModalContent>
         <div className="bg-pp-darkpurple flex flex-col h-screen w-screen">
+          {matchFound && (
+            <Confetti
+              width={width}
+              height={height}
+              colors={["#88D9E6", "#69B6C2", "#6C6EA0", "#FFFFFF", "#BEE460"]}
+              drawShape={(ctx) => {
+                // NOTE: can change it later lol
+                ctx.beginPath();
+                for (let i = 0; i < 22; i++) {
+                  const angle = 0.2 * i;
+                  const x = (0.2 + 1.5 * angle) * Math.cos(angle);
+                  const y = (0.2 + 1.5 * angle) * Math.sin(angle);
+                  ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+                ctx.closePath();
+              }}
+            />
+          )}
           <div className="flex space-x-2 p-4 h-1/12">
             <svg
               xmlns="http://www.w3.org/2000/svg"

@@ -9,7 +9,6 @@ import {
 import io from "socket.io-client";
 import { useEffect, useState } from "react";
 import useWindowSize from "react-use/lib/useWindowSize";
-import Confetti from "react-confetti";
 import Countdown from "@/components/Index/Countdown";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -53,6 +52,7 @@ const Dashboard = () => {
     useState<boolean>(false);
   const [matchingStarted, setMatchingStarted] = useState<boolean>(false);
   const [matchFound, setMatchFound] = useState<boolean>(false);
+  const [showTryAgainModal, setShowTryAgainModal] = useState<boolean>(false);
 
   const [user, setUser] = useState<UserType>();
   const fetchAndSetUser = async () => {
@@ -109,11 +109,18 @@ const Dashboard = () => {
     setMatchingStarted(false);
     setShowMatchingModal(false);
     socket.emit("leave", { difficulty: difficulty });
+    setShowTryAgainModal(true);
+  };
+
+  const cancelMatching = () => {
+    setMatchingStarted(false);
+    setShowMatchingModal(false);
+    socket.emit("leave", { difficulty: difficulty });
   };
 
   const handleMatching = async () => {
     if (matchingStarted == true) {
-      stopMatching();
+      cancelMatching();
     } else {
       // Start matching PROCESS
       if (difficulty != "") {
@@ -176,6 +183,18 @@ const Dashboard = () => {
     }
   }, [showFeedbackModal]);
 
+  useEffect(() => {
+    if (showTryAgainModal) {
+      const timer = setTimeout(() => {
+        setShowTryAgainModal(false);
+      }, 3000);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [showTryAgainModal]);
+
   return (
     <>
       <link
@@ -223,27 +242,38 @@ const Dashboard = () => {
         </Modal>
       )}
 
-      <div className="flex flex-col h-screen w-screen bg-pp-darkpurple">
-        {matchFound && (
-          <Confetti
-            width={width}
-            height={height}
-            colors={["#88D9E6", "#69B6C2", "#6C6EA0", "#FFFFFF", "#BEE460"]}
-            drawShape={(ctx) => {
-              // NOTE: can change it later lol
-              ctx.beginPath();
-              for (let i = 0; i < 22; i++) {
-                const angle = 0.2 * i;
-                const x = (0.2 + 1.5 * angle) * Math.cos(angle);
-                const y = (0.2 + 1.5 * angle) * Math.sin(angle);
-                ctx.lineTo(x, y);
-              }
-              ctx.stroke();
-              ctx.closePath();
-            }}
-          />
-        )}
+      {showTryAgainModal && (
+        <Modal
+          isOpen={showTryAgainModal}
+          onClose={() => setShowTryAgainModal(false)}
+          size="full"
+        >
+          <ModalOverlay />
+          <ModalContent>
+            <div className="bg-pp-darkpurple flex flex-col h-screen w-screen">
+              <div
+                className="flex items-center justify-center h-screen w-screen"
+                style={{
+                  flexDirection: "column",
+                }}
+              >
+                <div className="text-center">
+                  <h1 className="font-poppins text-white text-2xl font-bold tracking-tighter">
+                    Oops! It seems there's no match at the moment.
+                  </h1>
+                  <br />
+                  <h1 className="font-poppins text-white text-base tracking-tight mt-4">
+                    Take a breather, explore some other options, and let's try
+                    again later.
+                  </h1>
+                </div>
+              </div>
+            </div>
+          </ModalContent>
+        </Modal>
+      )}
 
+      <div className="flex flex-col h-screen w-screen bg-pp-darkpurple">
         <div className="bg-gradient-to-r from-pp-blue to-pp-lightpurple flex-col ml-11 mr-11 my-10 rounded-[20px]">
           <div className="px-9 py-8">
             <div className="flex justify-between">
@@ -312,7 +342,7 @@ const Dashboard = () => {
                     Get matched
                     {matchingStarted && (
                       <Countdown
-                        seconds={30}
+                        seconds={20}
                         isRunning={matchingStarted}
                         onTimerEnd={stopMatching}
                       />
