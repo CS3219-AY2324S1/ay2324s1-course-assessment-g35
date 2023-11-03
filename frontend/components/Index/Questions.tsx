@@ -27,19 +27,19 @@ const Questions: React.FC = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-y-8 bg-pp-gray rounded-[20px] overflow-auto p-8">
-        <h2 className="font-poppins text-white text-2xl font-bold tracking-tight">
+      <div className="flex flex-col bg-pp-gray rounded-[20px] px-8 overflow-hidden">
+        <h2 className="font-poppins py-8 text-white text-2xl font-bold overflow-hidden">
           Questions you've completed
         </h2>
-        <div className="flex flex-col gap-y-4">
-        {/* When I put overflow here, it expands the whole section I think because it doesn't know the max height */}
-        {/* <div className="flex flex-col gap-y-4 overflow-auto"> */}
-          
+        <div className="flex flex-col gap-y-4 overflow-auto">
+          {/* When I put overflow here, it expands the whole section I think because it doesn't know the max height */}
+          {/* <div className="flex flex-col gap-y-4 overflow-auto"> */}
+
           {/* TODO: later, link the questions to the QuestionRow */}
           {/* {historyData.map((data) => {
             <QuestionRow question={data} />
           })} */}
-          
+
           <QuestionRow
             title={"Question title"}
             description={"Lorem ipsum"}
