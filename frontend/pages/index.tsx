@@ -9,7 +9,6 @@ import {
 import io from "socket.io-client";
 import { useEffect, useState } from "react";
 import useWindowSize from "react-use/lib/useWindowSize";
-import Confetti from "react-confetti";
 import Countdown from "@/components/Index/Countdown";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -275,26 +274,6 @@ const Dashboard = () => {
       )}
 
       <div className="flex flex-col h-screen w-screen bg-pp-darkpurple">
-        {matchFound && (
-          <Confetti
-            width={width}
-            height={height}
-            colors={["#88D9E6", "#69B6C2", "#6C6EA0", "#FFFFFF", "#BEE460"]}
-            drawShape={(ctx) => {
-              // NOTE: can change it later lol
-              ctx.beginPath();
-              for (let i = 0; i < 22; i++) {
-                const angle = 0.2 * i;
-                const x = (0.2 + 1.5 * angle) * Math.cos(angle);
-                const y = (0.2 + 1.5 * angle) * Math.sin(angle);
-                ctx.lineTo(x, y);
-              }
-              ctx.stroke();
-              ctx.closePath();
-            }}
-          />
-        )}
-
         <div className="bg-gradient-to-r from-pp-blue to-pp-lightpurple flex-col ml-11 mr-11 my-10 rounded-[20px]">
           <div className="px-9 py-8">
             <div className="flex justify-between">
