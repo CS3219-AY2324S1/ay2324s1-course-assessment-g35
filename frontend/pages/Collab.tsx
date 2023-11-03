@@ -13,17 +13,20 @@ import withAuth from "@/components/withAuth";
 import SaveModal from "@/components/Collaboration/LeaveModal";
 import LeaveModal from "@/components/Collaboration/LeaveModal";
 import {
+  Button,
   Modal,
   ModalContent,
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
+import CodeGenModal from "@/components/Collaboration/CodeGenModal";
 
 function Collab() {
   const router = useRouter();
   const { roomId, myId, otherId, difficulty } = router.query;
   const [showChat, setShowChat] = useState<boolean>(false);
   const [question, setQuestion] = useState<Question>();
+  const [showGenerateModal, setShowGenerateModal] = useState<boolean>(false);
 
   // useEffect to retrieve question if none found in localstorage
   useEffect(() => {
@@ -38,6 +41,12 @@ function Collab() {
       socket.disconnect();
     };
   }, []);
+  const openCodeGenModal = () => {
+    setShowGenerateModal(true);
+  };
+  const handleCloseCodeGenModal = () => {
+    setShowGenerateModal(false);
+  };
 
   const getQuestion = () => {
     axios
@@ -114,6 +123,15 @@ function Collab() {
         href="https://fonts.googleapis.com/css?family=Poppins"
         rel="stylesheet"
       ></link>
+      <div>
+        {showGenerateModal && (
+          <CodeGenModal
+            handleCloseModal={handleCloseCodeGenModal}
+            setShowCodeGenModal={setShowGenerateModal}
+          />
+        )}
+      </div>
+
       <div className="h-screen w-screen flex bg-pp-darkpurple text-white">
         {/* video on */}
         {/* <svg
@@ -216,6 +234,8 @@ function Collab() {
               <path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z" />
             </svg>
           </div>
+          <Button onClick={openCodeGenModal}>Generate</Button>
+
           <CodeEditor roomId={roomId || ""} />
         </div>
 
