@@ -5,7 +5,9 @@ import io, { Socket } from "socket.io-client";
 import VideoCall from "@/components/VideoCall";
 import CodeEditor from "@/components/Collaboration/CodeEditor";
 import axios from "axios";
-import QuestionDisplay, { Question } from "@/components/Collaboration/QuestionDisplay";
+import QuestionDisplay, {
+  Question,
+} from "@/components/Collaboration/QuestionDisplay";
 import { CHATSERVICE_URI, QUESTION_URI } from "@/constants/uri";
 import withAuth from "@/components/withAuth";
 import SaveModal from "@/components/Collaboration/SaveModal";
@@ -143,7 +145,7 @@ function Collab() {
 
         {/* Question section */}
         <div className="bg-pp-gray font-poppins w-4/12 h-screen flex flex-col gap-4 p-4">
-          <QuestionDisplay question={question} getQuestion={getQuestion}/>
+          <QuestionDisplay question={question} getQuestion={getQuestion} />
         </div>
 
         {/* Code editor section */}
@@ -171,12 +173,12 @@ function Collab() {
 
         {/* Chat and video section */}
         <div className="bg-pp-gray font-poppins w-2/12 h-screen flex flex-col gap-4">
-          {/* <button
+          <button
             className="text-pp-red bg-slate-900 rounded p-2"
             onClick={() => setShowChat(!showChat)}
           >
             Show Chat / Video
-          </button> */}
+          </button>
           <div
             className={`w-1/6 absolute bottom-0 h-screen ${
               showChat ? "block" : "hidden"
