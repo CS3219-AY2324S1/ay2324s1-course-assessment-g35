@@ -4,7 +4,9 @@ import router from "next/router";
 
 import {
   Modal,
+  ModalBody,
   ModalContent,
+  ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
 
@@ -19,6 +21,7 @@ interface ProfileModalProps {
   fetchAndSetUser: () => void;
   setShowProfileModal: (status: boolean) => void;
   handleCloseModal: () => void;
+  updateModalStatus: () => void;
 }
 
 const ProfileModal: React.FC<ProfileModalProps> = ({
@@ -26,10 +29,20 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
   fetchAndSetUser,
   setShowProfileModal,
   handleCloseModal,
+  updateModalStatus,
 }) => {
   const [isChangedEmail, setChangedEmail] = useState<boolean>(false);
+  const [showConfirmDelete, setShowConfirmDelete] = useState<boolean>(false);
 
   const handleDeleteClick = async () => {
+    setShowConfirmDelete(true);
+  };
+
+  const handleCloseConfirmDelete = async () => {
+    setShowConfirmDelete(false);
+  };
+
+  const handleConfirmDelete = async () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.delete("http://localhost:8000/", {
@@ -56,6 +69,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     // TODO: automatically close the modal when the email has been changed or change how it looks,
     // ie. remove input text and hide update button
+    updateModalStatus();
     e.preventDefault();
     console.log(email);
 
@@ -108,30 +122,60 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
         </div>
 
         <div className="w-full h-full">
-          <div className="h-full flex flex-col gap-y-4 justify-center">
-              <div className="flex flex-col gap-y-2">
-                <p className="font-poppins text-base tracking-tigher">Username</p>
-                <div className="rounded-3xl text-pp-gray bg-gray-400 font-poppins text-sm block w-full p-2.5 focus:outline-none tracking-tight">
-                  {user?.username}
+          <Modal
+            isOpen={showConfirmDelete}
+            onClose={() => setShowConfirmDelete(false)}
+            isCentered
+          >
+            <ModalOverlay />
+            <ModalContent className="p-2" style={{ borderRadius: "20px" }}>
+              <ModalHeader className="font-poppins text-pp-darkpurple">
+                Delete your account?
+              </ModalHeader>
+              <ModalBody className="flex justify-between">
+                <div
+                  onClick={handleConfirmDelete}
+                  className="font-poppins bg-pp-blue hover:bg-pp-darkblue w-40 rounded-3xl p-2 text-white text-center font-bold cursor-pointer"
+                >
+                  Yes
                 </div>
-              </div>
-              <div className="flex flex-col gap-y-2">
-                <p className="font-poppins text-base">Email</p>
-                <form onSubmit={handleSubmit}>
-                  <input
-                    type="text"
-                    name="email"
-                    id="emailChange"
-                    placeholder={user?.email}
-                    className="rounded-3xl bg-pp-gray text-white font-poppins text-sm block w-full p-2.5 focus:outline-none tracking-tight"
-                    required
-                    value={email}
-                    onChange={handleEmail}
-                  />
-                </form>
-              </div>
+                <div
+                  onClick={handleCloseConfirmDelete}
+                  className="font-poppins w-40 p-2 text-pp-darkpurple text-center font-bold cursor-pointer"
+                >
+                  Cancel
+                </div>
+              </ModalBody>
+            </ModalContent>
+          </Modal>
 
-            <div className="flex justify-between">
+          <div className="h-full flex flex-col gap-y-4 justify-center">
+            <div className="font-poppins text-pp-darkpurple text-[30px] font-bold">
+              Profile
+            </div>
+            <div className="flex flex-col">
+              <p className="font-poppins text-base tracking-tigher">Username</p>
+              <div className="rounded-3xl text-pp-gray bg-gray-400 font-poppins text-sm block w-full p-2.5 focus:outline-none tracking-tight">
+                {user?.username}
+              </div>
+            </div>
+            <div className="flex flex-col gap-y-2">
+              <p className="font-poppins text-base">Email</p>
+              <form onSubmit={handleSubmit}>
+                <input
+                  type="text"
+                  name="email"
+                  id="emailChange"
+                  placeholder={user?.email}
+                  className="rounded-3xl bg-pp-gray text-white font-poppins text-sm block w-full p-2.5 focus:outline-none tracking-tight"
+                  required
+                  value={email}
+                  onChange={handleEmail}
+                />
+              </form>
+            </div>
+
+            <div className="flex justify-between pt-4">
               <div>
                 {isChangedEmail && (
                   <button

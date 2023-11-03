@@ -1,4 +1,11 @@
-import { Select, Tooltip } from "@chakra-ui/react";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  Select,
+  Tooltip,
+} from "@chakra-ui/react";
 import io from "socket.io-client";
 import { useEffect, useState } from "react";
 import useWindowSize from "react-use/lib/useWindowSize";
@@ -40,6 +47,7 @@ const Dashboard = () => {
   const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
   const [showLogOutModal, setShowLogOutModal] = useState<boolean>(false);
   const [showMatchingModal, setShowMatchingModal] = useState<boolean>(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState<boolean>(false);
 
   const [matchWithoutDifficulty, setMatchWithoutDifficulty] =
     useState<boolean>(false);
@@ -88,6 +96,12 @@ const Dashboard = () => {
     if (e.currentTarget.value != "") {
       setMatchWithoutDifficulty(false);
     }
+  };
+
+  const handleUpdateModalStatus = () => {
+    handleCloseModal();
+    setShowFeedbackModal(true);
+    console.log(showFeedbackModal);
   };
 
   // Start of matching related
@@ -157,29 +171,45 @@ const Dashboard = () => {
         rel="stylesheet"
       ></link>
       {showProfileModal && (
-          <ProfileModal
-            user={user}
-            fetchAndSetUser={fetchAndSetUser}
-            setShowProfileModal={setShowProfileModal}
-            handleCloseModal={handleCloseModal}
-          />
-        )}
+        <ProfileModal
+          user={user}
+          fetchAndSetUser={fetchAndSetUser}
+          setShowProfileModal={setShowProfileModal}
+          handleCloseModal={handleCloseModal}
+          updateModalStatus={handleUpdateModalStatus}
+        />
+      )}
 
-        {showLogOutModal && (
-          <LogOutModal
-            setShowLogOutModal={setShowLogOutModal}
-            confirmLogOut={confirmLogout}
-            handleCloseModal={handleCloseModal}
-          />
-        )}
+      {showLogOutModal && (
+        <LogOutModal
+          setShowLogOutModal={setShowLogOutModal}
+          confirmLogOut={confirmLogout}
+          handleCloseModal={handleCloseModal}
+        />
+      )}
 
-        {showMatchingModal && matchingStarted && (
-          <MatchingModal
-            handleMatching={handleMatching}
-            matchFound={matchFound}
-            setShowMatchingModal={setShowMatchingModal}
-          />
-        )}
+      {showMatchingModal && matchingStarted && (
+        <MatchingModal
+          handleMatching={handleMatching}
+          matchFound={matchFound}
+          setShowMatchingModal={setShowMatchingModal}
+        />
+      )}
+
+      {showFeedbackModal && (
+        <Modal
+          isOpen={showFeedbackModal}
+          onClose={() => setShowFeedbackModal(false)}
+          isCentered
+        >
+          <ModalOverlay />
+          <ModalContent className="p-2" style={{ borderRadius: "20px" }}>
+            <ModalHeader className="font-poppins text-pp-darkpurple">
+              Profile successfully updated!
+            </ModalHeader>
+          </ModalContent>
+        </Modal>
+      )}
 
       <div className="flex flex-col h-screen w-screen bg-pp-darkpurple">
         {matchFound && (
