@@ -164,6 +164,18 @@ const Dashboard = () => {
   }, []);
   // End of matching related
 
+  useEffect(() => {
+    if (showFeedbackModal) {
+      const timer = setTimeout(() => {
+        setShowFeedbackModal(false);
+      }, 1000);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [showFeedbackModal]);
+
   return (
     <>
       <link
