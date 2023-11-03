@@ -85,7 +85,7 @@ const Chat: React.FC<ChatComponentProps> = ({
         size={24}
         onClick={() => setShowChat(false)}
       />
-      <div className="flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden pt-6">
+      <div className="flex flex-col flex-grow w-full max-w-xl bg-pp-gray font-poppins shadow-xl rounded-lg overflow-hidden pt-6">
         <div className="flex flex-col flex-grow h-0 p-4 overflow-auto w-full">
           {allMessage.map((message, index) => (
             <div
@@ -96,20 +96,10 @@ const Chat: React.FC<ChatComponentProps> = ({
             >
               {message.author === sender ? (
                 <>
-                  <div
-                    className={`flex-shrink-0 h-10 w-10 rounded-full  ${
-                      message.author === sender ? "bg-blue-300 " : "bg-gray-300"
-                    }`}
-                  ></div>
+                  <div className="flex-shrink-0 h-10 w-10 rounded-full bg-pp-blue "></div>
                   <div>
-                    <div
-                      className={` p-3 rounded-r-lg rounded-bl-lg ${
-                        message.author === sender
-                          ? "bg-blue-300"
-                          : "bg-gray-300"
-                      }`}
-                    >
-                      <p className="text-sm">{message.message}</p>
+                    <div className=" p-3 rounded-r-lg rounded-bl-lg  bg-pp-blue ">
+                      <p className="text-sm text-gray-800">{message.message}</p>
                     </div>
                     <span className="text-xs text-gray-500 leading-none">
                       {message.time}
@@ -119,51 +109,23 @@ const Chat: React.FC<ChatComponentProps> = ({
               ) : (
                 <>
                   <div>
-                    <div
-                      className={` p-3 rounded-r-lg rounded-bl-lg ${
-                        message.author === sender
-                          ? "bg-blue-300"
-                          : "bg-gray-300"
-                      }`}
-                    >
+                    <div className=" p-3 rounded-r-lg rounded-bl-lg bg-pp-lightpurple">
                       <p className="text-sm">{message.message}</p>
                     </div>
                     <span className="text-xs text-gray-500 leading-none">
                       {message.time}
                     </span>
                   </div>
-                  <div
-                    className={`flex-shrink-0 h-10 w-10 rounded-full  ${
-                      message.author === sender ? "bg-blue-300 " : "bg-gray-300"
-                    }`}
-                  ></div>
+                  <div className="flex-shrink-0 h-10 w-10 rounded-full bg-pp-lightpurple"></div>
                 </>
               )}
-              {/* <div
-                className={`flex-shrink-0 h-10 w-10 rounded-full  ${
-                  message.author === sender ? "bg-blue-300 " : "bg-gray-300"
-                }`}
-              ></div>
-              <div>
-                <div
-                  className={` p-3 rounded-r-lg rounded-bl-lg ${
-                    message.author === sender ? "bg-blue-300" : "bg-gray-300"
-                  }`}
-                >
-                  <p className="text-sm">{message.message}</p>
-                </div>
-                <span className="text-xs text-gray-500 leading-none">
-                  {message.time}
-                </span>
-              </div> */}
             </div>
           ))}
           <div ref={messagesEndRef}></div>
         </div>
-
-        <div className="bg-gray-300 p-4">
+        <div className="bg-pp-gray p-4">
           <input
-            className="flex items-center h-10 w-full rounded px-3 text-sm focus:outline-none"
+            className="bg-white flex items-center h-10 w-full text-black rounded px-3 text-sm focus:outline-none"
             type="text"
             placeholder="Type your message…"
             value={currentMessage}

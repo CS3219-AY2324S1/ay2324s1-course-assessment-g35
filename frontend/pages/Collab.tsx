@@ -221,12 +221,12 @@ function Collab() {
 
         {/* Chat and video section */}
         <div className="bg-pp-gray font-poppins w-2/12 h-screen flex flex-col gap-4">
-          {/* <button
+          <button
             className="text-pp-red bg-slate-900 rounded p-2"
             onClick={() => setShowChat(!showChat)}
           >
             Show Chat / Video
-          </button> */}
+          </button>
           <div
             className={`w-1/6 absolute bottom-0 h-screen ${
               showChat ? "block" : "hidden"
