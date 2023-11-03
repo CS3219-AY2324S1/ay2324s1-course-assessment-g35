@@ -1,8 +1,10 @@
-import { get } from 'http';
+import { AudioOnIcon, AudioOffIcon, VideoOnIcon, VideoOffIcon } from '@/constants/icons';
 import { useEffect, useRef, useState } from 'react';
 
 function VideoCall({myId, otherId}) {
   const [peerId, setPeerId] = useState('');
+  const [isVideoOn, setIsVideoOn] = useState(true);
+  const [isAudioOn, setIsAudioOn] = useState(true);
   const remoteVideoRef = useRef(null);
   const currentUserVideoRef = useRef(null);
   const peerInstance = useRef(null);
@@ -101,12 +103,14 @@ function VideoCall({myId, otherId}) {
     videoTracks.forEach(track => {
       track.enabled = isVideoOn;
     });
+    setIsVideoOn(isVideoOn);
     const savedAudioState = localStorage.getItem('audioState');
     const isAudioOn = savedAudioState !== null ? (savedAudioState == 'on') : true;
     const audioTracks = currentUserVideoRef.current.srcObject.getAudioTracks();
     audioTracks.forEach(track => {
         track.enabled = isAudioOn;
     });
+    setIsAudioOn(isAudioOn);
     console.log('isVideoOn', isVideoOn);
     console.log('isAudioOn', isAudioOn);
   }
@@ -116,6 +120,7 @@ function VideoCall({myId, otherId}) {
     tracks.forEach(track => {
       track.enabled = !track.enabled; // Toggle audio track
       localStorage.setItem('audioState', track.enabled ? 'on' : 'off');
+      setIsAudioOn(track.enabled);
     });
   };
   
@@ -124,6 +129,7 @@ function VideoCall({myId, otherId}) {
     tracks.forEach(track => {
       track.enabled = !track.enabled; // Toggle video track
       localStorage.setItem('videoState', track.enabled ? 'on' : 'off');
+      setIsVideoOn(track.enabled);
     });
   };
   
@@ -133,10 +139,14 @@ function VideoCall({myId, otherId}) {
       {/* <h1>Current user id is {peerId}</h1> */}
       {/* <input type="text" value={remotePeerIdValue} onChange={e => setRemotePeerIdValue(e.target.value)} />
       <button onClick={() => call(remotePeerIdValue)}>Call</button> */}
-      <video playsInline muted ref={currentUserVideoRef} className="w-auto rounded-lg" />
-      <div>
-        <button onClick={toggleAudio}>Toggle Audio</button>
-        <button onClick={toggleVideo}>Toggle Video</button>
+      <video playsInline muted ref={currentUserVideoRef} className="w-auto rounded-lg relative" />
+      <div className='flex gap-2'>
+        <button onClick={toggleAudio}>
+          {isAudioOn ? <AudioOnIcon /> : <AudioOffIcon />}
+        </button>
+        <button onClick={toggleVideo}>
+          {isVideoOn ? <VideoOnIcon /> : <VideoOffIcon />}
+        </button>
       </div>
       <video playsInline ref={remoteVideoRef} autoPlay className="w-auto rounded-lg" />
       {/* playsInline: dont play fullscreen on ios, autoPlay: play upon load */}
