@@ -205,7 +205,6 @@ function Collab() {
 
         {/* Code editor section */}
         <div className="bg-[#282A35] font-poppins w-6/12 h-screen flex flex-col gap-4 p-4 overflow-auto">
-          {/* TODO: maybe move the save button to inside the code editor if possible so that it can look nicer if it's on the same row as language options */}
           <div className="flex justify-between">
             <svg
               xmlns="http://www.w3.org/2000/svg"

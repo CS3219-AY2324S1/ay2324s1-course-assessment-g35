@@ -33,7 +33,7 @@ export default function MatchingModal({
   useEffect(() => {
     const interval = setInterval(() => {
       updateRandomFact();
-    }, 5000);
+    }, 10000);
 
     return () => {
       clearInterval(interval);

@@ -1,6 +1,6 @@
 import React from "react";
-import Tag from "../Tag";
 import ReactMarkdown from "react-markdown";
+import CategoryRow from "../CategoryRow";
 
 export type Question = {
   _id: string;
@@ -53,9 +53,12 @@ export default function QuestionDisplay({
       </div>
 
       <div className="flex row space-between space-x-1 px-2">
-        <Tag title={"Databases"} />
-        <Tag title={"Strings"} />
-        <Tag title={"Algorithms"} />
+        {/* <CategoryRow category={"Strings"} />
+        <CategoryRow category={"Algorithms"} />
+        <CategoryRow category={"Bit Manipulation"} /> */}
+        {question?.category.map((item) => (
+          <CategoryRow category={item}/>
+        ))}
       </div>
 
       <div className="overflow-scroll">
