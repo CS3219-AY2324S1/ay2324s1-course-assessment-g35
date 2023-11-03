@@ -53,6 +53,7 @@ const Dashboard = () => {
     useState<boolean>(false);
   const [matchingStarted, setMatchingStarted] = useState<boolean>(false);
   const [matchFound, setMatchFound] = useState<boolean>(false);
+  const [showTryAgainModal, setShowTryAgainModal] = useState<boolean>(false);
 
   const [user, setUser] = useState<UserType>();
   const fetchAndSetUser = async () => {
@@ -109,6 +110,7 @@ const Dashboard = () => {
     setMatchingStarted(false);
     setShowMatchingModal(false);
     socket.emit("leave", { difficulty: difficulty });
+    setShowTryAgainModal(true);
   };
 
   const handleMatching = async () => {
@@ -176,6 +178,18 @@ const Dashboard = () => {
     }
   }, [showFeedbackModal]);
 
+  useEffect(() => {
+    if (showTryAgainModal) {
+      const timer = setTimeout(() => {
+        setShowTryAgainModal(false);
+      }, 3000);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [showTryAgainModal]);
+
   return (
     <>
       <link
@@ -219,6 +233,37 @@ const Dashboard = () => {
             <ModalHeader className="font-poppins text-pp-darkpurple">
               Profile successfully updated!
             </ModalHeader>
+          </ModalContent>
+        </Modal>
+      )}
+
+      {showTryAgainModal && (
+        <Modal
+          isOpen={showTryAgainModal}
+          onClose={() => setShowTryAgainModal(false)}
+          size="full"
+        >
+          <ModalOverlay />
+          <ModalContent className="p-2" style={{ borderRadius: "20px" }}>
+            <div className="bg-pp-darkpurple flex flex-col h-screen w-screen">
+              <div
+                className="flex items-center justify-center h-screen w-screen"
+                style={{
+                  flexDirection: "column",
+                }}
+              >
+                <div className="text-center">
+                  <h1 className="font-poppins text-white text-2xl font-bold tracking-tighter">
+                    Oops! It seems there's no match at the moment.
+                  </h1>
+                  <br />
+                  <h1 className="font-poppins text-white text-base tracking-tight mt-4">
+                    Take a breather, explore some other options, and let's try
+                    again later.
+                  </h1>
+                </div>
+              </div>
+            </div>
           </ModalContent>
         </Modal>
       )}
@@ -312,7 +357,7 @@ const Dashboard = () => {
                     Get matched
                     {matchingStarted && (
                       <Countdown
-                        seconds={30}
+                        seconds={20}
                         isRunning={matchingStarted}
                         onTimerEnd={stopMatching}
                       />
