@@ -5,10 +5,19 @@ import io, { Socket } from "socket.io-client";
 import VideoCall from "@/components/VideoCall";
 import CodeEditor from "@/components/Collaboration/CodeEditor";
 import axios from "axios";
-import QuestionDisplay, { Question } from "@/components/Collaboration/QuestionDisplay";
+import QuestionDisplay, {
+  Question,
+} from "@/components/Collaboration/QuestionDisplay";
 import { CHATSERVICE_URI, QUESTION_URI } from "@/constants/uri";
 import withAuth from "@/components/withAuth";
-import SaveModal from "@/components/Collaboration/SaveModal";
+import SaveModal from "@/components/Collaboration/LeaveModal";
+import LeaveModal from "@/components/Collaboration/LeaveModal";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+} from "@chakra-ui/react";
 
 function Collab() {
   const router = useRouter();
@@ -60,13 +69,16 @@ function Collab() {
     return newSocket;
   }, [roomId]);
 
+  const [showLeaveModal, setShowLeaveModal] = useState<boolean>(false);
   const [showSaveModal, setShowSaveModal] = useState<boolean>(false);
-  const handleSaveClick = () => {
-    setShowSaveModal(true);
+
+  const handleLeaveClick = () => {
+    setShowLeaveModal(true);
   };
 
   const handleSave = () => {
     console.log("SAVING PROGRESS");
+    setShowSaveModal(true);
     // make call to history service to save qid, uid1, uid2, roomid, and code
   };
 
@@ -81,8 +93,20 @@ function Collab() {
   };
 
   const handleCloseModal = () => {
-    setShowSaveModal(false);
+    setShowLeaveModal(false);
   };
+
+  useEffect(() => {
+    if (showSaveModal) {
+      const timer = setTimeout(() => {
+        setShowSaveModal(false);
+      }, 1000);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [showSaveModal]);
 
   return (
     <>
@@ -132,24 +156,39 @@ function Collab() {
           <path d="M13.5 4.06c0-1.336-1.616-2.005-2.56-1.06l-4.5 4.5H4.508c-1.141 0-2.318.664-2.66 1.905A9.76 9.76 0 001.5 12c0 .898.121 1.768.35 2.595.341 1.24 1.518 1.905 2.659 1.905h1.93l4.5 4.5c.945.945 2.561.276 2.561-1.06V4.06zM17.78 9.22a.75.75 0 10-1.06 1.06L18.44 12l-1.72 1.72a.75.75 0 001.06 1.06l1.72-1.72 1.72 1.72a.75.75 0 101.06-1.06L20.56 12l1.72-1.72a.75.75 0 00-1.06-1.06l-1.72 1.72-1.72-1.72z" />
         </svg> */}
 
-        {showSaveModal && (
-          <SaveModal
-            handleSave={handleSave}
+        {showLeaveModal && (
+          <LeaveModal
             handleSaveAndLeave={handleSaveAndLeave}
             handleCloseModal={handleCloseModal}
-            setShowSaveModal={setShowSaveModal}
+            setShowLeaveModal={setShowLeaveModal}
           />
+        )}
+
+        {showSaveModal && (
+          <Modal
+            isOpen={showSaveModal}
+            onClose={() => setShowSaveModal(false)}
+            isCentered
+            size={"xs"}
+          >
+            <ModalOverlay />
+            <ModalContent className="p-2" style={{ borderRadius: "20px" }}>
+              <ModalHeader className="font-poppins text-pp-darkpurple">
+                Progress saved!
+              </ModalHeader>
+            </ModalContent>
+          </Modal>
         )}
 
         {/* Question section */}
         <div className="bg-pp-gray font-poppins w-4/12 h-screen flex flex-col gap-4 p-4">
-          <QuestionDisplay question={question} getQuestion={getQuestion}/>
+          <QuestionDisplay question={question} getQuestion={getQuestion} />
         </div>
 
         {/* Code editor section */}
         <div className="bg-[#282A35] font-poppins w-6/12 h-screen flex flex-col gap-4 p-4 overflow-auto">
           {/* TODO: maybe move the save button to inside the code editor if possible so that it can look nicer if it's on the same row as language options */}
-          <div>
+          <div className="flex justify-between">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -157,13 +196,24 @@ function Collab() {
               strokeWidth={1.5}
               stroke="currentColor"
               className="text-pp-blue w-8 h-8 cursor-pointer"
-              onClick={handleSaveClick}
+              onClick={handleSave}
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15M9 12l3 3m0 0l3-3m-3 3V2.25"
               />
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              strokeWidth={1.5}
+              className="text-pp-blue w-8 h-8 cursor-pointer"
+              onClick={handleLeaveClick}
+            >
+              <path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z" />
+              <path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z" />
             </svg>
           </div>
           <CodeEditor roomId={roomId || ""} />
