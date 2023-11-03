@@ -2,7 +2,11 @@
 
 import { exec } from "child_process";
 import { writeFile } from "fs/promises";
+import { unlinkSync } from "fs";
 import { NextApiRequest, NextApiResponse } from "next";
+import Docker from "dockerode";
+
+const docker = new Docker();
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,24 +15,25 @@ export default async function handler(
   console.log("code comes here");
   if (req.method === "POST") {
     try {
-      console.log(req.body);
       const body = JSON.parse(req.body);
-      console.log(body);
+      const language = body.language;
       const code = body.content;
       await writeFile("index.js", code);
-
-      exec("node index.js", (error, stdout, stderr) => {
-        if (error) {
-          console.log("error executing");
-          console.log(`Error: ${error.message}`);
-          res
-            .status(500)
-            .json({ error: error.message, stdout: "", stderr: stderr });
-        } else {
-          console.log(`stdout: ${stdout}`);
-          res.status(200).json({ error: "", stdout: stdout, stderr: stderr });
+      exec(
+        `docker run --rm -v ${process.cwd()}:/usr/src/app node:18 node /usr/src/app/index.js`,
+        (error, stdout, stderr) => {
+          unlinkSync("index.js");
+          if (error) {
+            console.log(`Error executing code: ${error.message}`);
+            res
+              .status(500)
+              .json({ error: error.message, stdout: "", stderr: stderr });
+          } else {
+            console.log(`stdout: ${stdout}`);
+            res.status(200).json({ error: "", stdout: stdout, stderr: stderr });
+          }
         }
-      });
+      );
     } catch (error) {
       console.error(error);
       res
