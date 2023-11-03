@@ -27,25 +27,26 @@ const Questions: React.FC = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-y-8 bg-pp-gray rounded-[20px] overflow-auto p-8">
-        <h2 className="font-poppins text-white text-2xl font-bold tracking-tight">
+      <div className="flex flex-col bg-pp-gray rounded-[20px] px-8 overflow-hidden">
+        <h2 className="font-poppins py-8 text-white text-2xl font-bold overflow-hidden">
           Questions you've completed
         </h2>
-        <div className="flex flex-col gap-y-4">
-        {/* When I put overflow here, it expands the whole section I think because it doesn't know the max height */}
-        {/* <div className="flex flex-col gap-y-4 overflow-auto"> */}
-          
+        <div className="flex flex-col gap-y-4 overflow-auto">
+          {/* When I put overflow here, it expands the whole section I think because it doesn't know the max height */}
+          {/* <div className="flex flex-col gap-y-4 overflow-auto"> */}
+
           {/* TODO: later, link the questions to the QuestionRow */}
           {/* {historyData.map((data) => {
             <QuestionRow question={data} />
           })} */}
           
+          {/* TODO: to remove later when the history set up, just map to create QuestionRow components */}
           <QuestionRow
-            title={"Question title"}
-            description={"Lorem ipsum"}
-            difficulty={"Hard"}
-            category={["Database", "Algorithms", "Strings"]}
-            date={"2/11/2023"}
+            title={"Reverse a String"}
+            description={"Write a function that reverses a string. The input string is given as an array\nof characters s.\nYou must do this by modifying the input array in-place with O(1) extra\nmemory.\nExample 1:\nInput: s = [\"h\",\"e\",\"l\",\"l\",\"o\"]\nOutput: [\"o\",\"l\",\"l\",\"e\",\"h\"]\nExample 2:\nInput: s = [\"H\",\"a\",\"n\",\"n\",\"a\",\"h\"]\nOutput: [\"h\",\"a\",\"n\",\"n\",\"a\",\"H\"]\nConstraints:\n* 1 <= s.length <= 105\n* s[i] is a printable ascii character."}
+            difficulty={"Easy"}
+            category={["Algorithms", "Strings"]}
+            date={"3/11/2023"}
           />
           <QuestionRow
             title={"Question title"}
