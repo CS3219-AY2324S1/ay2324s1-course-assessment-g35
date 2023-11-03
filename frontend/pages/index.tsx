@@ -53,6 +53,7 @@ const Dashboard = () => {
     useState<boolean>(false);
   const [matchingStarted, setMatchingStarted] = useState<boolean>(false);
   const [matchFound, setMatchFound] = useState<boolean>(false);
+  const [showTryAgainModal, setShowTryAgainModal] = useState<boolean>(false);
 
   const [user, setUser] = useState<UserType>();
   const fetchAndSetUser = async () => {
@@ -109,11 +110,18 @@ const Dashboard = () => {
     setMatchingStarted(false);
     setShowMatchingModal(false);
     socket.emit("leave", { difficulty: difficulty });
+    setShowTryAgainModal(true);
+  };
+
+  const cancelMatching = () => {
+    setMatchingStarted(false);
+    setShowMatchingModal(false);
+    socket.emit("leave", { difficulty: difficulty });
   };
 
   const handleMatching = async () => {
     if (matchingStarted == true) {
-      stopMatching();
+      cancelMatching();
     } else {
       // Start matching PROCESS
       if (difficulty != "") {
@@ -164,6 +172,30 @@ const Dashboard = () => {
   }, []);
   // End of matching related
 
+  useEffect(() => {
+    if (showFeedbackModal) {
+      const timer = setTimeout(() => {
+        setShowFeedbackModal(false);
+      }, 1000);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [showFeedbackModal]);
+
+  useEffect(() => {
+    if (showTryAgainModal) {
+      const timer = setTimeout(() => {
+        setShowTryAgainModal(false);
+      }, 3000);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [showTryAgainModal]);
+
   return (
     <>
       <link
@@ -208,6 +240,37 @@ const Dashboard = () => {
             <ModalHeader className="font-poppins text-pp-darkpurple">
               Profile successfully updated!
             </ModalHeader>
+          </ModalContent>
+        </Modal>
+      )}
+
+      {showTryAgainModal && (
+        <Modal
+          isOpen={showTryAgainModal}
+          onClose={() => setShowTryAgainModal(false)}
+          size="full"
+        >
+          <ModalOverlay />
+          <ModalContent>
+            <div className="bg-pp-darkpurple flex flex-col h-screen w-screen">
+              <div
+                className="flex items-center justify-center h-screen w-screen"
+                style={{
+                  flexDirection: "column",
+                }}
+              >
+                <div className="text-center">
+                  <h1 className="font-poppins text-white text-2xl font-bold tracking-tighter">
+                    Oops! It seems there's no match at the moment.
+                  </h1>
+                  <br />
+                  <h1 className="font-poppins text-white text-base tracking-tight mt-4">
+                    Take a breather, explore some other options, and let's try
+                    again later.
+                  </h1>
+                </div>
+              </div>
+            </div>
           </ModalContent>
         </Modal>
       )}
@@ -325,7 +388,9 @@ const Dashboard = () => {
           {/* End of activity */}
         </div>
         {/* TODO: I want to have the title be fixed and only scroll the questions but I can't configure it with the divs - either just the questions scroll but no BG or the whole thing scrolls  */}
-        <Questions />
+        <div className="bg-pp-gray rounded-[20px]">
+          <Questions />
+        </div>
       </div>
     </>
   );
