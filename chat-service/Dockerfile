@@ -4,4 +4,4 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 EXPOSE 3002
-CMD [ "node", "src/index.js" ]
+CMD [ "node", "index.js" ]
