@@ -9,7 +9,6 @@ import {
 import io from "socket.io-client";
 import { useEffect, useState } from "react";
 import useWindowSize from "react-use/lib/useWindowSize";
-import Confetti from "react-confetti";
 import Countdown from "@/components/Index/Countdown";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -20,6 +19,8 @@ import MatchingModal from "@/components/Index/MatchingModal";
 import LogOutModal from "@/components/Index/LogOutModal";
 import { MATCHINGSERVICE_URI, USER_URI } from "@/constants/uri";
 import withAuth from "@/components/withAuth";
+import React from "react";
+import { Rain } from "react-rainfall";
 
 export interface UserType {
   username: string;
@@ -258,6 +259,7 @@ const Dashboard = () => {
                   flexDirection: "column",
                 }}
               >
+                <Rain />
                 <div className="text-center">
                   <h1 className="font-poppins text-white text-2xl font-bold tracking-tighter">
                     Oops! It seems there's no match at the moment.
@@ -275,26 +277,6 @@ const Dashboard = () => {
       )}
 
       <div className="flex flex-col gap-y-8 p-8 h-screen w-screen bg-pp-darkpurple">
-        {matchFound && showMatchingModal && (
-          <Confetti
-            width={width}
-            height={height}
-            colors={["#88D9E6", "#69B6C2", "#6C6EA0", "#FFFFFF", "#BEE460"]}
-            drawShape={(ctx) => {
-              // NOTE: can change it later lol
-              ctx.beginPath();
-              for (let i = 0; i < 22; i++) {
-                const angle = 0.2 * i;
-                const x = (0.2 + 1.5 * angle) * Math.cos(angle);
-                const y = (0.2 + 1.5 * angle) * Math.sin(angle);
-                ctx.lineTo(x, y);
-              }
-              ctx.stroke();
-              ctx.closePath();
-            }}
-          />
-        )}
-
         <div className="flex flex-row gap-x-8">
           <div className="bg-gradient-to-r from-pp-blue to-pp-lightpurple flex-col rounded-[20px] w-8/12">
             {/* Start of profile dashboard */}
