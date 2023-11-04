@@ -181,12 +181,13 @@ function Collab() {
         )}
 
         {/* Question section */}
-        <div className="bg-pp-gray font-poppins w-4/12 h-screen flex flex-col gap-4 p-4">
+        <div className="bg-pp-gray font-poppins w-4/12 h-screen flex flex-col gap-4 p-4 resize-x overflow-auto max-w-7xl min-w-[300px] relative">
           <QuestionDisplay question={question} getQuestion={getQuestion} />
+          <div className="absolute w-0 h-0 border-b-[20px] border-l-[20px] border-l-transparent border-b-gray-300 border-solid right-0 bottom-0"></div>
         </div>
 
         {/* Code editor section */}
-        <div className="bg-[#282A35] font-poppins w-6/12 h-screen flex flex-col gap-4 p-4 overflow-auto">
+        <div className="bg-[#282A35] font-poppins h-screen flex flex-1 flex-col gap-4 p-4 overflow-auto min-w-[300px]">
           <div className="flex justify-between">
             <Tooltip
                   label="Save solution"
