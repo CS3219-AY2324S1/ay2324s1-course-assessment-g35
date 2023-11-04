@@ -19,21 +19,24 @@ export default async function handler(
       const language = body.language;
       const code = body.content;
       await writeFile("index.js", code);
-      exec(
-        `docker run --rm -v ${process.cwd()}:/usr/src/app node:18 node /usr/src/app/index.js`,
-        (error, stdout, stderr) => {
-          unlinkSync("index.js");
-          if (error) {
-            console.log(`Error executing code: ${error.message}`);
-            res
-              .status(500)
-              .json({ error: error.message, stdout: "", stderr: stderr });
-          } else {
-            console.log(`stdout: ${stdout}`);
-            res.status(200).json({ error: "", stdout: stdout, stderr: stderr });
-          }
-        }
-      );
+      const { stdout, stderr } = await runDockerContainer();
+      // Handle stdout and stderr if needed
+      res.status(200).json({ error: "", stdout: stdout, stderr: stderr });
+      // exec(
+      //   `docker run --rm -v ${process.cwd()}:/usr/src/app node:18 node /usr/src/app/index.js`,
+      //   (error, stdout, stderr) => {
+      //     unlinkSync("index.js");
+      //     if (error) {
+      //       console.log(`Error executing code: ${error.message}`);
+      //       res
+      //         .status(500)
+      //         .json({ error: error.message, stdout: "", stderr: stderr });
+      //     } else {
+      //       console.log(`stdout: ${stdout}`);
+      //       res.status(200).json({ error: "", stdout: stdout, stderr: stderr });
+      //     }
+      //   }
+      // );
     } catch (error) {
       console.error(error);
       res
@@ -46,3 +49,40 @@ export default async function handler(
       .json({ error: "Method Not Allowed", stdout: "", stderr: "" });
   }
 }
+
+async function runDockerContainer(): Promise<{
+  stdout: string;
+  stderr: string;
+}> {
+  return new Promise<{ stdout: string; stderr: string }>((resolve, reject) => {
+    exec(
+      `docker run --rm -v ${process.cwd()}:/usr/src/app node:18 node /usr/src/app/index.js`,
+      (error, stdout, stderr) => {
+        unlinkSync("index.js");
+        if (error) {
+          reject(error);
+        } else {
+          resolve({ stdout, stderr });
+        }
+      }
+    );
+  });
+}
+
+// async function runDockerContainer(
+//   code: string
+// ): Promise<{ stdout: string; stderr: string }> {
+//   console.log(code);
+//   return new Promise<{ stdout: string; stderr: string }>((resolve, reject) => {
+//     exec(
+//       `docker run --rm -i node:18 node -e "${code}"`,
+//       (error, stdout, stderr) => {
+//         if (error) {
+//           reject(error);
+//         } else {
+//           resolve({ stdout, stderr });
+//         }
+//       }
+//     );
+//   });
+// }
