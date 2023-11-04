@@ -109,14 +109,15 @@ function Collab() {
   const saveToHistory = () => {
     // make call to history service to save qid, uid1, uid2, roomid, and code
     try {
-      axios.post(HISTORY_URI.CREATE_OR_UPDATE, {
+      const payload = {
         roomid: roomId,
         questionid: question?._id,
         user1: myId,
         user2: otherId,
         time: new Date().toISOString(),
         code: code,
-      });
+      }
+      axios.post(HISTORY_URI.CREATE_OR_UPDATE, payload);
     } catch (err) {
       console.log(err);
     }

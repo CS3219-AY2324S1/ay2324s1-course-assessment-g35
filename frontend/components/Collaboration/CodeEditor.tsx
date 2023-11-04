@@ -10,7 +10,7 @@ import CodeResults from "./CodeResults";
 import { dracula } from "@uiw/codemirror-theme-dracula";
 
 const CodeEditor: React.FC<{ roomId: string; code: string; setCode: (newCode: string) => void }> = ({ roomId, code, setCode }) => {
-  
+
   const params = useParams();
   console.log(params);
 
