@@ -8,7 +8,7 @@ import axios from "axios";
 import QuestionDisplay, {
   Question,
 } from "@/components/Collaboration/QuestionDisplay";
-import { CHATSERVICE_URI, QUESTION_URI } from "@/constants/uri";
+import { CHATSERVICE_URI, HISTORY_URI, QUESTION_URI } from "@/constants/uri";
 import withAuth from "@/components/withAuth";
 import SaveModal from "@/components/Collaboration/LeaveModal";
 import LeaveModal from "@/components/Collaboration/LeaveModal";
@@ -28,6 +28,7 @@ function Collab() {
   const [showChat, setShowChat] = useState<boolean>(false);
   const [question, setQuestion] = useState<Question>();
   const [showGenerateModal, setShowGenerateModal] = useState<boolean>(false);
+  const [code, setCode] = useState<string>("");
 
   // useEffect to retrieve question if none found in localstorage
   useEffect(() => {
@@ -42,6 +43,7 @@ function Collab() {
       socket.disconnect();
     };
   }, []);
+
   const openCodeGenModal = () => {
     setShowGenerateModal(true);
   };
@@ -88,19 +90,38 @@ function Collab() {
 
   const handleSave = () => {
     console.log("SAVING PROGRESS");
-    setShowSaveModal(true);
-    // make call to history service to save qid, uid1, uid2, roomid, and code
+    setShowSaveModal(true); // todo: only show success upon 200
+    saveToHistory();
   };
 
   const handleSaveAndLeave = () => {
     console.log("SAVING PROGRESS AND LEAVING");
-    // make call to history service to save qid, uid1, uid2, roomid, and code
+
+    saveToHistory();
 
     //CLEANUP local storage only
+    localStorage.removeItem("code");
     localStorage.removeItem("question");
 
     router.push("/");
   };
+
+  const saveToHistory = () => {
+    // make call to history service to save qid, uid1, uid2, roomid, and code
+    try {
+      axios.post(HISTORY_URI.CREATE_OR_UPDATE, {
+        roomid: roomId,
+        questionid: question?._id,
+        user1: myId,
+        user2: otherId,
+        time: new Date().toISOString(),
+        code: code,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
 
   const handleCloseModal = () => {
     setShowLeaveModal(false);
@@ -209,7 +230,7 @@ function Collab() {
           </div>
           <Button onClick={openCodeGenModal}>Generate</Button>
 
-          <CodeEditor roomId={(roomId as string) || ""} />
+          <CodeEditor roomId={(roomId as string) || ""} code={code} setCode={setCode} />
         </div>
 
         {/* Chat and video section */}
