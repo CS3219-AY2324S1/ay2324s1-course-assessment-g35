@@ -5,12 +5,7 @@ interface SelectProps {
   onChange?(evn: React.ChangeEvent<HTMLSelectElement>): void;
 }
 
-export const Select = ({
-  label = "",
-  value,
-  options = [],
-  onChange,
-}: SelectProps) => {
+const Select = ({ label = "", value, options = [], onChange }: SelectProps) => {
   return (
     <label>
       {label && <span>{label}：</span>}

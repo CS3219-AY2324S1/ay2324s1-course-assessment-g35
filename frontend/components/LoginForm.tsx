@@ -97,7 +97,9 @@ const LoginForm: React.FC<LoginFormProps> = ({
           </div>
 
           {error && (
-            <div className="font-poppins text-pp-red text-md font-poppins">{error}</div>
+            <div className="font-poppins text-pp-red text-md font-poppins">
+              {error}
+            </div>
           )}
 
           <button

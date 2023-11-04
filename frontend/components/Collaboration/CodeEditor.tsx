@@ -1,105 +1,112 @@
 import CodeMirror from "@uiw/react-codemirror";
 import { useEffect, useState } from "react";
-import { getDatabase, onValue, ref, set } from "@firebase/database";
+import { getDatabase, onValue, ref, set, child, get } from "@firebase/database";
 import { codeExamples } from "@/code_examples/codeExamples";
 import { loadLanguage } from "@uiw/codemirror-extensions-langs";
-import { useParams } from "next/navigation";
-import { Select } from "./CollaborationSelect";
 
 import CodeResults from "./CodeResults";
 import { dracula } from "@uiw/codemirror-theme-dracula";
+import { Select } from "@chakra-ui/react";
 
 const CodeEditor = ({ roomId }: { roomId: string }) => {
-  const params = useParams();
-  console.log(params);
-
-  const [selectedLang, setSelectedLang] = useState<string>("c");
+  console.log(roomId);
+  const [code, setCode] = useState<string>("");
+  const [selectedLang, setSelectedLang] = useState<string>();
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [stderr, setStderr] = useState("");
   const langs = ["java", "go", "python", "c", "cpp", "javascript"];
+  const sortedLangs = langs.sort();
 
-  const [showResults, setShowResults] = useState<boolean>(false);
-
+  const db = getDatabase();
+  const dbRef = ref(getDatabase());
+  const roomIdentifier = `rooms/${roomId}`;
+  const modeIdentifier = `mode/${roomId}`;
+  const roomRef = ref(db, roomIdentifier);
+  const modeRef = ref(db, modeIdentifier);
   useEffect(() => {
-    setSelectedLang("c");
-  }, []);
-
-  const [code, setCode] = useState<string>();
-  function writeUserData(code: string) {
-    const db = getDatabase();
-    set(ref(db, "rooms/" + roomId), {
-      username: roomId,
-      code: code,
-    });
-  }
-
-  function handleLangChange(lang: keyof typeof langs) {
-    console.log(lang);
-    setSelectedLang(lang.toString());
-    try {
-      setCode(codeExamples[lang.toString()]);
-    } catch (error) {}
-  }
-
-  useEffect(() => {
-    const db = getDatabase();
-    const roomRef = ref(db, `rooms/${roomId}`);
     onValue(roomRef, (snapshot) => {
       const data = snapshot.val();
       setCode(data?.code);
     });
   }, []);
-
-  const codeChanged = (data: string) => {
-    setCode(data);
-    writeUserData(data);
+  const handleLangChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedLang(event.target.value);
   };
 
-  const runCode = () => {
-    setLoading(true);
-    setShowResults(true);
-    alert(code);
-    const body = {
-      content: code,
-      language: selectedLang,
-    };
-    fetch("/api/code", {
-      method: "POST",
-      body: JSON.stringify(body),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setLoading(false);
-        alert(data);
-        if (data.stderr != "") {
-          setError(data.stderr);
-          setStderr(data.stderr);
+  useEffect(() => {
+    set(modeRef, {
+      mode: selectedLang,
+    });
+    setCode(codeExamples[selectedLang]);
+  }, [selectedLang]);
+
+  useEffect(() => {
+    console.log(code);
+    writeUserData(code);
+  }, [code]);
+
+  useEffect(() => {
+    onValue(modeRef, (snapshot) => {
+      setSelectedLang(snapshot.val()?.mode);
+    });
+  }, []);
+
+  useEffect(() => {
+    set(modeRef, {
+      mode: selectedLang,
+    });
+  }, []);
+
+  const [showResults, setShowResults] = useState<boolean>(false);
+  useEffect(() => {
+    get(child(modeRef, modeIdentifier))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          console.log(snapshot.val());
+          setCode(snapshot.val().code);
         } else {
-          setError("");
-          setOutput(data.stdout);
+          console.log("No data available");
         }
       })
-
       .catch((error) => {
         console.error(error);
       });
-  };
+    get(child(dbRef, roomIdentifier))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          console.log(snapshot.val());
+          setCode(snapshot.val().code);
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
+  const writeUserData = (code: string) => {
+    set(roomRef, {
+      username: roomId,
+      code: code,
+    });
+  };
   return (
     <>
       {/* initialize the code mirror with spaces already */}
       <div className="flex flex-col gap-3 text-black">
-        <Select
-          options={langs.sort()}
-          onChange={(evn) =>
-            handleLangChange(evn.target.value as keyof typeof langs)
-          }
-        />
+        <Select value={selectedLang} onChange={handleLangChange}>
+          {sortedLangs.map((lang, index) => (
+            <option key={index} value={lang}>
+              {lang}
+            </option>
+          ))}
+        </Select>
         <CodeMirror
           value={code}
-          onChange={codeChanged}
+          onChange={setCode}
           theme={dracula}
           extensions={[loadLanguage(selectedLang)]}
           basicSetup={{
@@ -110,10 +117,7 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
           }}
         />
 
-        <button
-          onClick={runCode}
-          className="w-40 bg-pp-blue hover:bg-pp-accentblue rounded-3xl py-2 cursor-pointer font-poppins font-bold text-base text-white tracking-tight"
-        >
+        <button className="w-40 bg-pp-blue hover:bg-pp-accentblue rounded-3xl py-2 cursor-pointer font-poppins font-bold text-base text-white tracking-tight">
           Run code
         </button>
 
