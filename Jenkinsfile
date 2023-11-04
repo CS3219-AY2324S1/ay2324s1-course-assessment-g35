@@ -54,32 +54,43 @@ pipeline {
 
                     script {
                         // Execute your Docker build command here
-                        customImage = docker.build("history-service:${env.BUILD_ID}")
+                        customImage = docker.build("astral-shape-402017/history-service:${env.BUILD_ID}")
                     }
                 }
-                dir('questions-service') {
-                    // Change the working directory to 'history-service'
+                // dir('questions-service') {
+                //     // Change the working directory to 'history-service'
 
-                    script {
-                        // Execute your Docker build command here
-                        customImage = docker.build("questions-service:${env.BUILD_ID}")
-                    }
-                }
+                //     script {
+                //         // Execute your Docker build command here
+                //         customImage = docker.build("questions-service:${env.BUILD_ID}")
+                //     }
+                // }
             }
         }
 
-                stage('Authenticate with Google Cloud') {
-                    steps {
-                        script {
-                            sh "whoami"
-                            sh "gcloud auth configure-docker asia-southeast1-docker.pkg.dev"
-                            // sh "docker tag history-service:${env.BUILD_ID} asia-southeast1-docker.pkg.dev/astral-shape-402017/cs3219/history-service:${env.BUILD_ID}"
-                            sh "docker tag history-service:${env.BUILD_ID} yuehern/history-service:${env.BUILD_ID}"
-                            // sh "docker push asia-southeast1-docker.pkg.dev/astral-shape-402017/cs3219/history-service:${env.BUILD_ID}"
-                            sh "docker push yuehern/history-service:${env.BUILD_ID}"
-                        }
+                stage("Pushing Application Docker Image to Google Artifact Registry"){
+            steps{
+                script{
+                    sh'''
+                        gcloud auth configure-docker asia-southeast1-docker.pkg.dev
+                        docker push asia-southeast1-docker.pkg.dev/astral-shape-402017/history-service:${env.BUILD_ID}
+                        '''
+                      }
+                 }
             }
-        }
+
+
+        //         stage('Authenticate with Google Cloud') {
+        //             steps {
+        //                 script {
+        //                     sh "gcloud auth configure-docker asia-southeast1-docker.pkg.dev"
+        //                     // sh "docker tag history-service:${env.BUILD_ID} asia-southeast1-docker.pkg.dev/astral-shape-402017/cs3219/history-service:${env.BUILD_ID}"
+        //                     sh "docker tag history-service:${env.BUILD_ID} yuehern/history-service:${env.BUILD_ID}"
+        //                     // sh "docker push asia-southeast1-docker.pkg.dev/astral-shape-402017/cs3219/history-service:${env.BUILD_ID}"
+        //                     // sh "docker push yuehern/history-service:${env.BUILD_ID}"
+        //                 }
+        //     }
+        // }
         }
 
     }
