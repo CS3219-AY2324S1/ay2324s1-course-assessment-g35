@@ -1,9 +1,5 @@
-import {
-  Modal,
-  ModalContent,
-  ModalOverlay,
-} from "@chakra-ui/react";
-import Tag from "@/components/Tag";
+import { Modal, ModalContent, ModalOverlay } from "@chakra-ui/react";
+import CategoryRow from "@/components/Index/Questions/CategoryRow";
 
 interface QuestionModalProps {
   handleCloseModal: () => void;
@@ -29,8 +25,12 @@ export default function QuestionModal({
   return (
     <Modal isOpen={true} onClose={() => setShowQuestionModal(false)} isCentered>
       <ModalOverlay />
+      {/* TODO: make it wider... */}
       <ModalContent className="w-full">
-        <div className="p-2 flex flex-col w-full" style={{ borderRadius: "20px" }}>
+        <div
+          className="p-2 flex flex-col w-full"
+          style={{ borderRadius: "20px" }}
+        >
           <div className="flex flex-col gap-y-2 p-4 w-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -53,11 +53,14 @@ export default function QuestionModal({
 
             <div className="flex flex-row space-x-1">
               {category.map((item) => (
-                <Tag title={item} />
+                <CategoryRow category={item} />
               ))}
             </div>
-            <p className="font-poppins text-base text-pp-darkpurple tracking-tight">{description}</p>
+            <p className="font-poppins text-base text-pp-darkpurple tracking-tight">
+              {description}
+            </p>
           </div>
+          
           {/* TODO: add in the actual code they wrote */}
         </div>
       </ModalContent>

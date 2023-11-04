@@ -32,9 +32,6 @@ const Questions: React.FC = () => {
           Questions you've completed
         </h2>
         <div className="flex flex-col gap-y-4 overflow-auto">
-          {/* When I put overflow here, it expands the whole section I think because it doesn't know the max height */}
-          {/* <div className="flex flex-col gap-y-4 overflow-auto"> */}
-
           {/* TODO: later, link the questions to the QuestionRow */}
           {/* {historyData.map((data) => {
             <QuestionRow question={data} />
@@ -45,49 +42,49 @@ const Questions: React.FC = () => {
             title={"Reverse a String"}
             description={"Write a function that reverses a string. The input string is given as an array\nof characters s.\nYou must do this by modifying the input array in-place with O(1) extra\nmemory.\nExample 1:\nInput: s = [\"h\",\"e\",\"l\",\"l\",\"o\"]\nOutput: [\"o\",\"l\",\"l\",\"e\",\"h\"]\nExample 2:\nInput: s = [\"H\",\"a\",\"n\",\"n\",\"a\",\"h\"]\nOutput: [\"h\",\"a\",\"n\",\"n\",\"a\",\"H\"]\nConstraints:\n* 1 <= s.length <= 105\n* s[i] is a printable ascii character."}
             difficulty={"Easy"}
-            category={["Algorithms", "Strings"]}
+            category={["Bit Manipulation"]}
             date={"3/11/2023"}
           />
           <QuestionRow
-            title={"Question title"}
+            title={"Super long question title to test overflow"}
             description={"Lorem ipsum"}
             difficulty={"Hard"}
-            category={["Database", "Algorithms", "Strings"]}
+            category={["Algorithms", "Data Structures"]}
             date={"2/11/2023"}
           />
           <QuestionRow
             title={"Question title"}
             description={"Lorem ipsum"}
             difficulty={"Hard"}
-            category={["Database", "Algorithms", "Strings"]}
+            category={["Strings", "Databases"]}
             date={"2/11/2023"}
           />
           <QuestionRow
             title={"Question title"}
             description={"Lorem ipsum"}
             difficulty={"Hard"}
-            category={["Database", "Algorithms", "Strings"]}
+            category={["Databases", "Recursion", "Arrays"]}
             date={"2/11/2023"}
           />
           <QuestionRow
             title={"Question title"}
             description={"Lorem ipsum"}
             difficulty={"Hard"}
-            category={["Database", "Algorithms", "Strings"]}
+            category={["Bit Manipulation"]}
             date={"2/11/2023"}
           />
           <QuestionRow
             title={"Question title"}
             description={"Lorem ipsum"}
             difficulty={"Hard"}
-            category={["Database", "Algorithms", "Strings"]}
+            category={["Recursion"]}
             date={"2/11/2023"}
           />
           <QuestionRow
             title={"Question title"}
             description={"Lorem ipsum"}
             difficulty={"Hard"}
-            category={["Database", "Algorithms", "Strings"]}
+            category={["Arrays"]}
             date={"2/11/2023"}
           />
         </div>
