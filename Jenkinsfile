@@ -68,16 +68,16 @@ pipeline {
             }
         }
 
-                stage("Pushing Application Docker Image to Google Artifact Registry"){
-            steps{
-                script{
-                    sh'''
-                        gcloud auth configure-docker asia-southeast1-docker.pkg.dev
-                        docker push asia-southeast1-docker.pkg.dev/astral-shape-402017/history-service:${env.BUILD_ID}
-                        '''
-                      }
-                 }
-            }
+            //     stage("Pushing Application Docker Image to Google Artifact Registry"){
+            // steps{
+            //     script{
+            //         sh'''
+            //             gcloud auth configure-docker asia-southeast1-docker.pkg.dev
+            //             docker push asia-southeast1-docker.pkg.dev/astral-shape-402017/history-service:${env.BUILD_ID}
+            //             '''
+            //           }
+            //      }
+            // }
 
 
         //         stage('Authenticate with Google Cloud') {
