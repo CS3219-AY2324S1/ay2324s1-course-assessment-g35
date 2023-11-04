@@ -21,3 +21,11 @@ export const QUESTION_URI = {
 export const MATCHINGSERVICE_URI = 'http://localhost:3001';
 
 export const CHATSERVICE_URI = 'http://localhost:3002';
+
+const HISTORYSERVICE_URI = 'http://localhost:8002';
+
+export const HISTORY_URI = {
+    GET_ALL: `${HISTORYSERVICE_URI}/all`,
+    GET_BY_USERID: `${HISTORYSERVICE_URI}`,
+    CREATE_OR_UPDATE: `${HISTORYSERVICE_URI}/create`,
+};

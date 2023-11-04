@@ -16,7 +16,7 @@ model history {
   user2      String
   time       DateTime
   code       String
-  questionid Int
+  questionid String
 
   @@id([roomid, questionid])
 }

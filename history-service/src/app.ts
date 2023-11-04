@@ -39,7 +39,7 @@ const errorhandler: ErrorRequestHandler = (
 
 app.use(errorhandler);
 
-const PORT: number = Number(process.env.PORT) || 8000;
+const PORT: number = Number(process.env.PORT) || 8002;
 const server: Server = app.listen(PORT, () => {
   console.log(`The application is listening on port ${PORT}!`);
 });

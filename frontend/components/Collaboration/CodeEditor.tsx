@@ -9,7 +9,8 @@ import { Select } from "./CollaborationSelect";
 import CodeResults from "./CodeResults";
 import { dracula } from "@uiw/codemirror-theme-dracula";
 
-const CodeEditor = ({ roomId }: { roomId: string }) => {
+const CodeEditor: React.FC<{ roomId: string; code: string; setCode: (newCode: string) => void }> = ({ roomId, code, setCode }) => {
+  
   const params = useParams();
   console.log(params);
 
@@ -26,7 +27,6 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
     setSelectedLang("c");
   }, []);
 
-  const [code, setCode] = useState<string>();
   function writeUserData(code: string) {
     const db = getDatabase();
     set(ref(db, "rooms/" + roomId), {
