@@ -1,7 +1,7 @@
 import express from "express";
 import {
   createOrUpdateHistoryRecord,
-  findHistoryByUserId,
+  findHistoryByUserId as findHistoryByUserName,
   getAllHistory,
 } from "./service";
 
@@ -9,8 +9,8 @@ export const historyRouter = express.Router();
 
 historyRouter.get("/", async (req, res) => {
   try {
-    const userId = typeof req.query.userId === "string" ? req.query.userId : "";
-    const history = await findHistoryByUserId(userId);
+    const userName = typeof req.query.userName === "string" ? req.query.userName : "";
+    const history = await findHistoryByUserName(userName);
     return res.status(200).json(history);
   } catch (error: any) {
     return res.status(500).json(error.message);

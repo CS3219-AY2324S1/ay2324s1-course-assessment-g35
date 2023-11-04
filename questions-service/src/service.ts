@@ -23,6 +23,10 @@ type QuestionResponseType = {
   tags: Array<string>[];
 };
 
+export const getQuestionById = async (id: string) => {
+  return await Question.findOne({ _id: id });
+};
+
 export const getQuestionByName = async (name: string) => {
   return await Question.find({ title: { $eq: name } });
 };

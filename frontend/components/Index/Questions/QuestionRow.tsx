@@ -16,25 +16,20 @@
 //   getQuestion,
 // }: QuestionDisplayProps) {
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CategoryRow from "@/components/Index/Questions/CategoryRow";
 import QuestionModal from "./QuestionModal";
+import { History } from "../Questions";
+import { QUESTION_URI } from "@/constants/uri";
+import axios from "axios";
 // NOTE: later, just have an input as the question rather than all the components of the question
 // TODO: change the props to link with the history
 interface QuestionRowProps {
-  title: string;
-  description: string;
-  difficulty: string;
-  category: string[];
-  date: string;
+  history: History;
 }
 
 export default function QuestionRow({
-  title,
-  description,
-  difficulty,
-  category,
-  date,
+  history
 }: QuestionRowProps) {
   const [showQuestionModal, setShowQuestionModal] = useState<boolean>(false);
   const handleOpenQuestion = () => {
@@ -45,6 +40,30 @@ export default function QuestionRow({
     setShowQuestionModal(false);
   };
 
+  const [title, setTitle] = useState<string>("Loading...");
+  const [description, setDescription] = useState<string>("");
+  const [difficulty, setDifficulty] = useState<string>("Loading...");
+  const [category, setCategory] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchQuestion = async () => {
+      axios.get(`${QUESTION_URI.GET_BY_ID}/${history.questionid}`)
+        .then((res) => {
+          console.log(res.data);
+          setTitle(res.data.title);
+          setDescription(res.data.description);
+          setDifficulty(res.data.difficulty);
+          setCategory(res.data.tags);
+        })
+        .catch((err) => {
+          alert("Error getting question. Please try again later. " + err);
+        });
+    }
+    fetchQuestion();
+  }
+  , []);
+
+
   return (
     <div className="bg-pp-accentgray flex flex-row py-2 px-4 rounded-3xl items-center">
       {showQuestionModal && (
@@ -53,7 +72,7 @@ export default function QuestionRow({
           description={description}
           difficulty={difficulty}
           category={category}
-          date={date}
+          date={history.time}
           // TODO: edit the input as the whole question once linked w history
           // question={question}
           handleCloseModal={handleCloseModal}
@@ -98,7 +117,7 @@ export default function QuestionRow({
 
       <div className="w-1/12">
         <p className="font-poppins text-base text-white tracking-tight">
-          {date}
+          {history.time}
         </p>
       </div>
     </div>

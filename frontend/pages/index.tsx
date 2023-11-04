@@ -366,7 +366,7 @@ const Dashboard = () => {
           </div>
         </div>
         {/* TODO: I want to have the title be fixed and only scroll the questions but I can't configure it with the divs - either just the questions scroll but no BG or the whole thing scrolls  */}
-        <Questions />
+        <Questions userName={user?.username} />
       </div>
     </>
   );

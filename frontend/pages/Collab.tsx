@@ -53,7 +53,7 @@ function Collab() {
 
   const getQuestion = () => {
     axios
-      .get(`${QUESTION_URI.GET}?difficulty=${difficulty}`)
+      .get(`${QUESTION_URI.GET_RANDOM_QUESTION}?difficulty=${difficulty}`)
       .then((res) => {
         setQuestion(res.data);
         localStorage.setItem("question", JSON.stringify(res.data)); //todo: remove upon completion
@@ -190,8 +190,8 @@ function Collab() {
         <div className="bg-[#282A35] font-poppins h-screen flex flex-1 flex-col gap-4 p-4 overflow-auto min-w-[300px]">
           <div className="flex justify-between">
             <Tooltip
-                  label="Save solution"
-                  aria-label="Save solution"
+                  label="Save for current question"
+                  aria-label="Save for current question"
                   // bg="black"
                   closeDelay={200}
                 >
@@ -241,7 +241,7 @@ function Collab() {
             className="text-pp-red bg-slate-900 rounded p-2"
             onClick={() => setShowChat(!showChat)}
           >
-            Show Chat / Video
+            {showChat ? "Show Video" : "Show Chat"}
           </button>
           <div
             className={`w-1/6 absolute bottom-0 h-screen ${

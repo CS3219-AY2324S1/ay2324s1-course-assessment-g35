@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import QuestionRow from "./Questions/QuestionRow";
+import { HISTORY_URI } from "@/constants/uri";
 
-type History = {
+export type History = {
   roomid: string;
   user1: string;
   user2: string;
@@ -11,34 +12,47 @@ type History = {
 };
 
 // TODO: get questions from the service rather than hardcoding
-const Questions: React.FC = () => {
+const Questions: React.FC<{ userName: string | undefined }> = ({ userName }) => {
   const [historyData, setHistoryData] = useState<History[]>([]);
   const [historyLoading, setHistoryLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetch(`http://35.227.201.105?userId=c69376b0-a16e-474e-8665-aca86e19e143`)
+    if (!userName) return;
+    fetch(`${HISTORY_URI.GET_BY_USERNAME}?userName=${userName}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
         setHistoryLoading(false);
         setHistoryData(data);
       });
-  }, []);
+  }, [userName]);
 
   return (
     <>
-      <div className="flex flex-col bg-pp-gray rounded-[20px] px-8 overflow-hidden">
-        <h2 className="font-poppins py-8 text-white text-2xl font-bold overflow-hidden">
+      <div className="flex flex-col bg-pp-gray rounded-[20px] p-8 overflow-hidden">
+        <h2 className="font-poppins text-white text-2xl font-bold overflow-hidden">
           Questions you've completed
         </h2>
-        <div className="flex flex-col gap-y-4 overflow-auto">
+        <div className="flex flex-col gap-y-4 overflow-auto mt-6">
           {/* TODO: later, link the questions to the QuestionRow */}
-          {/* {historyData.map((data) => {
-            <QuestionRow question={data} />
-          })} */}
+          {historyLoading ? (
+            <div className="flex justify-center items-center">
+              <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-pp-blue"></div>
+            </div>
+          ) : (
+            historyData.length === 0 ? (
+              <div className="flex justify-center items-center">
+                <p className="text-white text-lg">No questions found. Start doing today!</p>
+              </div>
+            ) : (
+              historyData.map((history) => {
+                return <QuestionRow key={history.roomid} history={history} />;
+              })
+            )
+          )}
           
           {/* TODO: to remove later when the history set up, just map to create QuestionRow components */}
-          <QuestionRow
+          {/* <QuestionRow
             title={"Reverse a String"}
             description={"Write a function that reverses a string. The input string is given as an array\nof characters s.\nYou must do this by modifying the input array in-place with O(1) extra\nmemory.\nExample 1:\nInput: s = [\"h\",\"e\",\"l\",\"l\",\"o\"]\nOutput: [\"o\",\"l\",\"l\",\"e\",\"h\"]\nExample 2:\nInput: s = [\"H\",\"a\",\"n\",\"n\",\"a\",\"h\"]\nOutput: [\"h\",\"a\",\"n\",\"n\",\"a\",\"H\"]\nConstraints:\n* 1 <= s.length <= 105\n* s[i] is a printable ascii character."}
             difficulty={"Easy"}
@@ -86,7 +100,7 @@ const Questions: React.FC = () => {
             difficulty={"Hard"}
             category={["Arrays"]}
             date={"2/11/2023"}
-          />
+          /> */}
         </div>
       </div>
 
@@ -114,13 +128,4 @@ const Questions: React.FC = () => {
   );
 };
 
-const HistoryItem = (question: History) => {
-  console.log(question.question);
-  return (
-    <div className="flex justify-between">
-      <div className="text-white font-bold">{question.question.questionid}</div>
-      <div className="text-white">12 September 2023</div>
-    </div>
-  );
-};
 export default Questions;

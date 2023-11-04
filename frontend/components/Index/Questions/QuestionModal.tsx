@@ -56,9 +56,9 @@ export default function QuestionModal({
                 <CategoryRow category={item} />
               ))}
             </div>
-            <p className="font-poppins text-base text-pp-darkpurple tracking-tight">
-              {description}
-            </p>
+            <div className="overflow-scroll">
+              <div dangerouslySetInnerHTML={{ __html: description }} />
+            </div>
           </div>
           
           {/* TODO: add in the actual code they wrote */}
