@@ -1,13 +1,14 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import CategoryRow from "../Index/Questions/CategoryRow";
+import { Tag } from "@chakra-ui/react";
 
 export type Question = {
   _id: string;
   title: string;
   description: string;
   difficulty: string;
-  category: string[];
+  tags: string[];
 };
 
 type QuestionDisplayProps = {
@@ -22,19 +23,19 @@ export default function QuestionDisplay({
   return (
     <>
       {/* NOTE: When questions linked, uncomment this but make sure the styling is the same as below if any changes */}
-      {/* <div className="flex row justify-between items-center px-2">
+      <div className="flex row justify-between items-center px-2">
         <h2 className="text-2xl font-bold tracking-tight">{question?.title}</h2>
         <p className="text-base tracking-tight">{question?.difficulty}</p>
       </div>
       
       <div className="flex row space-between space-x-1 px-2">
-        {question?.category.map((item, index) => (
-          <Tag title={item} />
-        ))}
+      {question?.tags.map((item) => (
+        <CategoryRow key={question._id} category={item} />
+      ))}
       </div>
-
       <div className="overflow-scroll">
-        <p className="text-base px-2 tracking-tight">{question?.description}</p>
+        {/* <p className="text-base px-2 tracking-tight">{question?.description}</p> */}
+        {question?.description && <div dangerouslySetInnerHTML={{ __html: question?.description }} />}
       </div>
 
       <div className="flex row justify-center">
@@ -44,18 +45,18 @@ export default function QuestionDisplay({
         >
           Change question
         </div>
-      </div> */}
+      </div>
 
       {/* NOTE: below is for display purposes only, will delete when the questions are linked */}
-      <div className="flex row justify-between items-center px-2">
+      {/* <div className="flex row justify-between items-center px-2">
         <h2 className="text-2xl font-bold tracking-tight">Question Title</h2>
         <p className="text-base tracking-tight"> Difficulty Level</p>
       </div>
 
       <div className="flex row space-between space-x-1 px-2">
-        {/* <CategoryRow category={"Strings"} />
+        <CategoryRow category={"Strings"} />
         <CategoryRow category={"Algorithms"} />
-        <CategoryRow category={"Bit Manipulation"} /> */}
+        <CategoryRow category={"Bit Manipulation"} />
         {question?.category.map((item) => (
           <CategoryRow category={item} />
         ))}
@@ -109,7 +110,7 @@ export default function QuestionDisplay({
         >
           Change question
         </button>
-      </div>
+      </div> */}
     </>
   );
 }
