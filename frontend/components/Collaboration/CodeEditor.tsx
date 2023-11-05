@@ -12,7 +12,7 @@ import axios from "axios";
 
 const CodeEditor: React.FC<{
   roomId: string;
-  code: string;
+  code: string | undefined;
   setCode: (newCode: string) => void;
 }> = ({ roomId, code, setCode }) => {
   const params = useParams();

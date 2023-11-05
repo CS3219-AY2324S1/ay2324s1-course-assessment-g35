@@ -26,13 +26,14 @@ export class Queue {
     return this.items[0];
   }
 
-  remove(itemToRemove) {
-    const index = this.items.indexOf(itemToRemove);
+  remove(socketIdToRemove) {
+    // check for object with same socketid and remove it
+    const index = this.items.findIndex((item) => item.id === socketIdToRemove);
     if (index !== -1) {
       this.items.splice(index, 1);
-      console.log(`Removed item: ${itemToRemove}`);
+      console.log(`Removed item: ${socketIdToRemove}`);
     } else {
-      console.log(`Item not found in the queue: ${itemToRemove}`);
+      console.log(`Item not found in the queue: ${socketIdToRemove}`);
     }
   }
 
@@ -48,6 +49,6 @@ export class Queue {
 
   // Print the elements of the queue
   print() {
-    console.log(this.items);
+    console.log("matchingQueue: ", this.items);
   }
 }
