@@ -13,13 +13,14 @@ export type Question = {
 
 type QuestionDisplayProps = {
   question: Question | undefined;
-  getQuestion: () => void;
+  openChangeQuestionModal: () => void;
 };
 
 export default function QuestionDisplay({
   question,
-  getQuestion,
+  openChangeQuestionModal,
 }: QuestionDisplayProps) {
+
   return (
     <>
       {/* NOTE: When questions linked, uncomment this but make sure the styling is the same as below if any changes */}
@@ -41,7 +42,7 @@ export default function QuestionDisplay({
       <div className="flex row justify-center">
         <div
           className="h-2/12 w-60 bg-pp-blue hover:bg-pp-accentblue py-2 px-4 rounded-3xl text-white text-center font-bold cursor-pointer"
-          onClick={getQuestion}
+          onClick={openChangeQuestionModal}
         >
           Change question
         </div>

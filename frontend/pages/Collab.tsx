@@ -21,6 +21,7 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import CodeGenModal from "@/components/Collaboration/CodeGenModal";
+import ChangeQuestionModal from "@/components/Collaboration/ChangeQuestionModal";
 
 function Collab() {
   const router = useRouter();
@@ -83,6 +84,7 @@ function Collab() {
 
   const [showLeaveModal, setShowLeaveModal] = useState<boolean>(false);
   const [showSaveModal, setShowSaveModal] = useState<boolean>(false);
+  const [showChangeQuestionModal, setShowChangeQuestionModal] = useState<boolean>(false);
 
   const handleLeaveClick = () => {
     setShowLeaveModal(true);
@@ -166,6 +168,14 @@ function Collab() {
           />
         )}
 
+        {showChangeQuestionModal && (
+          <ChangeQuestionModal
+            setShowChangeQuestionModal={setShowChangeQuestionModal}
+            getQuestion={getQuestion}
+            saveToHistory={saveToHistory}
+          />
+        )}
+
         {showSaveModal && (
           <Modal
             isOpen={showSaveModal}
@@ -184,7 +194,10 @@ function Collab() {
 
         {/* Question section */}
         <div className="bg-pp-gray font-poppins w-4/12 h-screen flex flex-col gap-4 p-4 resize-x overflow-auto max-w-7xl min-w-[300px] relative">
-          <QuestionDisplay question={question} getQuestion={getQuestion} />
+          <QuestionDisplay
+            question={question}
+            openChangeQuestionModal={() => setShowChangeQuestionModal(true)}
+            />
           <div className="absolute w-0 h-0 border-b-[20px] border-l-[20px] border-l-transparent border-b-gray-300 border-solid right-0 bottom-0"></div>
         </div>
 
