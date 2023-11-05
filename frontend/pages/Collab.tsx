@@ -28,7 +28,7 @@ function Collab() {
   const [showChat, setShowChat] = useState<boolean>(false);
   const [question, setQuestion] = useState<Question>();
   const [showGenerateModal, setShowGenerateModal] = useState<boolean>(false);
-  const [code, setCode] = useState<string>("");
+  const [code, setCode] = useState<string | undefined>("");
 
   // useEffect to retrieve question if none found in localstorage
   useEffect(() => {
@@ -109,13 +109,14 @@ function Collab() {
   const saveToHistory = () => {
     // make call to history service to save qid, uid1, uid2, roomid, and code
     try {
+      console.log("code", code);
       const payload = {
         roomid: roomId,
         questionid: question?._id,
         user1: myId,
         user2: otherId,
         time: new Date().toISOString(),
-        code: code,
+        code: code || "",
       }
       axios.post(HISTORY_URI.CREATE_OR_UPDATE, payload);
     } catch (err) {
