@@ -10,7 +10,6 @@ import QuestionDisplay, {
 } from "@/components/Collaboration/QuestionDisplay";
 import { CHATSERVICE_URI, HISTORY_URI, QUESTION_URI } from "@/constants/uri";
 import withAuth from "@/components/withAuth";
-import SaveModal from "@/components/Collaboration/LeaveModal";
 import LeaveModal from "@/components/Collaboration/LeaveModal";
 import {
   Button,
@@ -88,12 +87,6 @@ function Collab() {
 
   const handleLeaveClick = () => {
     setShowLeaveModal(true);
-  };
-
-  const handleSave = () => {
-    console.log("SAVING PROGRESS");
-    setShowSaveModal(true); // todo: only show success upon 200
-    saveToHistory();
   };
 
   const handleSaveAndLeave = () => {
@@ -203,29 +196,7 @@ function Collab() {
 
         {/* Code editor section */}
         <div className="bg-[#282A35] font-poppins h-screen flex flex-1 flex-col gap-4 p-4 overflow-auto min-w-[300px]">
-          <div className="flex justify-between">
-            <Tooltip
-                  label="Save for current question"
-                  aria-label="Save for current question"
-                  // bg="black"
-                  closeDelay={200}
-                >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="text-pp-blue w-8 h-8 cursor-pointer"
-                onClick={handleSave}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15M9 12l3 3m0 0l3-3m-3 3V2.25"
-                />
-              </svg>
-            </Tooltip>
+          <div className="flex justify-end">
             <Tooltip
                   label="Save and Leave"
                   aria-label="Save and Leave"
