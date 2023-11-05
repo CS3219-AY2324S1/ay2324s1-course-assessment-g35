@@ -63,6 +63,15 @@ export default function QuestionRow({
   }
   , []);
 
+  const jsDate = new Date(history.time);
+  const formattedDateTime = new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(jsDate);
+
 
   return (
     <div className="bg-pp-accentgray flex flex-row py-2 px-4 rounded-3xl items-center">
@@ -72,7 +81,7 @@ export default function QuestionRow({
           description={description}
           difficulty={difficulty}
           category={category}
-          date={history.time}
+          date={formattedDateTime}
           // TODO: edit the input as the whole question once linked w history
           // question={question}
           handleCloseModal={handleCloseModal}
@@ -117,7 +126,7 @@ export default function QuestionRow({
 
       <div className="w-1/12">
         <p className="font-poppins text-base text-white tracking-tight">
-          {history.time}
+          {formattedDateTime}
         </p>
       </div>
     </div>

@@ -10,7 +10,7 @@ interface QuestionModalProps {
   description: string;
   difficulty: string;
   category: string[];
-  date: string;
+  date: Date;
 }
 
 export default function QuestionModal({
