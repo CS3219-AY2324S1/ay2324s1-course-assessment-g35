@@ -39,31 +39,32 @@ io.on("connection", (socket) => {
       //create room with first guy id
       const obj = {
         id: socket.id,
-        name: "test",
+        username: socket.decoded.username,
       };
-      queue.enqueue(socket.id);
+      queue.enqueue(obj);
       queue.print();
       socket.emit("queue", "you are in queue");
     } else {
-      const firstUserSocketId = queue.dequeue();
+      const firstUserObject = queue.dequeue();
+      const firstUserSocketId = firstUserObject.id;
       const roomId = uuidv4();
-      const firstUserId = uuidv4();
-      const secondUserId = uuidv4();
+      const firstUsername = firstUserObject.username;
+      const secondUsername = socket.decoded.username;
       const roomDetails1 = {
         roomId: roomId,
-        myId: firstUserId,
-        otherId: secondUserId,
+        myId: firstUsername,
+        otherId: secondUsername,
         difficulty: msg.difficulty,
       };
       const roomDetails2 = {
         roomId: roomId,
-        myId: secondUserId,
-        otherId: firstUserId,
+        myId: secondUsername,
+        otherId: firstUsername,
         difficulty: msg.difficulty,
       };
       console.log("RoomId is " + roomId);
-      socket.emit("match", roomDetails1);
-      socket.to(firstUserSocketId).emit("match", roomDetails2);
+      socket.emit("match", roomDetails2);
+      socket.to(firstUserSocketId).emit("match", roomDetails1);
     }
   });
 
