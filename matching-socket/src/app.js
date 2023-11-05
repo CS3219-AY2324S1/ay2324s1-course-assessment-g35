@@ -69,19 +69,22 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", async (msg) => {
-    // queue.remove(socket.id);
+    easyQueue.remove(socket.id);
+    mediumQueue.remove(socket.id);
+    hardQueue.remove(socket.id);
   });
 
   // Handle user cancel matching
   socket.on("leave", (msg) => {
     if (msg.difficulty == "Easy") {
       easyQueue.remove(socket.id);
+      easyQueue.print();
     } else if (msg.difficulty == "Medium") {
       mediumQueue.remove(socket.id);
     } else {
       hardQueue.remove(socket.id);
     }
-    console.log("A user disconnected", socket.id);
+    console.log("A user left the queue", socket.id);
   });
 });
 
