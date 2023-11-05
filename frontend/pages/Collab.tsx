@@ -149,6 +149,7 @@ function Collab() {
       <div>
         {showGenerateModal && (
           <CodeGenModal
+            questionTitle={question?.title}
             handleCloseModal={handleCloseCodeGenModal}
             setShowCodeGenModal={setShowGenerateModal}
           />
@@ -230,7 +231,7 @@ function Collab() {
               </svg>
             </Tooltip>
           </div>
-          <Button onClick={openCodeGenModal}>Generate</Button>
+          <Button onClick={openCodeGenModal} disabled={question === undefined}>Generate</Button>
 
           <CodeEditor roomId={(roomId as string) || ""} code={code} setCode={setCode} />
         </div>

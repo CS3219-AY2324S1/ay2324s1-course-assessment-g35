@@ -10,32 +10,31 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface CodeGenModalProps {
+  questionTitle: string | undefined
   handleCloseModal: () => void;
   setShowCodeGenModal: (status: boolean) => void;
 }
 
 export default function CodeGenModal({
+  questionTitle,
   handleCloseModal,
   setShowCodeGenModal,
 }: CodeGenModalProps) {
   const [generatedCode, setGeneratedCode] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
-  const question = JSON.parse(localStorage.getItem("question"))[0];
   const [language, setLanguage] = useState<string>("");
-  console.log(question);
-  console.log(`Generate code for ${question.title} in ${language}`);
+  console.log(`Generate code for ${questionTitle} in ${language}`);
   const langs = ["java", "go", "python", "c", "cpp", "javascript"];
   const accessToken =
-    "ya29.a0AfB_byCOJuBT1ahl2xU4HZDviwvzo5KHsBBRtsgoxFV5HyePoxO8IfzofD8DtLOICejZx7wkV7SeADg8Xj7LNUYpOhF4JezsbQneHdVC9zjB9zxOLa1TGpcOoQb25ZO2R9eLIslPEy5-reoWH2Qnsys43ok6FMdeMShgDPi9xJoaCgYKAXISARISFQGOcNnCb9drWyN_sjFzAFKJE8qJTQ0178";
+    "ya29.a0AfB_byDIiVply1r8bPBqqLcLVDUIoUHh_gr30bfjxRm7oDYfdUidYPkXUB1V6dPHn8zBFuXIdyCeHUhJQHJU7pLbs1YHx6thxH6SuYdj8VMSRUujXWxzAlX_woJ_eYeVy0wPQPiYX7ZzeAly9_EOsgOGjzBBDPeimRO45_-QwiwaCgYKAf8SARISFQGOcNnCub_Q3TBvjCVq-T-VhyRs2g0178";
   const startGenerate = () => {
     setGeneratedCode("");
     const body = {
       instances: [
         {
-          prefix: `Generate code for ${question.title} in ${language}`,
+          prefix: `Generate code for ${questionTitle} in ${language}`,
         },
       ],
       parameters: {
