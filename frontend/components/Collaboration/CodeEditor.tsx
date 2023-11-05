@@ -8,9 +8,13 @@ import { Select } from "./CollaborationSelect";
 
 import CodeResults from "./CodeResults";
 import { dracula } from "@uiw/codemirror-theme-dracula";
+import axios from "axios";
 
-const CodeEditor: React.FC<{ roomId: string; code: string; setCode: (newCode: string) => void }> = ({ roomId, code, setCode }) => {
-
+const CodeEditor: React.FC<{
+  roomId: string;
+  code: string;
+  setCode: (newCode: string) => void;
+}> = ({ roomId, code, setCode }) => {
   const params = useParams();
   console.log(params);
 
@@ -65,15 +69,32 @@ const CodeEditor: React.FC<{ roomId: string; code: string; setCode: (newCode: st
       content: code,
       language: selectedLang,
     };
-    fetch("/api/code", {
-      method: "POST",
-      body: JSON.stringify(body),
-    })
-      .then((response) => response.json())
-      .then((data) => {
+    // fetch("http://localhost:3005/code", {
+    //   method: "POST",
+    //   body: JSON.stringify(body), // Stringify the body object
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     setLoading(false);
+    //     alert(data);
+    //     if (data.stderr != "") {
+    //       setError(data.stderr);
+    //       setStderr(data.stderr);
+    //     } else {
+    //       setError("");
+    //       setOutput(data.stdout);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
+    axios
+      .post("http://localhost:3005/code", body)
+      .then((response) => {
         setLoading(false);
-        alert(data);
-        if (data.stderr != "") {
+        const data = response.data;
+        alert(JSON.stringify(data)); // Convert response data to a string for the alert
+        if (data.stderr !== "") {
           setError(data.stderr);
           setStderr(data.stderr);
         } else {
@@ -81,8 +102,8 @@ const CodeEditor: React.FC<{ roomId: string; code: string; setCode: (newCode: st
           setOutput(data.stdout);
         }
       })
-
       .catch((error) => {
+        alert(error);
         console.error(error);
       });
   };
