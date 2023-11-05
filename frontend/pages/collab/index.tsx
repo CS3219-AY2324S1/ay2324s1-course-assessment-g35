@@ -28,6 +28,10 @@ function Collab() {
   const [showChat, setShowChat] = useState<boolean>(false);
   const [question, setQuestion] = useState<Question>();
   const [showGenerateModal, setShowGenerateModal] = useState<boolean>(false);
+  const [room, setRoom] = useState<string>();
+  useEffect(() => {
+    if (roomId) setRoom(roomId as string);
+  }, [roomId]);
 
   // useEffect to retrieve question if none found in localstorage
   useEffect(() => {
@@ -168,11 +172,11 @@ function Collab() {
           {/* TODO: maybe move the save button to inside the code editor if possible so that it can look nicer if it's on the same row as language options */}
           <div className="flex justify-between">
             <Tooltip
-                  label="Save solution"
-                  aria-label="Save solution"
-                  // bg="black"
-                  closeDelay={200}
-                >
+              label="Save solution"
+              aria-label="Save solution"
+              // bg="black"
+              closeDelay={200}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -190,11 +194,11 @@ function Collab() {
               </svg>
             </Tooltip>
             <Tooltip
-                  label="Save and Leave"
-                  aria-label="Save and Leave"
-                  // bg="black"
-                  closeDelay={200}
-                >
+              label="Save and Leave"
+              aria-label="Save and Leave"
+              // bg="black"
+              closeDelay={200}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -210,7 +214,7 @@ function Collab() {
           </div>
           <Button onClick={openCodeGenModal}>Generate</Button>
 
-          <CodeEditor roomId={(roomId as string) || ""} />
+          <CodeEditor roomId={room} />
         </div>
 
         {/* Chat and video section */}

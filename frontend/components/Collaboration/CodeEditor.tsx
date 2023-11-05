@@ -8,15 +8,15 @@ import CodeResults from "./CodeResults";
 import { dracula } from "@uiw/codemirror-theme-dracula";
 import { Select } from "@chakra-ui/react";
 
-const CodeEditor = ({ roomId }: { roomId: string }) => {
+const CodeEditor = ({ roomId }) => {
   console.log(roomId);
   const [code, setCode] = useState<string>("");
-  const [selectedLang, setSelectedLang] = useState<string>();
+  const [selectedLang, setSelectedLang] = useState<string>("c");
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [stderr, setStderr] = useState("");
-  const langs = ["java", "go", "python", "c", "cpp", "javascript"];
+  const langs: string[] = ["java", "go", "python", "c", "cpp", "javascript"];
   const sortedLangs = langs.sort();
 
   const db = getDatabase();
@@ -49,7 +49,8 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
 
   useEffect(() => {
     onValue(modeRef, (snapshot) => {
-      setSelectedLang(snapshot.val()?.mode);
+      console.log(snapshot.val().mode);
+      setSelectedLang(snapshot.val().mode);
     });
   }, []);
 
@@ -65,8 +66,9 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
       .then((snapshot) => {
         if (snapshot.exists()) {
           console.log(snapshot.val());
-          setCode(snapshot.val().code);
+          setSelectedLang(snapshot.val().mode);
         } else {
+          setSelectedLang("c");
           console.log("No data available");
         }
       })
@@ -75,12 +77,12 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
       });
     get(child(dbRef, roomIdentifier))
       .then((snapshot) => {
-        if (snapshot.exists()) {
-          console.log(snapshot.val());
-          setCode(snapshot.val().code);
-        } else {
-          console.log("No data available");
-        }
+        // if (snapshot.exists()) {
+        //   console.log(snapshot.val());
+        //   setCode(snapshot.val().code);
+        // } else {
+        //   console.log("No data available");
+        // }
       })
       .catch((error) => {
         console.error(error);
@@ -88,10 +90,10 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
   }, []);
 
   const writeUserData = (code: string) => {
-    set(roomRef, {
-      username: roomId,
-      code: code,
-    });
+    // set(roomRef, {
+    //   username: roomId,
+    //   code: code,
+    // });
   };
   return (
     <>
@@ -104,18 +106,20 @@ const CodeEditor = ({ roomId }: { roomId: string }) => {
             </option>
           ))}
         </Select>
-        <CodeMirror
-          value={code}
-          onChange={setCode}
-          theme={dracula}
-          extensions={[loadLanguage(selectedLang)]}
-          basicSetup={{
-            foldGutter: false,
-            dropCursor: false,
-            allowMultipleSelections: false,
-            indentOnInput: false,
-          }}
-        />
+        {selectedLang && (
+          <CodeMirror
+            value={code}
+            onChange={setCode}
+            theme={dracula}
+            extensions={[loadLanguage(selectedLang)]}
+            basicSetup={{
+              foldGutter: false,
+              dropCursor: false,
+              allowMultipleSelections: false,
+              indentOnInput: false,
+            }}
+          />
+        )}
 
         <button className="w-40 bg-pp-blue hover:bg-pp-accentblue rounded-3xl py-2 cursor-pointer font-poppins font-bold text-base text-white tracking-tight">
           Run code
