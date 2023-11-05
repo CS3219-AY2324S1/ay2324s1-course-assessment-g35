@@ -13,11 +13,16 @@ type HistoryType = {
 export const findHistoryByUserId = async (
   userId: string
 ): Promise<HistoryType[]> => {
-  return await db.history.findMany({
+  const history = await db.history.findMany({
     where: {
       OR: [{ user1: userId }, { user2: userId }],
     },
   });
+
+  // Sort the history by the 'time' property from most recent to least recent
+  history.sort((a, b) => b.time.getTime() - a.time.getTime());
+
+  return history;
 };
 
 export const getAllHistory = async (): Promise<HistoryType[]> => {
