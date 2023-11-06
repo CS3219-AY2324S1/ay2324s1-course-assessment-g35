@@ -15,24 +15,10 @@ spec:
       #       name: user-service-5df6df7f4c-kwtmb-mdk67
       #       port:
       #         number: 8000
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: history-service
-            port:
-              number: 8000
-      - path: /questions
-        pathType: Prefix
-        backend:
-          service:
-            name: questions-service
-            port:
-              number: 8000
-      - path: /user
-        pathType: Prefix
-        backend:
-          service:
-            name: user-service-5df6df7f4c-kwtmb-mdk67
-            port:
-              number: 8000
+      # - path: /user
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: user-service
+      #       port:
+      #         number: 8000
