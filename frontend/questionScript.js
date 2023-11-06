@@ -2,7 +2,7 @@
 
 const cheerio = require("cheerio");
 
-const targetInteger = 141; // 141 344
+const targetInteger = 187; // 141 344 187
 
 fetch("https://bishalsarang.github.io/Leetcode-Questions/out.html", {
     method: "GET",
