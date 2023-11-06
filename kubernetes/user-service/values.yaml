@@ -44,7 +44,8 @@ spec:
   selector:
     app: user-service
   ports:
-    - protocol: TCP
+    - name: user-service-nodeport-http
+      protocol: TCP
       port: 8000  # Port exposed by the container
       targetPort: 8000  # Port the container listens on
 

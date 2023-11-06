@@ -28,12 +28,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: history-service
+  name: history-service-nodeport
 spec:
   selector:
     app: history
   ports:
-    - name: history-service-http
+    - name: history-service-nodeport-http
       protocol: TCP
       port: 8000
       targetPort: 8000
