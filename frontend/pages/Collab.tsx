@@ -83,7 +83,8 @@ function Collab() {
 
   const [showLeaveModal, setShowLeaveModal] = useState<boolean>(false);
   const [showSaveModal, setShowSaveModal] = useState<boolean>(false);
-  const [showChangeQuestionModal, setShowChangeQuestionModal] = useState<boolean>(false);
+  const [showChangeQuestionModal, setShowChangeQuestionModal] =
+    useState<boolean>(false);
 
   const handleLeaveClick = () => {
     setShowLeaveModal(true);
@@ -112,13 +113,12 @@ function Collab() {
         user2: otherId,
         time: new Date().toISOString(),
         code: code || "",
-      }
+      };
       axios.post(HISTORY_URI.CREATE_OR_UPDATE, payload);
     } catch (err) {
       console.log(err);
     }
-  }
-
+  };
 
   const handleCloseModal = () => {
     setShowLeaveModal(false);
@@ -190,7 +190,7 @@ function Collab() {
           <QuestionDisplay
             question={question}
             openChangeQuestionModal={() => setShowChangeQuestionModal(true)}
-            />
+          />
           <div className="absolute w-0 h-0 border-b-[20px] border-l-[20px] border-l-transparent border-b-gray-300 border-solid right-0 bottom-0"></div>
         </div>
 
@@ -198,11 +198,11 @@ function Collab() {
         <div className="bg-[#282A35] font-poppins h-screen flex flex-1 flex-col gap-4 p-4 overflow-auto min-w-[300px]">
           <div className="flex justify-end">
             <Tooltip
-                  label="Save and Leave"
-                  aria-label="Save and Leave"
-                  // bg="black"
-                  closeDelay={200}
-                >
+              label="Back to home"
+              aria-label="Back to home"
+              // bg="black"
+              closeDelay={200}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -216,18 +216,29 @@ function Collab() {
               </svg>
             </Tooltip>
           </div>
-          <Button onClick={openCodeGenModal} disabled={question === undefined}>Generate</Button>
 
-          <CodeEditor roomId={(roomId as string) || ""} code={code} setCode={setCode} />
+          <button
+            onClick={openCodeGenModal}
+            disabled={question === undefined}
+            className="w-40 bg-pp-blue hover:bg-pp-accentblue rounded-3xl py-2 cursor-pointer font-poppins font-bold text-base text-white tracking-tight"
+          >
+            Generate
+          </button>
+
+          <CodeEditor
+            roomId={(roomId as string) || ""}
+            code={code}
+            setCode={setCode}
+          />
         </div>
 
         {/* Chat and video section */}
         <div className="bg-pp-gray font-poppins w-2/12 h-screen flex flex-col gap-4">
           <button
-            className="text-pp-red bg-slate-900 rounded p-2"
+            className="text-white bg-pp-blue rounded-3xl p-2"
             onClick={() => setShowChat(!showChat)}
           >
-            {showChat ? "Show Video" : "Show Chat"}
+            {showChat ? "Show video" : "Show chat"}
           </button>
           <div
             className={`w-1/6 absolute bottom-0 h-screen ${

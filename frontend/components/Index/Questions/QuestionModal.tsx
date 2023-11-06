@@ -23,46 +23,49 @@ export default function QuestionModal({
   date,
 }: QuestionModalProps) {
   return (
-    <Modal isOpen={true} onClose={() => setShowQuestionModal(false)} isCentered>
+    <Modal
+      isOpen={true}
+      onClose={() => setShowQuestionModal(false)}
+      isCentered
+      size="2xl"
+    >
       <ModalOverlay />
-      {/* TODO: make it wider... */}
-      <ModalContent className="w-full">
-        <div
-          className="p-2 flex flex-col w-full"
-          style={{ borderRadius: "20px" }}
-        >
-          <div className="flex flex-col gap-y-2 p-4 w-full">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={3}
-              stroke="currentColor"
-              className="w-6 h-6 text-pp-blue cursor-pointer mb-4"
-              onClick={handleCloseModal}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-              />
-            </svg>
-            <h2 className="font-poppins text-2xl font-bold text-pp-darkpurple tracking-tight">
-              {title}
-            </h2>
-
-            <div className="flex flex-row space-x-1">
-              {category.map((item) => (
-                <CategoryRow category={item} />
-              ))}
-            </div>
-            <div className="overflow-scroll">
-              <div dangerouslySetInnerHTML={{ __html: description }} />
-            </div>
-          </div>
-          
-          {/* TODO: add in the actual code they wrote */}
+      <ModalContent
+        style={{ padding: "20px", borderRadius: "20px" }}
+      >
+        <div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={3}
+            stroke="currentColor"
+            className="w-6 h-6 text-pp-blue cursor-pointer"
+            onClick={handleCloseModal}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+            />
+          </svg>
         </div>
+        <div className="flex flex-col gap-y-2 py-4">
+          <h2 className="font-poppins text-2xl font-bold text-pp-darkpurple tracking-tight">
+            {title}
+          </h2>
+
+          <div className="flex flex-row space-x-1">
+            {category.map((item) => (
+              <CategoryRow category={item} />
+            ))}
+          </div>
+          <div className="overflow-y-auto">
+            <div dangerouslySetInnerHTML={{ __html: description }} />
+          </div>
+        </div>
+
+        {/* TODO: add in the actual code they wrote */}
       </ModalContent>
     </Modal>
   );

@@ -330,7 +330,7 @@ const Dashboard = () => {
                     <Select
                       bg="white"
                       width={44}
-                      placeholder="Difficulty Level"
+                      placeholder="Difficulty level"
                       className="font-poppins cursor-pointer bg-white text-pp-darkpurple tracking-tight"
                       onChange={handleOptionChange}
                       value={difficulty}

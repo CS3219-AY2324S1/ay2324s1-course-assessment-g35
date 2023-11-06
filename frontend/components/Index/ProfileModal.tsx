@@ -96,7 +96,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
   };
 
   return (
-    <Modal isOpen={true} onClose={() => setShowProfileModal(false)} isCentered>
+    <Modal isOpen={true} onClose={() => setShowProfileModal(false)} isCentered size="md">
       <ModalOverlay />
       <ModalContent
         style={{ padding: "20px", height: "400px", borderRadius: "20px" }}
@@ -119,7 +119,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
           </svg>
         </div>
 
-        <div className="w-full h-full">
+        <div>
           <Modal
             isOpen={showConfirmDelete}
             onClose={() => setShowConfirmDelete(false)}
