@@ -10,7 +10,7 @@ import {
   ModalOverlay,
 } from "@chakra-ui/react";
 import CategoryRow from "@/components/Index/Questions/CategoryRow";
-import SyntaxHighlighter from "react-syntax-highlighter/dist/esm/default-highlight";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { History } from "../Questions";
 import { useEffect, useState } from "react";
 import axios from "axios";
