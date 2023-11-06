@@ -148,9 +148,9 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
           </Modal>
 
           <div className="h-full flex flex-col gap-y-4 justify-center">
-            <div className="font-poppins text-pp-darkpurple text-[30px] font-bold">
+            <p className="font-poppins text-pp-darkpurple text-lg font-bold">
               Profile
-            </div>
+            </p>
             <div className="flex flex-col">
               <p className="font-poppins text-base tracking-tigher">Username</p>
               <div className="rounded-3xl text-pp-gray bg-gray-400 font-poppins text-sm block w-full p-2.5 focus:outline-none tracking-tight">

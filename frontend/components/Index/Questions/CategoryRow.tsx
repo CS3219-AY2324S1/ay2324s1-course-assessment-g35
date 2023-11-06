@@ -11,11 +11,10 @@ export default function CategoryRow({ category }: TagProps) {
     "Databases": { text: 'text-pp-accentblue', background: 'bg-pp-blue' },
     "Brainteaser": { text: 'text-pp-accentblue', background: 'bg-pp-blue' },
 
-    "Strings": { text: 'text-pp-accentgreen', background: 'bg-pp-green' },
-    "Data Structures": { text: 'text-pp-darkpurple', background: 'bg-pp-lightpurple' },
-    "Recursion": { text: 'text-pp-accentgreen', background: 'bg-pp-green' },
-    "Arrays": { text: 'text-pp-accentred', background: 'bg-pp-red' },
-    "Bit Manipulation" : { text: 'text-pp-darkpurple', background: 'bg-pp-lightpurple'},
+    "Data Structures": { text: 'text-pp-lightpurple', background: 'bg-pp-accentlightpurple' },
+    "Recursion": { text: 'text-white', background: 'bg-pp-accentwhite'},
+    "Arrays": { text: 'text-pp-black', background: 'bg-pp-accentblack' },
+    "Bit Manipulation" : { text: 'text-pp-accentpink', background: 'bg-pp-pink' },
   };
 
   const [textColor, setTextColor] = useState<string>("");
@@ -29,7 +28,7 @@ export default function CategoryRow({ category }: TagProps) {
     }
   }, [category]);
 
-  const className = `text-poppins text-base tracking-tight font-bold h-2/12 rounded-[30px] py-2 px-4 text-center ${textColor} ${backgroundColor}`
+  const className = `font-poppins text-base tracking-tight h-2/12 rounded-[30px] py-2 px-4 text-center ${textColor} ${backgroundColor}`
   return (
     <div className={className}>
       {category}

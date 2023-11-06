@@ -1,21 +1,3 @@
-// export type Question = {
-//   _id: string;
-//   title: string;
-//   description: string;
-//   difficulty: string;
-//   category: string[];
-// };
-
-// type QuestionDisplayProps = {
-//   question: Question | undefined;
-//   getQuestion: () => void;
-// };
-
-// export default function QuestionDisplay({
-//   question,
-//   getQuestion,
-// }: QuestionDisplayProps) {
-
 import { useEffect, useState } from "react";
 import CategoryRow from "@/components/Index/Questions/CategoryRow";
 import QuestionModal from "./QuestionModal";
@@ -63,17 +45,18 @@ export default function QuestionRow({
   }
   , []);
 
+  const peer = history.user2
   const jsDate = new Date(history.time);
   const formattedDateTime = new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
-    month: 'short',
+    month: 'long',
     day: '2-digit',
     hour: '2-digit',
     minute: '2-digit',
   }).format(jsDate);
 
-
   return (
+    <>
     <div className="bg-pp-accentgray flex flex-row py-2 px-4 rounded-3xl items-center">
       {showQuestionModal && (
         <QuestionModal
@@ -83,19 +66,15 @@ export default function QuestionRow({
           category={category}
           date={formattedDateTime}
           // TODO: edit the input as the whole question once linked w history
-          // question={question}
           handleCloseModal={handleCloseModal}
           setShowQuestionModal={setShowQuestionModal}
         />
       )}
 
       <div className="w-4/12 flex flex-row gap-x-2">
-        <div className="w-8/12">
           <p className="font-poppins font-bold text-lg text-white tracking-tight truncate">
             {title}
           </p>
-        </div>
-        <div className="w-/12">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -109,26 +88,30 @@ export default function QuestionRow({
               clipRule="evenodd"
             />
           </svg>
-        </div>
+          
       </div>
-      
-      {/* TODO: any styling to differentiate the levels needed? can refer to colors for tags */}
-      <div className="w-1/12 font-poppins font-bold text-lg text-white tracking-tight">
-        <p>
+
+      <div className="w-4/12 flex flex-row gap-x-4 items-center">
+        <p className="font-poppins font-bold text-lg text-white tracking-tight">
           {difficulty}
         </p>
-      </div>
-      <div className="w-6/12 flex flex-row space-x-1">
         {category.map((item) => (
           <CategoryRow category={item} />
         ))}
       </div>
+      
+      <div className="w-2/12">
+        <p className="font-poppins font-bold text-base text-white tracking-tight">
+          {peer}
+        </p>
+      </div>
 
-      <div className="w-1/12">
+      <div className="w-2/12">
         <p className="font-poppins text-base text-white tracking-tight">
           {formattedDateTime}
         </p>
       </div>
     </div>
+    </>
   );
 }
