@@ -60,14 +60,9 @@ export default function QuestionRow({
     <div className="bg-pp-accentgray flex flex-row py-2 px-4 rounded-3xl items-center">
       {showQuestionModal && (
         <QuestionModal
-          title={title}
-          description={description}
-          difficulty={difficulty}
-          category={category}
-          date={formattedDateTime}
-          // TODO: edit the input as the whole question once linked w history
           handleCloseModal={handleCloseModal}
           setShowQuestionModal={setShowQuestionModal}
+          history={history}
         />
       )}
 
