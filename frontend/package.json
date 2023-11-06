@@ -29,6 +29,7 @@
     "@uiw/codemirror-theme-dracula": "^4.21.20",
     "@uiw/react-codemirror": "^4.21.20",
     "axios": "^1.5.0",
+    "cheerio": "^1.0.0-rc.12",
     "code-example": "^3.3.6",
     "dockerode": "^4.0.0",
     "eslint": "8.48.0",
