@@ -11,7 +11,6 @@ export type History = {
   questionid: number; // Assuming it's a number, adjust the type if it's different
 };
 
-// TODO: get questions from the service rather than hardcoding
 const Questions: React.FC<{ userName: string | undefined }> = ({ userName }) => {
   const [historyData, setHistoryData] = useState<History[]>([]);
   const [historyLoading, setHistoryLoading] = useState<boolean>(true);
@@ -34,7 +33,6 @@ const Questions: React.FC<{ userName: string | undefined }> = ({ userName }) => 
           Questions you've completed
         </h2>
         <div className="flex flex-col gap-y-4 overflow-auto mt-6">
-          {/* TODO: later, link the questions to the QuestionRow */}
           {historyLoading ? (
             <div className="flex justify-center items-center" role="status">
               <svg

@@ -4,8 +4,7 @@ import QuestionModal from "./QuestionModal";
 import { History } from "../Questions";
 import { QUESTION_URI } from "@/constants/uri";
 import axios from "axios";
-// NOTE: later, just have an input as the question rather than all the components of the question
-// TODO: change the props to link with the history
+
 interface QuestionRowProps {
   history: History;
 }

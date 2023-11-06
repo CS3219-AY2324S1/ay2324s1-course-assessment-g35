@@ -6,7 +6,6 @@ interface TagProps {
 
 export default function CategoryRow({ category }: TagProps) {
   const categoryColors: Record<string, { text: string, background: string }> = {
-    // TODO: colors to be edited later!
     "Algorithms": { text: 'text-pp-accentblue', background: 'bg-pp-blue' },
     "Databases": { text: 'text-pp-accentblue', background: 'bg-pp-blue' },
     "Brainteaser": { text: 'text-pp-accentblue', background: 'bg-pp-blue' },
