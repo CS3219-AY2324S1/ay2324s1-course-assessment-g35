@@ -31,7 +31,7 @@ const CodeEditor: React.FC<{
   const [showResults, setShowResults] = useState<boolean>(false);
 
   useEffect(() => {
-    setSelectedLanguage("c");
+    setSelectedLanguage("java");
   }, []);
 
   // change the code example when the language is changed
