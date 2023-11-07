@@ -67,31 +67,13 @@ const CodeEditor: React.FC<{
     setLoading(true);
     setShowResults(true);
     alert(code);
+    alert(selectedLang);
     const body = {
       content: code,
-      language: selectedLanguage,
+      language: selectedLang,
     };
-    // fetch("http://localhost:3005/code", {
-    //   method: "POST",
-    //   body: JSON.stringify(body), // Stringify the body object
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setLoading(false);
-    //     alert(data);
-    //     if (data.stderr != "") {
-    //       setError(data.stderr);
-    //       setStderr(data.stderr);
-    //     } else {
-    //       setError("");
-    //       setOutput(data.stdout);
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
     axios
-      .post("http://localhost:3005/code", body)
+      .post("http://34.142.198.105:3005/code", body)
       .then((response) => {
         setLoading(false);
         const data = response.data;
