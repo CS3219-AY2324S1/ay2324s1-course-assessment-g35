@@ -17,6 +17,7 @@ model history {
   time       DateTime
   code       String
   questionid String
+  language   String
 
   @@id([roomid, questionid])
 }

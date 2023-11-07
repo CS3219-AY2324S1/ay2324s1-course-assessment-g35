@@ -12,9 +12,11 @@ import axios from "axios";
 
 const CodeEditor: React.FC<{
   roomId: string;
+  selectedLanguage: string;
+  setSelectedLanguage: (lang: string) => void;
   code: string | undefined;
   setCode: (newCode: string) => void;
-}> = ({ roomId, code, setCode }) => {
+}> = ({ roomId, selectedLanguage, setSelectedLanguage, code, setCode }) => {
   const params = useParams();
   console.log(params);
 
@@ -28,7 +30,7 @@ const CodeEditor: React.FC<{
   const [showResults, setShowResults] = useState<boolean>(false);
 
   useEffect(() => {
-    setSelectedLang("c");
+    setSelectedLanguage("c");
   }, []);
 
   function writeUserData(code: string) {
@@ -67,7 +69,7 @@ const CodeEditor: React.FC<{
     alert(code);
     const body = {
       content: code,
-      language: selectedLang,
+      language: selectedLanguage,
     };
     // fetch("http://localhost:3005/code", {
     //   method: "POST",

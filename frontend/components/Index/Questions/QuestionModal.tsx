@@ -109,8 +109,10 @@ export default function QuestionModal({
             <AccordionItem overflow={"scroll"}>
               <p className="font-poppins text-base tracking-tight text-pp-darkpurple">
                 <AccordionButton>
-                  <Box as="span" flex="1" textAlign="left">
-                    Code
+                  <Box as="span" flex="1" textAlign="left" className="flex justify-between">
+                    <span>Code</span>
+                    <span>Language: {history.language}</span> 
+                    {/* TODO: style language properly */}
                   </Box>
                   <AccordionIcon />
                 </AccordionButton>
