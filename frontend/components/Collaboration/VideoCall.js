@@ -157,7 +157,7 @@ function VideoCall({ myId, otherId }) {
       <button onClick={() => call(remotePeerIdValue)}>Call</button> */}
       {!isVideoLoaded ? null : (
         <div className="flex justify-between pb-2">
-          username 1
+          {myId}
           <div className="flex gap-2">
             <button onClick={toggleAudio}>
               {isAudioOn ? <AudioOnIcon /> : <AudioOffIcon />}
@@ -185,7 +185,7 @@ function VideoCall({ myId, otherId }) {
         </div>
       )} */}
       {!isVideoLoaded ? null : (
-        <div className="flex justify-between pb-2 mt-4">username 2</div>
+        <div className="flex justify-between pb-2 mt-4">{otherId}</div>
       )}
       <video
         playsInline
