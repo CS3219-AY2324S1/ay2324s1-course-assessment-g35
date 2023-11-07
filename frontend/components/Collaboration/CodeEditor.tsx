@@ -1,4 +1,4 @@
-import CodeMirror from "@uiw/react-codemirror";
+import CodeMirror, { Extension } from "@uiw/react-codemirror";
 import { useEffect, useState } from "react";
 import { getDatabase, onValue, ref, set } from "@firebase/database";
 import { codeExamples } from "@/code_examples/codeExamples";
@@ -18,12 +18,12 @@ const CodeEditor: React.FC<{
   const params = useParams();
   console.log(params);
 
-  const [selectedLang, setSelectedLang] = useState<string>("c");
+  const [selectedLang, setSelectedLang] = useState<langs>("c");
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [stderr, setStderr] = useState("");
-  const langs = ["java", "go", "python", "c", "cpp", "javascript"];
+  type langs = "java" | "go" | "python" | "c" | "cpp" | "javascript";
 
   const [showResults, setShowResults] = useState<boolean>(false);
 
@@ -39,9 +39,9 @@ const CodeEditor: React.FC<{
     });
   }
 
-  function handleLangChange(lang: keyof typeof langs) {
+  function handleLangChange(lang: langs) {
     console.log(lang);
-    setSelectedLang(lang.toString());
+    setSelectedLang(lang);
     try {
       setCode(codeExamples[lang.toString()]);
     } catch (error) {}
@@ -113,16 +113,14 @@ const CodeEditor: React.FC<{
       {/* initialize the code mirror with spaces already */}
       <div className="flex flex-col gap-3 text-black">
         <Select
-          options={langs.sort()}
-          onChange={(evn) =>
-            handleLangChange(evn.target.value as keyof typeof langs)
-          }
+          options={["java", "go", "python", "c", "cpp", "javascript"]}
+          onChange={(evn) => handleLangChange(evn.target.value as langs)}
         />
         <CodeMirror
           value={code}
           onChange={codeChanged}
           theme={dracula}
-          extensions={[loadLanguage(selectedLang)]}
+          extensions={[loadLanguage(selectedLang) as Extension]}
           basicSetup={{
             foldGutter: false,
             dropCursor: false,
