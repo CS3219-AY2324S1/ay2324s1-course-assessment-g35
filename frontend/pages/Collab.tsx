@@ -29,6 +29,7 @@ function Collab() {
   const [question, setQuestion] = useState<Question>();
   const [showGenerateModal, setShowGenerateModal] = useState<boolean>(false);
   const [code, setCode] = useState<string | undefined>("");
+  const [selectedLang, setSelectedLang] = useState<string>("c");
 
   // useEffect to retrieve question if none found in localstorage
   useEffect(() => {
@@ -113,6 +114,7 @@ function Collab() {
         user2: otherId,
         time: new Date().toISOString(),
         code: code || "",
+        language: selectedLang
       };
       axios.post(HISTORY_URI.CREATE_OR_UPDATE, payload);
     } catch (err) {
@@ -227,6 +229,8 @@ function Collab() {
 
           <CodeEditor
             roomId={(roomId as string) || ""}
+            selectedLanguage={selectedLang}
+            setSelectedLanguage={setSelectedLang}
             code={code}
             setCode={setCode}
           />

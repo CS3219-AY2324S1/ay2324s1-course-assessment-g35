@@ -12,13 +12,14 @@ import axios from "axios";
 
 const CodeEditor: React.FC<{
   roomId: string;
+  selectedLanguage: string;
+  setSelectedLanguage: (lang: string) => void;
   code: string | undefined;
   setCode: (newCode: string) => void;
-}> = ({ roomId, code, setCode }) => {
+}> = ({ roomId, selectedLanguage, setSelectedLanguage, code, setCode }) => {
   const params = useParams();
   console.log(params);
 
-  const [selectedLang, setSelectedLang] = useState<string>("c");
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -28,7 +29,7 @@ const CodeEditor: React.FC<{
   const [showResults, setShowResults] = useState<boolean>(false);
 
   useEffect(() => {
-    setSelectedLang("c");
+    setSelectedLanguage("c");
   }, []);
 
   function writeUserData(code: string) {
@@ -41,7 +42,7 @@ const CodeEditor: React.FC<{
 
   function handleLangChange(lang: keyof typeof langs) {
     console.log(lang);
-    setSelectedLang(lang.toString());
+    setSelectedLanguage(lang.toString());
     try {
       setCode(codeExamples[lang.toString()]);
     } catch (error) {}
@@ -67,7 +68,7 @@ const CodeEditor: React.FC<{
     alert(code);
     const body = {
       content: code,
-      language: selectedLang,
+      language: selectedLanguage,
     };
     // fetch("http://localhost:3005/code", {
     //   method: "POST",
@@ -122,7 +123,7 @@ const CodeEditor: React.FC<{
           value={code}
           onChange={codeChanged}
           theme={dracula}
-          extensions={[loadLanguage(selectedLang)]}
+          extensions={[loadLanguage(selectedLanguage)]}
           basicSetup={{
             foldGutter: false,
             dropCursor: false,

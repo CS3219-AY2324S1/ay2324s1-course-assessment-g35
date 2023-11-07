@@ -9,6 +9,7 @@ export type History = {
   time: string; // It's a string in the provided JSON, but consider using a Date if that's the actual type
   code: string;
   questionid: number; // Assuming it's a number, adjust the type if it's different
+  language: string;
 };
 
 const Questions: React.FC<{ userName: string | undefined }> = ({ userName }) => {

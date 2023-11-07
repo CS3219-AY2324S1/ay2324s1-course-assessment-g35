@@ -29,7 +29,7 @@ historyRouter.get("/all", async (req, res) => {
 //User1, user2, roomId, time, code, questionId
 historyRouter.post("/create", async (req, res) => {
   try {
-    const { roomid, user1, user2, time, code, questionid } = req.body;
+    const { roomid, user1, user2, time, code, questionid, language } = req.body;
     const history = await createOrUpdateHistoryRecord({
       roomid,
       user1,
@@ -37,6 +37,7 @@ historyRouter.post("/create", async (req, res) => {
       time,
       code,
       questionid,
+      language,
     });
     return res.status(200).json(history);
   } catch (error: any) {

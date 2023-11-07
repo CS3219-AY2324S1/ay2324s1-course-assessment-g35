@@ -8,6 +8,7 @@ type HistoryType = {
   time: Date;
   code: string;
   questionid: string;
+  language: string;
 };
 
 export const findHistoryByUserId = async (
