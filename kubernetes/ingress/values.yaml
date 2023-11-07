@@ -33,14 +33,14 @@ spec:
   rules:
     - http:
         paths:
-          # - path: /
-          #   pathType: Prefix
-          #   backend:
-          #     service:
-          #       name: user-service-nodeport
-          #       port:
-          #         number: 8000
           - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: user-service-nodeport
+                port:
+                  number: 8000
+          - path: /history
             pathType: Prefix
             backend:
               service:
