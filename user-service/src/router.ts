@@ -1,5 +1,11 @@
 import express from "express";
-import { createUser, deleteUser, editUser, findUserByUsernameReturnsAllFields, findUserByIdReturnsWithoutPw } from "./service";
+import {
+  createUser,
+  deleteUser,
+  editUser,
+  findUserByUsernameReturnsAllFields,
+  findUserByIdReturnsWithoutPw,
+} from "./service";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import verifyJWT from "./middleware/verifyJWT";
@@ -9,15 +15,20 @@ export const KEY = process.env.JWT_KEY || "SECRET";
 
 // ------------------ Users CRUD ------------------
 
+userRouter.get("/", (req, res) => {
+  console.log("hi");
+  return res.status(200).json();
+});
+
 // Get user details
-userRouter.get("/", verifyJWT, async (req, res) => {
+userRouter.get("/retrieve", verifyJWT, async (req, res) => {
   if (!req.userPayload) {
     return res.status(400).json({
       status: "error",
       error: "Request missing id",
     });
   }
-  console.log('id', req.userPayload.id);
+  console.log("id", req.userPayload.id);
   try {
     const users = await findUserByIdReturnsWithoutPw(req.userPayload.id);
     return res.status(200).json(users);
@@ -68,7 +79,6 @@ userRouter.delete("/", verifyJWT, async (req, res) => {
   }
 });
 
-
 // ------------------ Authentication ------------------
 userRouter.post("/login", async (req, res) => {
   try {
@@ -82,7 +92,9 @@ userRouter.post("/login", async (req, res) => {
     const user = await findUserByUsernameReturnsAllFields(username);
     console.log(user);
     if (!user) {
-      return res.status(400).json({ message: "Invalid username. User not found." });
+      return res
+        .status(400)
+        .json({ message: "Invalid username. User not found." });
     }
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (isMatch) {
