@@ -51,13 +51,14 @@ const CodeEditor: React.FC<{
 
   useEffect(() => {
     const db = getDatabase();
-    const roomRef = ref(db, `rooms/${roomId}`);
-    onValue(roomRef, (snapshot) => {
-      const data = snapshot.val();
-      setCode(data?.code);
-      alert("code is being set to " + data?.code);
-    });
-  }, []);
+    if (roomId) {
+      const roomRef = ref(db, `rooms/${roomId}`);
+      onValue(roomRef, (snapshot) => {
+        const data = snapshot.val();
+        setCode(data?.code);
+      });
+    }
+  }, [roomId]);
 
   const codeChanged = (data: string) => {
     setCode(data);
