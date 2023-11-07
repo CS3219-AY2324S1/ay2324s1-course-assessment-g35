@@ -3,7 +3,7 @@ import Chat from "@/components/Collaboration/Chat";
 import { useRouter } from "next/router";
 import io, { Socket } from "socket.io-client";
 import VideoCall from "@/components/Collaboration/VideoCall";
-import CodeEditor from "@/components/Collaboration/CodeEditor";
+import CodeEditor, { langs } from "@/components/Collaboration/CodeEditor";
 import axios from "axios";
 import QuestionDisplay, {
   Question,
@@ -29,7 +29,7 @@ function Collab() {
   const [question, setQuestion] = useState<Question>();
   const [showGenerateModal, setShowGenerateModal] = useState<boolean>(false);
   const [code, setCode] = useState<string | undefined>("");
-  const [selectedLanguage, setSelectedLanguage] = useState<string>("c");
+  const [selectedLanguage, setSelectedLanguage] = useState<langs>("c");
 
   // useEffect to retrieve question if none found in localstorage
   useEffect(() => {
@@ -37,6 +37,10 @@ function Collab() {
       setQuestion(JSON.parse(localStorage.getItem("question") as string));
     } else {
       getQuestion();
+    }
+
+    if (localStorage.getItem("language")) {
+      setSelectedLanguage(localStorage.getItem("language") as langs);
     }
 
     // cleanup socket, but not local storage
@@ -80,8 +84,21 @@ function Collab() {
       setQuestion(question);
       localStorage.setItem("question", JSON.stringify(question));
     });
+    newSocket.on("language", (language) => {
+      setSelectedLanguage(language);
+      localStorage.setItem("language", language);
+    });
     return newSocket;
   }, [roomId]);
+
+  // function for socket to emit language
+  const socketEmitLanguage = (lang: langs) => {
+    const langPayload = {
+      roomId: roomId,
+      language: lang,
+    };
+    socket.emit("language", langPayload);
+  };
 
   const [showLeaveModal, setShowLeaveModal] = useState<boolean>(false);
   const [showSaveModal, setShowSaveModal] = useState<boolean>(false);
@@ -98,7 +115,7 @@ function Collab() {
     saveToHistory();
 
     //CLEANUP local storage only
-    localStorage.removeItem("code");
+    localStorage.removeItem("code"); // TODO: check if this is needed
     localStorage.removeItem("question");
 
     router.push("/");
@@ -234,6 +251,7 @@ function Collab() {
             setSelectedLanguage={setSelectedLanguage}
             code={code}
             setCode={setCode}
+            socketEmitLanguage={socketEmitLanguage}
           />
         </div>
 

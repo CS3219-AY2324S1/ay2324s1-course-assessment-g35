@@ -10,22 +10,23 @@ import CodeResults from "./CodeResults";
 import { dracula } from "@uiw/codemirror-theme-dracula";
 import axios from "axios";
 
+export type langs = "java" | "python" | "c" | "javascript";
+
 const CodeEditor: React.FC<{
   roomId: string;
-  selectedLanguage: string;
-  setSelectedLanguage: (lang: string) => void;
+  selectedLanguage: langs;
+  setSelectedLanguage: (lang: langs) => void;
   code: string | undefined;
   setCode: (newCode: string) => void;
-}> = ({ roomId, selectedLanguage, setSelectedLanguage, code, setCode }) => {
+  socketEmitLanguage: (lang: langs) => void;
+}> = ({ roomId, selectedLanguage, setSelectedLanguage, code, setCode, socketEmitLanguage }) => {
   const params = useParams();
   console.log(params);
 
-  const [selectedLang, setSelectedLang] = useState<langs>("c");
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [stderr, setStderr] = useState("");
-  type langs = "java" | "python" | "c" | "javascript";
 
   const [showResults, setShowResults] = useState<boolean>(false);
 
@@ -42,8 +43,9 @@ const CodeEditor: React.FC<{
   }
 
   function handleLangChange(lang: langs) {
-    console.log(lang);
-    setSelectedLang(lang);
+    console.log("new lang: " + lang);
+    setSelectedLanguage(lang);
+    socketEmitLanguage(lang);
     try {
       setCode(codeExamples[lang.toString()]);
     } catch (error) {}
@@ -69,10 +71,10 @@ const CodeEditor: React.FC<{
     setLoading(true);
     setShowResults(true);
     alert(code);
-    alert(selectedLang);
+    alert(selectedLanguage);
     const body = {
       content: code,
-      language: selectedLang,
+      language: selectedLanguage,
     };
     axios
       .post("http://34.142.198.105:3005/code", body)
@@ -100,13 +102,14 @@ const CodeEditor: React.FC<{
       <div className="flex flex-col gap-3 text-black">
         <Select
           options={["java", "python", "c", "javascript"]}
+          value={selectedLanguage}
           onChange={(evn) => handleLangChange(evn.target.value as langs)}
         />
         <CodeMirror
           value={code}
           onChange={codeChanged}
           theme={dracula}
-          extensions={[loadLanguage(selectedLang) as Extension]}
+          extensions={[loadLanguage(selectedLanguage) as Extension]}
           basicSetup={{
             foldGutter: false,
             dropCursor: false,

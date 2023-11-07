@@ -58,6 +58,12 @@ io.on("connection", (socket) => {
   socket.on("question", (data) => {
     socket.to(data.roomId).emit("question", data.question);
   });
+
+  //language change
+  socket.on("language", (data) => {
+    console.log("language change to " + data.language);
+    socket.to(data.roomId).emit("language", data.language);
+  });
 });
 
 server.listen(3002, () => {
