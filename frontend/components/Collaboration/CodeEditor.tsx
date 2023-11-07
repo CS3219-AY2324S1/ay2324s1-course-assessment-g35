@@ -25,7 +25,7 @@ const CodeEditor: React.FC<{
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [stderr, setStderr] = useState("");
-  type langs = "java" | "go" | "python" | "c" | "cpp" | "javascript";
+  type langs = "java" | "python" | "c" | "javascript";
 
   const [showResults, setShowResults] = useState<boolean>(false);
 
@@ -51,12 +51,14 @@ const CodeEditor: React.FC<{
 
   useEffect(() => {
     const db = getDatabase();
-    const roomRef = ref(db, `rooms/${roomId}`);
-    onValue(roomRef, (snapshot) => {
-      const data = snapshot.val();
-      setCode(data?.code);
-    });
-  }, []);
+    if (roomId) {
+      const roomRef = ref(db, `rooms/${roomId}`);
+      onValue(roomRef, (snapshot) => {
+        const data = snapshot.val();
+        setCode(data?.code);
+      });
+    }
+  }, [roomId]);
 
   const codeChanged = (data: string) => {
     setCode(data);
@@ -67,31 +69,13 @@ const CodeEditor: React.FC<{
     setLoading(true);
     setShowResults(true);
     alert(code);
+    alert(selectedLang);
     const body = {
       content: code,
-      language: selectedLanguage,
+      language: selectedLang,
     };
-    // fetch("http://localhost:3005/code", {
-    //   method: "POST",
-    //   body: JSON.stringify(body), // Stringify the body object
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setLoading(false);
-    //     alert(data);
-    //     if (data.stderr != "") {
-    //       setError(data.stderr);
-    //       setStderr(data.stderr);
-    //     } else {
-    //       setError("");
-    //       setOutput(data.stdout);
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
     axios
-      .post("http://localhost:3005/code", body)
+      .post("http://34.142.198.105:3005/code", body)
       .then((response) => {
         setLoading(false);
         const data = response.data;
@@ -115,7 +99,7 @@ const CodeEditor: React.FC<{
       {/* initialize the code mirror with spaces already */}
       <div className="flex flex-col gap-3 text-black">
         <Select
-          options={["java", "go", "python", "c", "cpp", "javascript"]}
+          options={["java", "python", "c", "javascript"]}
           onChange={(evn) => handleLangChange(evn.target.value as langs)}
         />
         <CodeMirror
