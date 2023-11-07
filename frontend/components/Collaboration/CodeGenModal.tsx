@@ -150,11 +150,9 @@ export default function CodeGenModal({
             )}
           </div>
           <SyntaxHighlighter language="javascript" showLineNumbers>
-            {generatedCode && processString(generatedCode)}
+            {generatedCode ? [processString(generatedCode)] : []}
           </SyntaxHighlighter>
-          {/* <SyntaxHighlighter language="javascript">
-            {generatedCode && processString(generatedCode)}
-          </SyntaxHighlighter> */}
+
           <br />
         </div>
       </ModalContent>
