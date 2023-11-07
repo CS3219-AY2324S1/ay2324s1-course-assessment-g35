@@ -115,7 +115,7 @@ function Collab() {
     saveToHistory();
 
     //CLEANUP local storage only
-    localStorage.removeItem("code"); // TODO: check if this is needed
+    localStorage.removeItem("language");
     localStorage.removeItem("question");
 
     router.push("/");

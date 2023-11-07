@@ -34,6 +34,11 @@ const CodeEditor: React.FC<{
     setSelectedLanguage("c");
   }, []);
 
+  // change the code example when the language is changed
+  useEffect(() => {
+    setCode(codeExamples[selectedLanguage]);
+  }, [selectedLanguage]);
+
   function writeUserData(code: string) {
     const db = getDatabase();
     set(ref(db, "rooms/" + roomId), {
@@ -46,9 +51,6 @@ const CodeEditor: React.FC<{
     console.log("new lang: " + lang);
     setSelectedLanguage(lang);
     socketEmitLanguage(lang);
-    try {
-      setCode(codeExamples[lang.toString()]);
-    } catch (error) {}
   }
 
   useEffect(() => {
