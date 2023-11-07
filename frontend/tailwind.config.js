@@ -33,6 +33,15 @@ module.exports = {
 
         'pp-darkpurple': '#190B28',
         'pp-lightpurple': '#6C6EA0',
+        'pp-accentlightpurple': '#B3B7EE',
+
+        'pp-pink' : '#FFBDD1',
+        'pp-accentpink' : '#FF6392',
+
+        'pp-black' : '#272727',
+        'pp-accentblack' : '#C1C1C1',
+
+        'pp-accentwhite' : '#B3B3B3'
       },
     },
   },

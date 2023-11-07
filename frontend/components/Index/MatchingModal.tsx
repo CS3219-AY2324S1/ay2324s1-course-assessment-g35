@@ -33,7 +33,7 @@ export default function MatchingModal({
   useEffect(() => {
     const interval = setInterval(() => {
       updateRandomFact();
-    }, 5000);
+    }, 10000);
 
     return () => {
       clearInterval(interval);
@@ -48,7 +48,6 @@ export default function MatchingModal({
   }, [matchingFacts]);
 
   return (
-    // TODO: remove the animation on opening the modal?
     <Modal
       isOpen={true}
       onClose={() => setShowMatchingModal(false)}

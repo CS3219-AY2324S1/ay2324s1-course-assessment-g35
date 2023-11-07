@@ -67,8 +67,6 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    // TODO: automatically close the modal when the email has been changed or change how it looks,
-    // ie. remove input text and hide update button
     updateModalStatus();
     e.preventDefault();
     console.log(email);
@@ -98,7 +96,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
   };
 
   return (
-    <Modal isOpen={true} onClose={() => setShowProfileModal(false)} isCentered>
+    <Modal isOpen={true} onClose={() => setShowProfileModal(false)} isCentered size="md">
       <ModalOverlay />
       <ModalContent
         style={{ padding: "20px", height: "400px", borderRadius: "20px" }}
@@ -121,7 +119,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
           </svg>
         </div>
 
-        <div className="w-full h-full">
+        <div>
           <Modal
             isOpen={showConfirmDelete}
             onClose={() => setShowConfirmDelete(false)}
@@ -150,9 +148,9 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
           </Modal>
 
           <div className="h-full flex flex-col gap-y-4 justify-center">
-            <div className="font-poppins text-pp-darkpurple text-[30px] font-bold">
+            <p className="font-poppins text-pp-darkpurple text-lg font-bold">
               Profile
-            </div>
+            </p>
             <div className="flex flex-col">
               <p className="font-poppins text-base tracking-tigher">Username</p>
               <div className="rounded-3xl text-pp-gray bg-gray-400 font-poppins text-sm block w-full p-2.5 focus:outline-none tracking-tight">

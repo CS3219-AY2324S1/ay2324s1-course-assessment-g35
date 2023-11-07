@@ -18,7 +18,7 @@ export default function LogOutModal({
   handleCloseModal,
 }: Readonly<LogOutModalProps>) {
   return (
-    <Modal isOpen={true} onClose={() => setShowLogOutModal(false)} isCentered>
+    <Modal isOpen={true} onClose={() => setShowLogOutModal(false)} isCentered size="md">
       <ModalOverlay />
       <ModalContent className="p-2" style={{ borderRadius: "20px" }}>
         <ModalHeader className="font-poppins text-2xl text-pp-darkpurple tracking-tighter">

@@ -6,11 +6,17 @@ import { loadLanguage } from "@uiw/codemirror-extensions-langs";
 
 import CodeResults from "./CodeResults";
 import { dracula } from "@uiw/codemirror-theme-dracula";
-import { Select } from "@chakra-ui/react";
+import axios from "axios";
+import { useParams } from "next/navigation";
 
-const CodeEditor = ({ roomId }) => {
-  console.log(roomId);
-  const [code, setCode] = useState<string>("");
+const CodeEditor: React.FC<{
+  roomId: string;
+  code: string | undefined;
+  setCode: (newCode: string) => void;
+}> = ({ roomId, code, setCode }) => {
+  const params = useParams();
+  console.log(params);
+
   const [selectedLang, setSelectedLang] = useState<string>("c");
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -73,6 +79,7 @@ const CodeEditor = ({ roomId }) => {
         }
       })
       .catch((error) => {
+        alert(error);
         console.error(error);
       });
     get(child(dbRef, roomIdentifier))

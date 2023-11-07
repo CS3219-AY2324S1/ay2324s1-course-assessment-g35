@@ -8,9 +8,8 @@ import axios from "axios";
 import QuestionDisplay, {
   Question,
 } from "@/components/Collaboration/QuestionDisplay";
-import { CHATSERVICE_URI, QUESTION_URI } from "@/constants/uri";
+import { CHATSERVICE_URI, HISTORY_URI, QUESTION_URI } from "@/constants/uri";
 import withAuth from "@/components/withAuth";
-import SaveModal from "@/components/Collaboration/LeaveModal";
 import LeaveModal from "@/components/Collaboration/LeaveModal";
 import {
   Button,
@@ -21,6 +20,7 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import CodeGenModal from "@/components/Collaboration/CodeGenModal";
+import ChangeQuestionModal from "@/components/Collaboration/ChangeQuestionModal";
 
 function Collab() {
   const router = useRouter();
@@ -32,6 +32,7 @@ function Collab() {
   useEffect(() => {
     if (roomId) setRoom(roomId as string);
   }, [roomId]);
+  const [code, setCode] = useState<string | undefined>("");
 
   // useEffect to retrieve question if none found in localstorage
   useEffect(() => {
@@ -46,6 +47,7 @@ function Collab() {
       socket.disconnect();
     };
   }, []);
+
   const openCodeGenModal = () => {
     setShowGenerateModal(true);
   };
@@ -55,7 +57,7 @@ function Collab() {
 
   const getQuestion = () => {
     axios
-      .get(`${QUESTION_URI.GET}?difficulty=${difficulty}`)
+      .get(`${QUESTION_URI.GET_RANDOM_QUESTION}?difficulty=${difficulty}`)
       .then((res) => {
         setQuestion(res.data);
         localStorage.setItem("question", JSON.stringify(res.data)); //todo: remove upon completion
@@ -85,25 +87,41 @@ function Collab() {
 
   const [showLeaveModal, setShowLeaveModal] = useState<boolean>(false);
   const [showSaveModal, setShowSaveModal] = useState<boolean>(false);
+  const [showChangeQuestionModal, setShowChangeQuestionModal] =
+    useState<boolean>(false);
 
   const handleLeaveClick = () => {
     setShowLeaveModal(true);
   };
 
-  const handleSave = () => {
-    console.log("SAVING PROGRESS");
-    setShowSaveModal(true);
-    // make call to history service to save qid, uid1, uid2, roomid, and code
-  };
-
   const handleSaveAndLeave = () => {
     console.log("SAVING PROGRESS AND LEAVING");
-    // make call to history service to save qid, uid1, uid2, roomid, and code
+
+    saveToHistory();
 
     //CLEANUP local storage only
+    localStorage.removeItem("code");
     localStorage.removeItem("question");
 
     router.push("/");
+  };
+
+  const saveToHistory = () => {
+    // make call to history service to save qid, uid1, uid2, roomid, and code
+    try {
+      console.log("code", code);
+      const payload = {
+        roomid: roomId,
+        questionid: question?._id,
+        user1: myId,
+        user2: otherId,
+        time: new Date().toISOString(),
+        code: code || "",
+      };
+      axios.post(HISTORY_URI.CREATE_OR_UPDATE, payload);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleCloseModal = () => {
@@ -131,6 +149,7 @@ function Collab() {
       <div>
         {showGenerateModal && (
           <CodeGenModal
+            questionTitle={question?.title}
             handleCloseModal={handleCloseCodeGenModal}
             setShowCodeGenModal={setShowGenerateModal}
           />
@@ -143,6 +162,14 @@ function Collab() {
             handleSaveAndLeave={handleSaveAndLeave}
             handleCloseModal={handleCloseModal}
             setShowLeaveModal={setShowLeaveModal}
+          />
+        )}
+
+        {showChangeQuestionModal && (
+          <ChangeQuestionModal
+            setShowChangeQuestionModal={setShowChangeQuestionModal}
+            getQuestion={getQuestion}
+            saveToHistory={saveToHistory}
           />
         )}
 
@@ -163,14 +190,17 @@ function Collab() {
         )}
 
         {/* Question section */}
-        <div className="bg-pp-gray font-poppins w-4/12 h-screen flex flex-col gap-4 p-4">
-          <QuestionDisplay question={question} getQuestion={getQuestion} />
+        <div className="bg-pp-gray font-poppins w-4/12 h-screen flex flex-col gap-4 p-4 resize-x overflow-auto max-w-7xl min-w-[300px] relative">
+          <QuestionDisplay
+            question={question}
+            openChangeQuestionModal={() => setShowChangeQuestionModal(true)}
+          />
+          <div className="absolute w-0 h-0 border-b-[20px] border-l-[20px] border-l-transparent border-b-gray-300 border-solid right-0 bottom-0"></div>
         </div>
 
         {/* Code editor section */}
-        <div className="bg-[#282A35] font-poppins w-6/12 h-screen flex flex-col gap-4 p-4 overflow-auto">
-          {/* TODO: maybe move the save button to inside the code editor if possible so that it can look nicer if it's on the same row as language options */}
-          <div className="flex justify-between">
+        <div className="bg-[#282A35] font-poppins h-screen flex flex-1 flex-col gap-4 p-4 overflow-auto min-w-[300px]">
+          <div className="flex justify-end">
             <Tooltip
               label="Save solution"
               aria-label="Save solution"
@@ -212,18 +242,30 @@ function Collab() {
               </svg>
             </Tooltip>
           </div>
-          <Button onClick={openCodeGenModal}>Generate</Button>
 
           <CodeEditor roomId={room} />
+          <button
+            onClick={openCodeGenModal}
+            disabled={question === undefined}
+            className="w-40 bg-pp-blue hover:bg-pp-accentblue rounded-3xl py-2 cursor-pointer font-poppins font-bold text-base text-white tracking-tight"
+          >
+            Generate
+          </button>
+
+          <CodeEditor
+            roomId={(roomId as string) || ""}
+            code={code}
+            setCode={setCode}
+          />
         </div>
 
         {/* Chat and video section */}
         <div className="bg-pp-gray font-poppins w-2/12 h-screen flex flex-col gap-4">
           <button
-            className="text-pp-red bg-slate-900 rounded p-2"
+            className="text-white bg-pp-blue rounded-3xl p-2"
             onClick={() => setShowChat(!showChat)}
           >
-            Show Chat / Video
+            {showChat ? "Show video" : "Show chat"}
           </button>
           <div
             className={`w-1/6 absolute bottom-0 h-screen ${

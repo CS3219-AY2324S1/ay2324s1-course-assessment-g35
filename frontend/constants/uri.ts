@@ -15,9 +15,18 @@ export const USER_URI = {
 const QUESTIONSERVICE_URI = 'http://localhost:8001';
 
 export const QUESTION_URI = {
-    GET: `${QUESTIONSERVICE_URI}/random/difficulty`,
+    GET_RANDOM_QUESTION: `${QUESTIONSERVICE_URI}/random/difficulty`,
+    GET_BY_ID: `${QUESTIONSERVICE_URI}/id`,
 };
 
 export const MATCHINGSERVICE_URI = 'http://localhost:3001';
 
 export const CHATSERVICE_URI = 'http://localhost:3002';
+
+const HISTORYSERVICE_URI = 'http://localhost:8002';
+
+export const HISTORY_URI = {
+    GET_ALL: `${HISTORYSERVICE_URI}/all`,
+    GET_BY_USERNAME: `${HISTORYSERVICE_URI}`,
+    CREATE_OR_UPDATE: `${HISTORYSERVICE_URI}/create`,
+};

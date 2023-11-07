@@ -37,6 +37,7 @@ function VideoCall({myId, otherId}) {
             .then((mediaStream) => { // get video and audio stream from device, stream contains mult tracks
                 mediaStreamRef.current = mediaStream;
                 currentUserVideoRef.current.srcObject = mediaStream; // set video's srcObject to the stream
+                applySavedState();
                 currentUserVideoRef.current.onloadedmetadata = (e) => {
                   setIsVideoLoaded(true);
                   currentUserVideoRef.current.play().catch(console.error);
@@ -64,16 +65,16 @@ function VideoCall({myId, otherId}) {
           track.stop();
         });
       }
-        if (peerInstance.current) {
-            peerInstance.current.destroy();
-        }
+      if (peerInstance.current) {
+          peerInstance.current.destroy();
+      }
     }
   }, [myId, otherId])
 
-  useEffect(() => {
-    console.log('isVideoLoaded', isVideoLoaded);
-  }
-  , [isVideoLoaded]);
+  // useEffect(() => {
+  //   console.log('isVideoLoaded', isVideoLoaded);
+  // }
+  // , [isVideoLoaded]);
 
   const call = (remotePeerId) => {
 
@@ -82,12 +83,11 @@ function VideoCall({myId, otherId}) {
       .then((mediaStream) => {
         mediaStreamRef.current = mediaStream;
         currentUserVideoRef.current.srcObject = mediaStream;
+        applySavedState();
         currentUserVideoRef.current.onloadedmetadata = (e) => {
           setIsVideoLoaded(true);
           currentUserVideoRef.current.play().catch(console.error);
         };
-
-        applySavedState();
 
         const call = peerInstance.current.call(remotePeerId, mediaStream)
 
