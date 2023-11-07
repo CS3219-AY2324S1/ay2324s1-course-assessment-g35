@@ -239,14 +239,19 @@ function Collab() {
 
         {/* Chat and video section */}
         <div className="bg-pp-gray font-poppins w-2/12 h-screen flex flex-col gap-4">
+          {/* <VideoComponent /> */}
+          <div className="w-full bg-pp-gray mb-4">
+            <VideoCall myId={myId} otherId={otherId} />
+          </div>
+
           <button
-            className="text-white bg-pp-blue rounded-3xl p-2"
+            className="text-white bg-pp-blue rounded-3xl p-2 mt-4"
             onClick={() => setShowChat(!showChat)}
           >
             {showChat ? "Show video" : "Show chat"}
           </button>
           <div
-            className={`w-1/6 absolute bottom-0 h-screen ${
+            className={`w-1/6 absolute bottom-0 h-full ${
               showChat ? "block" : "hidden"
             }`}
           >
@@ -255,11 +260,6 @@ function Collab() {
               roomId={(roomId as string) || ""}
               setShowChat={setShowChat}
             />
-          </div>
-
-          <div className="w-full h-full bg-pp-gray">
-            {/* <VideoComponent /> */}
-            <VideoCall myId={myId} otherId={otherId} />
           </div>
         </div>
       </div>
