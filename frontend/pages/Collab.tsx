@@ -57,7 +57,7 @@ function Collab() {
       .get(`${QUESTION_URI.GET_RANDOM_QUESTION}?difficulty=${difficulty}`)
       .then((res) => {
         setQuestion(res.data);
-        localStorage.setItem("question", JSON.stringify(res.data)); //todo: remove upon completion
+        localStorage.setItem("question", JSON.stringify(res.data));
 
         const questionPayload = {
           roomId: roomId,
@@ -78,6 +78,7 @@ function Collab() {
     });
     newSocket.on("question", (question) => {
       setQuestion(question);
+      localStorage.setItem("question", JSON.stringify(question));
     });
     return newSocket;
   }, [roomId]);
