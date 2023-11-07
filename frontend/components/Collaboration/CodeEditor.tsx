@@ -25,7 +25,7 @@ const CodeEditor: React.FC<{
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [stderr, setStderr] = useState("");
-  type langs = "java" | "go" | "python" | "c" | "cpp" | "javascript";
+  type langs = "java" | "python" | "c" | "javascript";
 
   const [showResults, setShowResults] = useState<boolean>(false);
 
@@ -55,6 +55,7 @@ const CodeEditor: React.FC<{
     onValue(roomRef, (snapshot) => {
       const data = snapshot.val();
       setCode(data?.code);
+      alert("code is being set to " + data?.code);
     });
   }, []);
 
@@ -97,7 +98,7 @@ const CodeEditor: React.FC<{
       {/* initialize the code mirror with spaces already */}
       <div className="flex flex-col gap-3 text-black">
         <Select
-          options={["java", "go", "python", "c", "cpp", "javascript"]}
+          options={["java", "python", "c", "javascript"]}
           onChange={(evn) => handleLangChange(evn.target.value as langs)}
         />
         <CodeMirror
