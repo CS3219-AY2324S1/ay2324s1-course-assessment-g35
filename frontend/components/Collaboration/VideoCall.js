@@ -4,7 +4,7 @@ import {
   VideoOnIcon,
   VideoOffIcon,
 } from "@/constants/icons";
-import { use, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function VideoCall({ myId, otherId }) {
   const [peerId, setPeerId] = useState("");
