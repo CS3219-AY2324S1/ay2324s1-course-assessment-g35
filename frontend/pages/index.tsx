@@ -362,7 +362,7 @@ const Dashboard = () => {
           {/* End of profile dashboard */}
           
           <div className="bg-pp-gray w-4/12 rounded-[20px] flex flex-col px-8 gap-y-4 py-8 overflow-hidden">
-            <Activity />
+            <Activity username={user?.username}/>
           </div>
         </div>
         
