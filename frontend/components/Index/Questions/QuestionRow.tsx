@@ -7,10 +7,13 @@ import axios from "axios";
 
 interface QuestionRowProps {
   history: History;
+  setEasyCount: React.Dispatch<React.SetStateAction<number>>;
+  setMediumCount: React.Dispatch<React.SetStateAction<number>>;
+  setHardCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function QuestionRow({
-  history
+  history, setEasyCount, setMediumCount, setHardCount
 }: QuestionRowProps) {
   const [showQuestionModal, setShowQuestionModal] = useState<boolean>(false);
   const handleOpenQuestion = () => {
@@ -35,6 +38,15 @@ export default function QuestionRow({
           setDescription(res.data.description);
           setDifficulty(res.data.difficulty);
           setCategory(res.data.tags);
+
+          // increase count according to difficulty
+          if (res.data.difficulty === "Easy") {
+            setEasyCount((prevCount) => prevCount + 1);
+          } else if (res.data.difficulty === "Medium") {
+            setMediumCount((prevCount) => prevCount + 1);
+          } else if (res.data.difficulty === "Hard") {
+            setHardCount((prevCount) => prevCount + 1);
+          }
         })
         .catch((err) => {
           alert("Error getting question. Please try again later. " + err);

@@ -12,7 +12,7 @@ import useWindowSize from "react-use/lib/useWindowSize";
 import Countdown from "@/components/Index/Countdown";
 import { useRouter } from "next/router";
 import axios from "axios";
-import Questions from "@/components/Index/Questions";
+import QuestionsTable from "@/components/Index/Questions";
 import { LogoutIcon, ProfileIcon } from "@/icons";
 import ProfileModal from "@/components/Index/ProfileModal";
 import MatchingModal from "@/components/Index/MatchingModal";
@@ -197,6 +197,10 @@ const Dashboard = () => {
     }
   }, [showTryAgainModal]);
 
+  const [easyCount, setEasyCount] = useState<number>(0);
+  const [mediumCount, setMediumCount] = useState<number>(0);
+  const [hardCount, setHardCount] = useState<number>(0);
+
   return (
     <>
       <link
@@ -362,11 +366,11 @@ const Dashboard = () => {
           {/* End of profile dashboard */}
           
           <div className="bg-pp-gray w-4/12 rounded-[20px] flex flex-col px-8 gap-y-4 py-8 overflow-hidden">
-            <Activity username={user?.username}/>
+            <Activity username={user?.username} easyCount={easyCount} mediumCount={mediumCount} hardCount={hardCount} />
           </div>
         </div>
         
-        <Questions userName={user?.username} />
+        <QuestionsTable userName={user?.username} setEasyCount={setEasyCount} setMediumCount={setMediumCount} setHardCount={setHardCount} />
       </div>
     </>
   );

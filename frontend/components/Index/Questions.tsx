@@ -12,7 +12,15 @@ export type History = {
   language: string;
 };
 
-const Questions: React.FC<{ userName: string | undefined }> = ({ userName }) => {
+// questionsprops type
+type QuestionsTableProps = {
+  userName: string | undefined;
+  setEasyCount: React.Dispatch<React.SetStateAction<number>>
+  setMediumCount: React.Dispatch<React.SetStateAction<number>>
+  setHardCount: React.Dispatch<React.SetStateAction<number>>
+};
+
+const QuestionsTable: React.FC<QuestionsTableProps> = ({ userName, setEasyCount, setMediumCount, setHardCount }) => {
   const [historyData, setHistoryData] = useState<History[]>([]);
   const [historyLoading, setHistoryLoading] = useState<boolean>(true);
 
@@ -60,7 +68,7 @@ const Questions: React.FC<{ userName: string | undefined }> = ({ userName }) => 
               </div>
             ) : (
               historyData.map((history) => {
-                return <QuestionRow key={history.roomid} history={history} />;
+                return <QuestionRow key={history.roomid} history={history} setEasyCount={setEasyCount} setMediumCount={setMediumCount} setHardCount={setHardCount} />;
               })
             )
           )}
@@ -70,4 +78,4 @@ const Questions: React.FC<{ userName: string | undefined }> = ({ userName }) => 
   );
 };
 
-export default Questions;
+export default QuestionsTable;

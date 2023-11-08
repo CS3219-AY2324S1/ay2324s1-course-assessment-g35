@@ -1,67 +1,28 @@
 import { Pie, PieChart } from "recharts";
-import { History } from "./Questions";
-import { HISTORY_URI } from "@/constants/uri";
-import { QUESTION_URI } from "@/constants/uri";
-import { useEffect, useState } from "react";
-import axios from "axios";
 
 interface ActivtyProps {
   username: String | undefined;
+  easyCount: number;
+  mediumCount: number;
+  hardCount: number;
 }
 
-export default function Activity({ username }: ActivtyProps) {
-  const [historyData, setHistoryData] = useState<History[]>([]);
-  const [easyCount, setEasyCount] = useState<number>(0);
-  const [mediumCount, setMediumCount] = useState<number>(0);
-  const [hardCount, setHardCount] = useState<number>(0);
+export default function Activity({ username, easyCount, mediumCount, hardCount }: ActivtyProps) {
 
-  // TODO: wait for history fix to implement the question completed count
-  // useEffect(() => {
-  //   const getActivityLevels = () => {
-  //     historyData.map((history) => {
-  //       axios
-  //         .get(`${QUESTION_URI.GET_BY_ID}/${history.questionid}`)
-  //         .then((res) => {
-  //           const currentDifficulty = res.data.difficulty;
-  //           console.log(currentDifficulty);
-  //           if (currentDifficulty == "Easy") {
-  //             setEasyCount((easyCount) => easyCount + 1);
-  //           } else if (currentDifficulty == "Medium") {
-  //             setMediumCount((mediumCount) => mediumCount + 1);
-  //           } else if (currentDifficulty == "Hard") {
-  //             setHardCount((hardCount) => hardCount + 1);
-  //           }
-  //         });
-  //     });
-  //   };
-  //   if (!username) {
-  //     return;
-  //   } else {
-  //     fetch(`${HISTORY_URI.GET_BY_USERNAME}?.username=${username}`).then(
-  //       (res) =>
-  //         res.json().then((data) => {
-  //           setHistoryData(data);
-  //         })
-  //     );
-  //     return getActivityLevels();
-  //   }
-  // }, [username]);
-
-  // TODO: when linked with history, change the values to be {easyCount} etc
   const activityData = [
     {
       name: "Easy",
-      value: 10,
+      value: easyCount,
       fill: "#BEE460",
     },
     {
       name: "Medium",
-      value: 20,
+      value: mediumCount,
       fill: "#88D9E6",
     },
     {
       name: "Hard",
-      value: 50,
+      value: hardCount,
       fill: "#6C6EA0",
     },
   ];
