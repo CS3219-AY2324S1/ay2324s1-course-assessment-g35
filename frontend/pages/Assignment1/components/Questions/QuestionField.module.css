@@ -53,6 +53,9 @@
 .modal-content {
   background: #ffffff;
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  overflow-wrap: break-word;
   width: 50vw;
   border-radius: 10px;
   padding-right: 16px;

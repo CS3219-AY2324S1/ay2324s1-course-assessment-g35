@@ -8,10 +8,9 @@
 .description {
   font-family: Georgia;
   color: #6d5f66;
+  white-space: pre-wrap;
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  padding: 4px;
 }
