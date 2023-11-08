@@ -21,7 +21,6 @@ const CodeEditor: React.FC<{
   socketEmitLanguage: (lang: langs) => void;
 }> = ({ roomId, selectedLanguage, setSelectedLanguage, code, setCode, socketEmitLanguage }) => {
   const params = useParams();
-  console.log(params);
 
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -36,20 +35,11 @@ const CodeEditor: React.FC<{
     if (localLanguage) {
       setSelectedLanguage(localLanguage as langs);
     }
-
-    return () => {
-      localStorage.removeItem("language");
-    }
   }, []);
 
-  console.log("code: " + code);
-
-  // change the code example when the language is changed
+  // save language in local storage
   useEffect(() => {
-    setCode(codeExamples[selectedLanguage]);
-    writeUserData(codeExamples[selectedLanguage]);
     localStorage.setItem("language", selectedLanguage);
-    console.log("setting language to local storage", selectedLanguage)
   }, [selectedLanguage]);
 
   function writeUserData(code: string) {
@@ -60,20 +50,20 @@ const CodeEditor: React.FC<{
     });
   }
 
+  // upon lang change, change example code and save to db
   function handleLangChange(lang: langs) {
-    console.log("new lang: " + lang);
     setSelectedLanguage(lang);
     socketEmitLanguage(lang);
+    setCode(codeExamples[lang]);
+    writeUserData(codeExamples[lang]);
   }
 
   useEffect(() => {
     const db = getDatabase();
-    if (roomId) {
+    if (roomId) { // ensure roomId present before fetching from db
       const roomRef = ref(db, `rooms/${roomId}`);
-      console.log("roomRef: " + roomRef);
       onValue(roomRef, (snapshot) => {
         const data = snapshot.val();
-        console.log("data: " + data);
         setCode(data?.code);
       });
     }
