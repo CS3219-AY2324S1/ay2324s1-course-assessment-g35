@@ -9,10 +9,20 @@ import QuestionForm from "./QuestionForm";
 export default function Questions() {
   const [questions, setQuestions] = useState<QuestionsData[]>([]);
   const [nextId, setNextId] = useState(21 + questions.length);
+  
+  const [formModal, setFormModal] = useState(false);
+  const [questionModal, setQuestionModal] = useState(false);
 
-  const [modal, setModal] = useState(false);
-  const toggleModal = () => {
-    setModal(!modal);
+  const openFormModal = () => {
+    setFormModal(true);
+  }
+  const openQuestionModal = () => {
+    setQuestionModal(true);
+  }
+
+  const closeModal = () => {
+    setFormModal(false);
+    setQuestionModal(false);
   };
 
   function initializeQuestionsInLocalStorage(
@@ -80,7 +90,7 @@ export default function Questions() {
     );
     setQuestions([...questions, newQuestion]);
     setNextId(nextId + 1);
-    toggleModal();
+    closeModal();
   }
 
   function deleteQuestion(deleteQuestion: QuestionsData) {
@@ -108,16 +118,16 @@ export default function Questions() {
   return (
     <div className={styles.container}>
       <div className={styles.title}>
-        <div className={styles.header}>Practice Questions</div>
-        <button onClick={toggleModal} className={styles.button}>
+        <div className={styles.header}>Add question</div>
+        <button onClick={openFormModal} className={styles.button}>
           <IoIosAddCircleOutline size={40} />
         </button>
 
-        {modal && (
+        {formModal && (
           <div className={styles.overlay}>
             <div className={styles["modal-content"]}>
               <div className={styles["button-container"]}>
-                <button onClick={toggleModal} className={styles.button}>
+                <button onClick={closeModal} className={styles.button}>
                   <IoIosCloseCircleOutline size={40} />
                 </button>
               </div>
@@ -134,7 +144,6 @@ export default function Questions() {
         <div className={styles["table-header"]}>
           <div className={styles.section}>id</div>
           <div className={styles["md-section"]}>Title</div>
-          <div className={styles["lg-section"]}>Description</div>
           <div className={styles["md-section"]}>Category</div>
           <div className={styles["md-section"]}>Complexity</div>
           <div className={styles.section}> </div>
