@@ -8,7 +8,7 @@ export type History = {
   user2: string;
   time: string; // It's a string in the provided JSON, but consider using a Date if that's the actual type
   code: string;
-  questionid: number; // Assuming it's a number, adjust the type if it's different
+  questionid: string;
   language: string;
 };
 
@@ -68,7 +68,7 @@ const QuestionsTable: React.FC<QuestionsTableProps> = ({ userName, setEasyCount,
               </div>
             ) : (
               historyData.map((history) => {
-                return <QuestionRow key={history.roomid} history={history} setEasyCount={setEasyCount} setMediumCount={setMediumCount} setHardCount={setHardCount} />;
+                return <QuestionRow key={history.roomid + history.questionid} history={history} setEasyCount={setEasyCount} setMediumCount={setMediumCount} setHardCount={setHardCount} />;
               })
             )
           )}
