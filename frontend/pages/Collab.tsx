@@ -22,6 +22,8 @@ import {
 import CodeGenModal from "@/components/Collaboration/CodeGenModal";
 import ChangeQuestionModal from "@/components/Collaboration/ChangeQuestionModal";
 
+// TODO: bug where one user entering room late will change the question
+
 function Collab() {
   const router = useRouter();
   const { roomId, myId, otherId, difficulty } = router.query;
