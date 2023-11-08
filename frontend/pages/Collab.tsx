@@ -119,6 +119,7 @@ function Collab() {
     //CLEANUP local storage only
     localStorage.removeItem("language");
     localStorage.removeItem("question");
+    localStorage.removeItem("chatMessages");
 
     router.push("/");
   };
