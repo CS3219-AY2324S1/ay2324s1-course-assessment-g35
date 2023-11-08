@@ -29,18 +29,18 @@ function Collab() {
   const [question, setQuestion] = useState<Question>();
   const [showGenerateModal, setShowGenerateModal] = useState<boolean>(false);
   const [code, setCode] = useState<string | undefined>("");
-  const [selectedLanguage, setSelectedLanguage] = useState<langs>("c");
+  const [selectedLanguage, setSelectedLanguage] = useState<langs>("java");
+
+  console.log("parent outside useEffect: ", selectedLanguage)
 
   // useEffect to retrieve question if none found in localstorage
   useEffect(() => {
+    console.log("parent inside useEffect: ", selectedLanguage)
+
     if (localStorage.getItem("question")) {
       setQuestion(JSON.parse(localStorage.getItem("question") as string));
     } else {
       getQuestion();
-    }
-
-    if (localStorage.getItem("language")) {
-      setSelectedLanguage(localStorage.getItem("language") as langs);
     }
 
     // cleanup socket, but not local storage

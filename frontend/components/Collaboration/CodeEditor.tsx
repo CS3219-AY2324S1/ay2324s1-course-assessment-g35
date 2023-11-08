@@ -30,13 +30,26 @@ const CodeEditor: React.FC<{
 
   const [showResults, setShowResults] = useState<boolean>(false);
 
+  // useEffect to get localStorage language, if there exists
   useEffect(() => {
-    setSelectedLanguage("java");
+    const localLanguage = localStorage.getItem("language");
+    if (localLanguage) {
+      setSelectedLanguage(localLanguage as langs);
+    }
+
+    return () => {
+      localStorage.removeItem("language");
+    }
   }, []);
+
+  console.log("code: " + code);
 
   // change the code example when the language is changed
   useEffect(() => {
     setCode(codeExamples[selectedLanguage]);
+    writeUserData(codeExamples[selectedLanguage]);
+    localStorage.setItem("language", selectedLanguage);
+    console.log("setting language to local storage", selectedLanguage)
   }, [selectedLanguage]);
 
   function writeUserData(code: string) {
@@ -57,8 +70,10 @@ const CodeEditor: React.FC<{
     const db = getDatabase();
     if (roomId) {
       const roomRef = ref(db, `rooms/${roomId}`);
+      console.log("roomRef: " + roomRef);
       onValue(roomRef, (snapshot) => {
         const data = snapshot.val();
+        console.log("data: " + data);
         setCode(data?.code);
       });
     }
