@@ -12,6 +12,8 @@ import axios from "axios";
 
 export type langs = "java" | "python" | "c" | "javascript";
 
+// TODO: potential bug of one user refreshing while the other change language
+
 const CodeEditor: React.FC<{
   roomId: string;
   selectedLanguage: langs;
