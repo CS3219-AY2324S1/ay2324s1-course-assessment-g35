@@ -1,0 +1,32 @@
+.main {
+  padding: 8px 0;
+}
+
+.table-content {
+  display: flex;
+  flex-direction: row;
+  color: #6d5f66;
+  font-family: Georgia;
+  font-style: normal;
+  font-weight: 400;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.section {
+  width: 5vw;
+}
+
+.md-section {
+  width: 13vw;
+}
+
+.lg-section {
+  width: 40vw;
+}
+
+.line {
+  margin-top: 8px;
+  height: 1px;
+  background-color: rgba(109, 95, 102, 0.5);
+}
