@@ -112,8 +112,7 @@ export default function QuestionModal({
                 <AccordionButton>
                   <Box as="span" flex="1" textAlign="left" className="flex justify-between">
                     <span>Code</span>
-                    <span>Language used: {history.language}</span> 
-                    {/* TODO: style language properly */}
+                    <span>With {history.language}</span>
                   </Box>
                   <AccordionIcon />
                 </AccordionButton>
