@@ -31,13 +31,18 @@ const QuestionsTable: React.FC<QuestionsTableProps> = ({
 
   useEffect(() => {
     if (!userName) return;
-    fetch(`${HISTORY_URI.GET_BY_USERNAME}?userName=${userName}`)
+    try {
+      fetch(`${HISTORY_URI.GET_BY_USERNAME}?userName=${userName}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
         setHistoryLoading(false);
         setHistoryData(data);
       });
+    } catch(error) {
+      console.error(error);
+    }
+   
   }, [userName]);
 
   return (
