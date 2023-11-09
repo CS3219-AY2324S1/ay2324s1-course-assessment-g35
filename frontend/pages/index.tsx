@@ -40,8 +40,6 @@ type MatchMessage = {
 
 const Dashboard = () => {
   const router = useRouter();
-  const { width, height } = useWindowSize();
-
   const [difficulty, setDifficulty] = useState("");
   const dropdownOptions = ["Easy", "Medium", "Hard"];
 

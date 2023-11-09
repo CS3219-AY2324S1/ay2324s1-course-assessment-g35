@@ -67,14 +67,15 @@ export default function QuestionRow({
   }).format(jsDate);
 
   return (
-    <>
     <div className="bg-pp-accentgray flex flex-row py-2 px-4 rounded-3xl items-center">
       {showQuestionModal && (
-        <QuestionModal
+        
+          <QuestionModal
           handleCloseModal={handleCloseModal}
           setShowQuestionModal={setShowQuestionModal}
           history={history}
         />
+
       )}
 
       <div className="w-4/12 flex flex-row gap-x-2">
@@ -118,6 +119,5 @@ export default function QuestionRow({
         </p>
       </div>
     </div>
-    </>
   );
 }

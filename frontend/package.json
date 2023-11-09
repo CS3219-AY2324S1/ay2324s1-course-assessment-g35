@@ -55,6 +55,7 @@
   },
   "devDependencies": {
     "@types/dockerode": "^3.3.21",
+    "@types/react-syntax-highlighter": "^15.5.10",
     "@types/simple-peer": "^9.11.6",
     "autoprefixer": "^10.4.15",
     "postcss": "^8.4.29",
