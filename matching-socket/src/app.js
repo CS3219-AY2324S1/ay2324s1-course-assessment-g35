@@ -89,7 +89,7 @@ io.on("connection", (socket) => {
 });
 
 app.get("/", (req, res) => {
-  res.status(200).send("OK");
+  res.status(200).json({});
 });
 
 server.listen(port, () => {
