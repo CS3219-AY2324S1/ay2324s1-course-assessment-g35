@@ -13,6 +13,8 @@ export default function Questions() {
   const [formModal, setFormModal] = useState(false);
   const [questionModal, setQuestionModal] = useState(false);
 
+  const [canDelete, setCanDelete] = useState<boolean>(false);
+
   const openFormModal = () => {
     setFormModal(true);
   }
@@ -53,6 +55,12 @@ export default function Questions() {
     });
 
     localStorage.setItem(`questions_initialized`, JSON.stringify("true"));
+
+
+      // get token and decode it, get role from decoded token
+    const role = localStorage.getItem("role");
+    console.log("role: ", role);
+    setCanDelete(role === "ADMIN");
   }
 
   function retrieveQuestionsFromLocalStorage(): QuestionsData[] {
@@ -77,10 +85,15 @@ export default function Questions() {
   }
 
   useEffect(() => {
-    localStorage.clear();
+    // localStorage.clear();
     const questionsArray = data as QuestionsData[];
     initializeQuestionsInLocalStorage(questionsArray);
     setQuestions(retrieveQuestionsFromLocalStorage());
+
+    return () => {
+      console.log("Questions component unmounted.");
+      localStorage.clear(); // NOTE: role will be cleared upon refresh
+    }
   }, []);
 
   function addQuestion(newQuestion: QuestionsData) {
@@ -114,6 +127,7 @@ export default function Questions() {
       setNextId(nextId - 1);
     }
   }
+
 
   return (
     <div className={styles.container}>
@@ -154,6 +168,7 @@ export default function Questions() {
             key={question.id}
             question={question}
             deleteQuestion={deleteQuestion}
+            canDelete={canDelete}
           />
         ))}
       </div>

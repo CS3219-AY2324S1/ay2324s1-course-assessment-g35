@@ -7,11 +7,13 @@ import QuestionModal from "./QuestionModal";
 interface QuestionFieldProps {
   question: QuestionsData;
   deleteQuestion: (question: QuestionsData) => void;
+  canDelete: boolean;
 }
 
 export default function QuestionField({
   question,
   deleteQuestion,
+  canDelete,
 }: QuestionFieldProps) {
   const [questionModal, setQuestionModal] = useState(false);
   const openQuestionModal = () => {
@@ -43,13 +45,17 @@ export default function QuestionField({
         <div className={styles["md-section"]}>{question.categories}</div>
         <div className={styles["md-section"]}>{question.complexity}</div>
         <div className={styles.section}>
-          <button>
-              <IoIosTrash
-                size={20}
-                className={styles.button}
-                onClick={() => deleteQuestion(question)}
-              />
+          {/* if else statement */}
+          {canDelete ? (
+            <button
+              onClick={() => deleteQuestion(question)}
+              className={styles.button}
+            >
+              <IoIosTrash size={40} />
             </button>
+          ) : (
+            <div>CAN'T DLT</div>
+          )}
         </div>
       </div>
       <div className={styles.line} />

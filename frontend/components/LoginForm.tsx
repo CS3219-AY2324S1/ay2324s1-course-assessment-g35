@@ -32,7 +32,9 @@ const LoginForm: React.FC<LoginFormProps> = ({
       });
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", response.data.username);
-      router.push("/");
+      localStorage.setItem("role", response.data.role);
+      // router.push("/");
+      router.push("/Assignment1/Assignment1");
     } catch (error: any) {
       setError(error?.response?.data?.message || "Error signing in!");
     }

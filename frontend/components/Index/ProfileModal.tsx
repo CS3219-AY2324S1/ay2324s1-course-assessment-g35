@@ -158,6 +158,12 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
               </div>
             </div>
             <div className="flex flex-col gap-y-2">
+              <p className="font-poppins text-base tracking-tigher">Role</p>
+              <div className="rounded-3xl text-pp-gray bg-gray-400 font-poppins text-sm block w-full p-2.5 focus:outline-none tracking-tight">
+                {user?.role}
+              </div>
+            </div>
+            <div className="flex flex-col gap-y-2">
               <p className="font-poppins text-base">Email</p>
               <form onSubmit={handleSubmit}>
                 <input
