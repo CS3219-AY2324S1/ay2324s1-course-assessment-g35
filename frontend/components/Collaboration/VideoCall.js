@@ -25,7 +25,14 @@ function VideoCall({ myId, otherId }) {
         port: "4001",
       }); // where peerjs server is hosted
 
+      // const peer = new Peer(myId, {
+      //   host: "34.126.71.94",
+      //   port: 9000,
+      //   path: "/",
+      // });
+
       peer.on("open", (id) => {
+        console.log("My peer ID is: " + id);
         setPeerId(id);
         call(otherId);
       });
