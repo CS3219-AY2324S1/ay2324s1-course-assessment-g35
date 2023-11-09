@@ -110,6 +110,7 @@ userRouter.post("/login", async (req, res) => {
                 success: true,
                 token: "Bearer " + token,
                 username: user.username,
+                role: user.role,
               });
             }
           }
