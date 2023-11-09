@@ -11,7 +11,7 @@
   flex-direction: row;
   align-items: center;
   gap: 8px;
-  width: 90vw;
+  width: 55vw;
 }
 
 .header {
@@ -27,13 +27,12 @@
   border-radius: 10px;
   background: #fff;
   padding: 16px;
-  width: 90vw;
+  width: 55vw;
 }
 
 .table-header {
   display: flex;
   flex-direction: row;
-  /* align-items: center; */
   color: #6d5f66;
   font-family: Georgia;
   font-style: normal;
@@ -53,11 +52,7 @@
 }
 
 .md-section {
-  width: 13vw;
-}
-
-.lg-section {
-  width: 40vw;
+  width: 15vw;
 }
 
 .line {

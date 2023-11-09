@@ -5,7 +5,7 @@
     "categories": ["Strings, Algorithms"],
     "complexity": "Easy",
     "link": "https://leetcode.com/problems/reverse-string/",
-    "description": "Write a function that reverses a string.\nThe input string is given as an array of characters.\n\nYou must do this by modifying the input array in-place with O(1) extra memory. "
+    "description": "Write a function that reverses a string.\nThe input string is given as an array of characters.\nYou must do this by modifying the input array in-place with O(1) extra memory.\n\nExample 1:\nInput: s = [\"h\", \"e\",\"l\",\"l\",\"o\"]\nOutput: [\"o\",\"l\",\"l\",\"e\",\"h\"]\n\nExample 2:\nInput: s = [\"H\",\"a\",\"n\",\"n\",\"a\",\"h\"]\nOutput: [\"h\",\"a\",\"n\",\"n\",\"a\",\"H\"]\n\nConstraints:\n1) 1 <= s.length <= 105\n 2) s[i] is a printable ascii character."
   },
   {
     "id": 2,
@@ -129,7 +129,7 @@
   },
   {
     "id": 17,
-    "title": "Serialize andDeserialize a Binary Tree",
+    "title": "Serialize and Deserialize a Binary Tree",
     "categories": ["Data Structures, Algorithms"],
     "complexity": "Hard",
     "link": "https://leetcode.com/problems/serialize-and-deserialize-binary-tree/",
