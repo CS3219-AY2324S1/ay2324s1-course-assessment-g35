@@ -79,8 +79,6 @@ const CodeEditor: React.FC<{
   const runCode = () => {
     setLoading(true);
     setShowResults(true);
-    alert(code);
-    alert(selectedLanguage);
     const body = {
       content: code,
       language: selectedLanguage,
@@ -90,7 +88,6 @@ const CodeEditor: React.FC<{
       .then((response) => {
         setLoading(false);
         const data = response.data;
-        alert(JSON.stringify(data)); // Convert response data to a string for the alert
         if (data.stderr !== "") {
           setError(data.stderr);
           setStderr(data.stderr);
