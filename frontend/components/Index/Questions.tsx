@@ -47,7 +47,7 @@ const QuestionsTable: React.FC<QuestionsTableProps> = ({
 
   return (
       <div className="flex flex-col bg-pp-gray rounded-[20px] p-8 overflow-hidden">
-        <h2 className="font-poppins text-white text-2xl font-bold overflow-hidden">
+        <h2 className="font-poppins text-white text-2xl font-bold">
           Questions you've completed
         </h2>
         <div className="flex flex-col gap-y-4 overflow-auto mt-6">
