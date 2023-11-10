@@ -27,8 +27,8 @@ function VideoCall({ myId, otherId }) {
 
       const peer = new Peer(myId, {
         host: "34.101.204.187",
-        // port: 9000,
-        path: "/myapp",
+        port: 9000,
+        path: "/",
       });
 
       peer.on("open", (id) => {
