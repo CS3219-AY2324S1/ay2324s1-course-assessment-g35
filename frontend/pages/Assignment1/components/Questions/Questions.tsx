@@ -35,6 +35,11 @@ export default function Questions() {
       return;
     }
 
+    // get token and decode it, get role from decoded token
+    const role = localStorage.getItem("role");
+    console.log("role: ", role);
+    setCanDelete(role === "ADMIN");
+
     const hasQuestionsInitialized = localStorage.getItem(
       "questions_initialized"
     );
@@ -55,12 +60,6 @@ export default function Questions() {
     });
 
     localStorage.setItem(`questions_initialized`, JSON.stringify("true"));
-
-
-      // get token and decode it, get role from decoded token
-    const role = localStorage.getItem("role");
-    console.log("role: ", role);
-    setCanDelete(role === "ADMIN");
   }
 
   function retrieveQuestionsFromLocalStorage(): QuestionsData[] {
@@ -92,7 +91,7 @@ export default function Questions() {
 
     return () => {
       console.log("Questions component unmounted.");
-      localStorage.clear(); // NOTE: role will be cleared upon refresh
+      localStorage.clear(); // NOTE: role might be cleared upon refresh
     }
   }, []);
 
@@ -132,10 +131,22 @@ export default function Questions() {
   return (
     <div className={styles.container}>
       <div className={styles.title}>
-        <div className={styles.header}>Add question</div>
-        <button onClick={openFormModal} className={styles.button}>
-          <IoIosAddCircleOutline size={40} />
-        </button>
+
+        {canDelete ? (
+          <div className={styles.header}>Role: ADMIN. You can add and delete questions.</div>
+        ) : (
+          <div className={styles.header}>Role: USER. You can only view questions.</div>
+        )}
+
+
+        {/* condition to add based on canDelete */}
+        {canDelete ? (
+          <><div className={styles.header}>Add question</div><button onClick={openFormModal} className={styles.button}>
+            <IoIosAddCircleOutline size={40} />
+          </button></>
+        ) : (
+          <div className={styles.header}>CAN'T ADD</div>
+        )}
 
         {formModal && (
           <div className={styles.overlay}>
