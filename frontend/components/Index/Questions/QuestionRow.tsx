@@ -59,11 +59,9 @@ export default function QuestionRow({
   const peer = history.user2
   const jsDate = new Date(history.time);
   const formattedDateTime = new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: 'long',
+    year: '2-digit',
+    month: '2-digit',
     day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
   }).format(jsDate);
 
   return (
@@ -98,22 +96,24 @@ export default function QuestionRow({
           
       </div>
 
-      <div className="w-4/12 flex flex-row gap-x-4 items-center">
-        <p className="font-poppins font-bold text-lg text-white tracking-tight">
+      <div className="w-6/12 flex flex-row gap-x-4 items-center">
+        <p className="w-2/12 font-poppins font-bold text-lg text-white tracking-tight">
           {difficulty}
         </p>
-        {category.map((item) => (
-          <CategoryRow category={item} />
-        ))}
+        <div className="w-10/12 flex row space-x-1 px-2">
+          {category.map((item) => (
+            <CategoryRow category={item} />
+          ))}
+        </div>
       </div>
       
-      <div className="w-2/12">
+      <div className="w-1/12">
         <p className="font-poppins font-bold text-base text-white tracking-tight">
           {peer}
         </p>
       </div>
 
-      <div className="w-2/12">
+      <div className="w-1/12">
         <p className="font-poppins text-base text-white tracking-tight">
           {formattedDateTime}
         </p>
