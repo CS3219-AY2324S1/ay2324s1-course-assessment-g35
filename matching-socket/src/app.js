@@ -88,6 +88,10 @@ io.on("connection", (socket) => {
   });
 });
 
+app.get("/", (req, res) => {
+  res.status(200).json({});
+});
+
 server.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
