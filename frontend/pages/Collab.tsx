@@ -33,12 +33,8 @@ function Collab() {
   const [code, setCode] = useState<string | undefined>("");
   const [selectedLanguage, setSelectedLanguage] = useState<langs>("java");
 
-  console.log("parent outside useEffect: ", selectedLanguage)
-
   // useEffect to retrieve question if none found in localstorage
   useEffect(() => {
-    console.log("parent inside useEffect: ", selectedLanguage)
-
     if (localStorage.getItem("question")) {
       setQuestion(JSON.parse(localStorage.getItem("question") as string));
     } else {
@@ -112,7 +108,6 @@ function Collab() {
   };
 
   const handleSaveAndLeave = () => {
-    console.log("SAVING PROGRESS AND LEAVING");
 
     saveToHistory();
 
@@ -127,7 +122,6 @@ function Collab() {
   const saveToHistory = () => {
     // make call to history service to save qid, uid1, uid2, roomid, and code
     try {
-      console.log("code", code);
       const payload = {
         roomid: roomId,
         questionid: question?._id,

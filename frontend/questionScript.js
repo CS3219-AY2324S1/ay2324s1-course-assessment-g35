@@ -37,9 +37,11 @@ function findContentByInteger(htmlCode, targetInteger) {
     }
   });
 
+  // replace \n with line break
   return contentArray.map((content) =>
-    content.replace(/\[object Object\]/g, "")
-    .replace(/\n/g, '')
+    content
+    .replace(/\[object Object\]/g, "")
+    .replace(/\n/g, '<br/>')
     // .replace(/ +/g, ' ')
   );
 }

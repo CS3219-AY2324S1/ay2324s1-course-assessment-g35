@@ -20,16 +20,16 @@ function VideoCall({ myId, otherId }) {
     if (typeof window !== "undefined" && myId && otherId) {
       const Peer = require("peerjs").default; // Import PeerJS here
 
-      const peer = new Peer(myId, {
-        host: "/",
-        port: "4001",
-      }); // where peerjs server is hosted
-
       // const peer = new Peer(myId, {
-      //   host: "34.126.71.94",
-      //   port: 9000,
-      //   path: "/",
-      // });
+      //   host: "/",
+      //   port: "4001",
+      // }); // where peerjs server is hosted
+
+      const peer = new Peer(myId, {
+        host: "34.101.204.187",
+        // port: 9000,
+        path: "/myapp",
+      });
 
       peer.on("open", (id) => {
         console.log("My peer ID is: " + id);
