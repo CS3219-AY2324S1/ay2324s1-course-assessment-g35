@@ -22,7 +22,8 @@ export default function CodeGenModal({
 
   // get token either from localStorage or from backend
   const getAccessToken = async () => {
-    const fetchTokenFromBackend = async () => { // TODO: try catch
+    const fetchTokenFromBackend = async () => {
+      // TODO: try catch
       const response = await axios.get("http://34.87.105.156:3010");
 
       const data = await response.data;
@@ -50,9 +51,7 @@ export default function CodeGenModal({
     }
   };
 
-
   const startGenerate = async () => {
-    
     const body = {
       instances: [
         {
@@ -181,7 +180,16 @@ export default function CodeGenModal({
               </div>
             )}
           </div>
-          <SyntaxHighlighter language="javascript" showLineNumbers>
+          <SyntaxHighlighter
+            customStyle={{
+              overflow: "scroll",
+              maxHeight: 220,
+              borderRadius: 20,
+            }}
+            language="javascript"
+            wrapLines={true}
+            showLineNumbers
+          >
             {generatedCode ? [processString(generatedCode)] : []}
           </SyntaxHighlighter>
 
