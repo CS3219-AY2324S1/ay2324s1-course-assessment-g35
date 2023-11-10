@@ -5,17 +5,22 @@ interface TagProps {
 }
 
 export default function CategoryRow({ category }: TagProps) {
-  const categoryColors: Record<string, { text: string, background: string }> = {
-    "Algorithms": { text: 'text-pp-accentblue', background: 'bg-pp-blue' },
-    "Databases": { text: 'text-pp-accentblue', background: 'bg-pp-blue' },
-    "Hash Table": { text: 'text-pp-accentblue', background: 'bg-pp-blue' },
+  const categoryColors: Record<string, { text: string; background: string }> = {
+    Algorithms: { text: "text-pp-accentblue", background: "bg-pp-blue" },
+    Databases: { text: "text-pp-accentblue", background: "bg-pp-blue" },
+    "Hash Table": { text: "text-pp-accentblue", background: "bg-pp-blue" },
 
-    "Data Structures": { text: 'text-pp-lightpurple', background: 'bg-pp-accentlightpurple' },
-    "Math": { text: 'text-pp-accentwhite', background: 'bg-white'},
-    "Array": { text: 'text-pp-black', background: 'bg-pp-accentblack' },
-    "Bit Manipulation" : { text: 'text-pp-accentpink', background: 'bg-pp-pink' },
-    "Strings" : { text: 'text-pp-accentpink', background: 'bg-pp-pink' },
-
+    "Data Structures": {
+      text: "text-pp-lightpurple",
+      background: "bg-pp-accentlightpurple",
+    },
+    Math: { text: "text-pp-accentwhite", background: "bg-white" },
+    Array: { text: "text-pp-black", background: "bg-pp-accentblack" },
+    "Bit Manipulation": {
+      text: "text-pp-accentpink",
+      background: "bg-pp-pink",
+    },
+    Strings: { text: "text-pp-accentpink", background: "bg-pp-pink" },
   };
 
   const [textColor, setTextColor] = useState<string>("");
@@ -29,10 +34,6 @@ export default function CategoryRow({ category }: TagProps) {
     }
   }, [category]);
 
-  const className = `font-poppins text-base tracking-tight h-2/12 rounded-[30px] py-2 px-4 text-center ${textColor} ${backgroundColor}`
-  return (
-    <div className={className}>
-      {category}
-    </div>
-  );
+  const className = `font-poppins text-base tracking-tight h-2/12 rounded-[30px] py-2 px-4 text-center ${textColor} ${backgroundColor}`;
+  return <div className={className}>{category}</div>;
 }

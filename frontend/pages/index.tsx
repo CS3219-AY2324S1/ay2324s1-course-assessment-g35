@@ -362,13 +362,23 @@ const Dashboard = () => {
             </div>
           </div>
           {/* End of profile dashboard */}
-          
+
           <div className="bg-pp-gray w-4/12 rounded-[20px] flex flex-col px-8 gap-y-4 py-8 overflow-hidden">
-            <Activity username={user?.username} easyCount={easyCount} mediumCount={mediumCount} hardCount={hardCount} />
+            <Activity
+              username={user?.username}
+              easyCount={easyCount}
+              mediumCount={mediumCount}
+              hardCount={hardCount}
+            />
           </div>
         </div>
-        
-        <QuestionsTable userName={user?.username} setEasyCount={setEasyCount} setMediumCount={setMediumCount} setHardCount={setHardCount} />
+
+        <QuestionsTable
+          userName={user?.username}
+          setEasyCount={setEasyCount}
+          setMediumCount={setMediumCount}
+          setHardCount={setHardCount}
+        />
       </div>
     </>
   );

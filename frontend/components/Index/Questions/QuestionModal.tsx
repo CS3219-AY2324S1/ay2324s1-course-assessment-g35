@@ -110,7 +110,12 @@ export default function QuestionModal({
             <AccordionItem overflow={"scroll"}>
               <p className="font-poppins text-base tracking-tight text-pp-darkpurple">
                 <AccordionButton>
-                  <Box as="span" flex="1" textAlign="left" className="flex justify-between">
+                  <Box
+                    as="span"
+                    flex="1"
+                    textAlign="left"
+                    className="flex justify-between"
+                  >
                     <span>Code</span>
                     <span>With {history.language}</span>
                   </Box>
@@ -118,7 +123,9 @@ export default function QuestionModal({
                 </AccordionButton>
               </p>
               <AccordionPanel>
-                <SyntaxHighlighter language={history.language} showLineNumbers>{code}</SyntaxHighlighter>
+                <SyntaxHighlighter language={history.language} showLineNumbers>
+                  {code}
+                </SyntaxHighlighter>
               </AccordionPanel>
             </AccordionItem>
           </Accordion>
