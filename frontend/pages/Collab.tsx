@@ -74,6 +74,7 @@ function Collab() {
   };
 
   const socket: Socket = useMemo(() => {
+    // @ts-ignore
     const newSocket = io(CHATSERVICE_URI);
     newSocket.on("connect", () => {
       newSocket.emit("join_room", roomId);

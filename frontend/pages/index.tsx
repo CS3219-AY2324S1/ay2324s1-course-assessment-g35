@@ -137,6 +137,7 @@ const Dashboard = () => {
 
   const socketInitializer = async () => {
     const token = localStorage.getItem("token");
+    // @ts-ignore
     socket = io(MATCHINGSERVICE_URI, {
       auth: {
         token: token,
