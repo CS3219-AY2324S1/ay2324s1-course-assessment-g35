@@ -38,6 +38,8 @@ pipeline {
                         # Navigate to your Node.js app directory
                         cd frontend
 
+                        echo $firebaseConfig
+
                         # Install dependencies
                         npm install
 
