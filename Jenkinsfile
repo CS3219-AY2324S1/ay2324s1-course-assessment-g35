@@ -45,9 +45,6 @@ pipeline {
                     sh '''
                         # Navigate to your Node.js app directory
                         cd frontend
-                        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-                        source ~/.bashrc
-                        nvm install 18
                         nvm use 18
                         # Install dependencies
                         npm install
