@@ -45,7 +45,6 @@ pipeline {
                     sh '''
                         # Navigate to your Node.js app directory
                         cd frontend
-                        which node
                         # Install dependencies
                         npm install
 `
