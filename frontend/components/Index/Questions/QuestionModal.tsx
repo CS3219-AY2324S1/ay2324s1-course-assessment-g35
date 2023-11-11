@@ -5,6 +5,7 @@ import {
   AccordionPanel,
   AccordionIcon,
   Box,
+  Center,
   Modal,
   ModalContent,
   ModalOverlay,
@@ -62,7 +63,7 @@ export default function QuestionModal({
     >
       <ModalOverlay />
       <ModalContent
-        className="overflow-auto"
+        className="overflow-scroll"
         style={{ padding: "20px", borderRadius: "20px" }}
       >
         <div>
@@ -92,7 +93,7 @@ export default function QuestionModal({
             ))}
           </div>
 
-          <Accordion defaultIndex={[0]} allowMultiple>
+          <Accordion allowMultiple>
             <AccordionItem>
               <p className="font-poppins text-base tracking-tight text-pp-darkpurple">
                 <AccordionButton>
@@ -109,16 +110,22 @@ export default function QuestionModal({
             <AccordionItem overflow={"scroll"}>
               <p className="font-poppins text-base tracking-tight text-pp-darkpurple">
                 <AccordionButton>
-                  <Box as="span" flex="1" textAlign="left" className="flex justify-between">
+                  <Box
+                    as="span"
+                    flex="1"
+                    textAlign="left"
+                    className="flex justify-between"
+                  >
                     <span>Code</span>
-                    <span>Language: {history.language}</span> 
-                    {/* TODO: style language properly */}
+                    <span>With {history.language}</span>
                   </Box>
                   <AccordionIcon />
                 </AccordionButton>
               </p>
               <AccordionPanel>
-                <SyntaxHighlighter showLineNumbers>{code}</SyntaxHighlighter>
+                <SyntaxHighlighter language={history.language} showLineNumbers>
+                  {code}
+                </SyntaxHighlighter>
               </AccordionPanel>
             </AccordionItem>
           </Accordion>

@@ -1,4 +1,4 @@
-import CodeMirror from "@uiw/react-codemirror";
+import CodeMirror, { Extension } from "@uiw/react-codemirror";
 import { useEffect, useState } from "react";
 import { getDatabase, onValue, ref, set } from "@firebase/database";
 import { codeExamples } from "@/code_examples/codeExamples";
@@ -10,27 +10,39 @@ import CodeResults from "./CodeResults";
 import { dracula } from "@uiw/codemirror-theme-dracula";
 import axios from "axios";
 
+export type langs = "java" | "python" | "c" | "javascript";
+
+// TODO: potential bug of one user refreshing while the other change language
+
 const CodeEditor: React.FC<{
   roomId: string;
-  selectedLanguage: string;
-  setSelectedLanguage: (lang: string) => void;
+  selectedLanguage: langs;
+  setSelectedLanguage: (lang: langs) => void;
   code: string | undefined;
   setCode: (newCode: string) => void;
-}> = ({ roomId, selectedLanguage, setSelectedLanguage, code, setCode }) => {
+  socketEmitLanguage: (lang: langs) => void;
+}> = ({ roomId, selectedLanguage, setSelectedLanguage, code, setCode, socketEmitLanguage }) => {
   const params = useParams();
-  console.log(params);
 
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [stderr, setStderr] = useState("");
-  const langs = ["java", "go", "python", "c", "cpp", "javascript"];
 
   const [showResults, setShowResults] = useState<boolean>(false);
 
+  // useEffect to get localStorage language, if there exists
   useEffect(() => {
-    setSelectedLanguage("c");
+    const localLanguage = localStorage.getItem("language");
+    if (localLanguage) {
+      setSelectedLanguage(localLanguage as langs);
+    }
   }, []);
+
+  // save language in local storage
+  useEffect(() => {
+    localStorage.setItem("language", selectedLanguage);
+  }, [selectedLanguage]);
 
   function writeUserData(code: string) {
     const db = getDatabase();
@@ -40,22 +52,24 @@ const CodeEditor: React.FC<{
     });
   }
 
-  function handleLangChange(lang: keyof typeof langs) {
-    console.log(lang);
-    setSelectedLanguage(lang.toString());
-    try {
-      setCode(codeExamples[lang.toString()]);
-    } catch (error) {}
+  // upon lang change, change example code and save to db
+  function handleLangChange(lang: langs) {
+    setSelectedLanguage(lang);
+    socketEmitLanguage(lang);
+    setCode(codeExamples[lang]);
+    writeUserData(codeExamples[lang]);
   }
 
   useEffect(() => {
     const db = getDatabase();
-    const roomRef = ref(db, `rooms/${roomId}`);
-    onValue(roomRef, (snapshot) => {
-      const data = snapshot.val();
-      setCode(data?.code);
-    });
-  }, []);
+    if (roomId) { // ensure roomId present before fetching from db
+      const roomRef = ref(db, `rooms/${roomId}`);
+      onValue(roomRef, (snapshot) => {
+        const data = snapshot.val();
+        setCode(data?.code);
+      });
+    }
+  }, [roomId]);
 
   const codeChanged = (data: string) => {
     setCode(data);
@@ -65,36 +79,15 @@ const CodeEditor: React.FC<{
   const runCode = () => {
     setLoading(true);
     setShowResults(true);
-    alert(code);
     const body = {
       content: code,
       language: selectedLanguage,
     };
-    // fetch("http://localhost:3005/code", {
-    //   method: "POST",
-    //   body: JSON.stringify(body), // Stringify the body object
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setLoading(false);
-    //     alert(data);
-    //     if (data.stderr != "") {
-    //       setError(data.stderr);
-    //       setStderr(data.stderr);
-    //     } else {
-    //       setError("");
-    //       setOutput(data.stdout);
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
     axios
-      .post("http://localhost:3005/code", body)
+      .post("http://34.142.198.105:3005/code", body)
       .then((response) => {
         setLoading(false);
         const data = response.data;
-        alert(JSON.stringify(data)); // Convert response data to a string for the alert
         if (data.stderr !== "") {
           setError(data.stderr);
           setStderr(data.stderr);
@@ -114,16 +107,15 @@ const CodeEditor: React.FC<{
       {/* initialize the code mirror with spaces already */}
       <div className="flex flex-col gap-3 text-black">
         <Select
-          options={langs.sort()}
-          onChange={(evn) =>
-            handleLangChange(evn.target.value as keyof typeof langs)
-          }
+          options={["java", "python", "c", "javascript"]}
+          value={selectedLanguage}
+          onChange={(evn) => handleLangChange(evn.target.value as langs)}
         />
         <CodeMirror
           value={code}
           onChange={codeChanged}
           theme={dracula}
-          extensions={[loadLanguage(selectedLanguage)]}
+          extensions={[loadLanguage(selectedLanguage) as Extension]}
           basicSetup={{
             foldGutter: false,
             dropCursor: false,

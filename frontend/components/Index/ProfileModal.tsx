@@ -147,11 +147,11 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
             </ModalContent>
           </Modal>
 
-          <div className="h-full flex flex-col gap-y-4 justify-center">
-            <p className="font-poppins text-pp-darkpurple text-lg font-bold">
+          <div className="h-full flex flex-col gap-y-2 py-4 justify-center">
+            <h2 className="font-poppins text-pp-darkpurple text-2xl font-bold tracking-tight">
               Profile
-            </p>
-            <div className="flex flex-col">
+            </h2>
+            <div className="flex flex-col gap-y-2">
               <p className="font-poppins text-base tracking-tigher">Username</p>
               <div className="rounded-3xl text-pp-gray bg-gray-400 font-poppins text-sm block w-full p-2.5 focus:outline-none tracking-tight">
                 {user?.username}

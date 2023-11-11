@@ -45,10 +45,10 @@ export default function CodeResults({
           {errorMsg != "" ? (
             <>
               <ErrorComponent message={errorMsg} />
-              <ErrorComponent message={stderr} />
+              {/* <ErrorComponent message={stderr} /> */}
             </>
           ) : (
-            <p className="text-gray-600">{results}</p>
+            <pre className="text-gray-600 whitespace-pre-wrap">{results}</pre>
           )}
         </div>
       )}

@@ -2,7 +2,7 @@
 
 const cheerio = require("cheerio");
 
-const targetInteger = 187; // 141 344 187
+const targetInteger = 13; // 1 9 13 141 344 187
 
 fetch("https://bishalsarang.github.io/Leetcode-Questions/out.html", {
     method: "GET",
@@ -37,9 +37,11 @@ function findContentByInteger(htmlCode, targetInteger) {
     }
   });
 
+  // replace \n with line break
   return contentArray.map((content) =>
-    content.replace(/\[object Object\]/g, "")
-    .replace(/\n/g, '')
+    content
+    .replace(/\[object Object\]/g, "")
+    .replace(/\n/g, '<br/>')
     // .replace(/ +/g, ' ')
   );
 }

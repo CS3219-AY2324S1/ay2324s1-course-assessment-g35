@@ -3,7 +3,7 @@ import Chat from "@/components/Collaboration/Chat";
 import { useRouter } from "next/router";
 import io, { Socket } from "socket.io-client";
 import VideoCall from "@/components/Collaboration/VideoCall";
-import CodeEditor from "@/components/Collaboration/CodeEditor";
+import CodeEditor, { langs } from "@/components/Collaboration/CodeEditor";
 import axios from "axios";
 import QuestionDisplay, {
   Question,
@@ -22,6 +22,8 @@ import {
 import CodeGenModal from "@/components/Collaboration/CodeGenModal";
 import ChangeQuestionModal from "@/components/Collaboration/ChangeQuestionModal";
 
+// TODO: bug where one user entering room late will change the question
+
 function Collab() {
   const router = useRouter();
   const { roomId, myId, otherId, difficulty } = router.query;
@@ -29,7 +31,7 @@ function Collab() {
   const [question, setQuestion] = useState<Question>();
   const [showGenerateModal, setShowGenerateModal] = useState<boolean>(false);
   const [code, setCode] = useState<string | undefined>("");
-  const [selectedLang, setSelectedLang] = useState<string>("c");
+  const [selectedLanguage, setSelectedLanguage] = useState<langs>("java");
 
   // useEffect to retrieve question if none found in localstorage
   useEffect(() => {
@@ -80,8 +82,21 @@ function Collab() {
       setQuestion(question);
       localStorage.setItem("question", JSON.stringify(question));
     });
+    newSocket.on("language", (language) => {
+      setSelectedLanguage(language);
+      localStorage.setItem("language", language);
+    });
     return newSocket;
   }, [roomId]);
+
+  // function for socket to emit language
+  const socketEmitLanguage = (lang: langs) => {
+    const langPayload = {
+      roomId: roomId,
+      language: lang,
+    };
+    socket.emit("language", langPayload);
+  };
 
   const [showLeaveModal, setShowLeaveModal] = useState<boolean>(false);
   const [showSaveModal, setShowSaveModal] = useState<boolean>(false);
@@ -93,13 +108,13 @@ function Collab() {
   };
 
   const handleSaveAndLeave = () => {
-    console.log("SAVING PROGRESS AND LEAVING");
 
     saveToHistory();
 
     //CLEANUP local storage only
-    localStorage.removeItem("code");
+    localStorage.removeItem("language");
     localStorage.removeItem("question");
+    localStorage.removeItem("chatMessages");
 
     router.push("/");
   };
@@ -107,7 +122,6 @@ function Collab() {
   const saveToHistory = () => {
     // make call to history service to save qid, uid1, uid2, roomid, and code
     try {
-      console.log("code", code);
       const payload = {
         roomid: roomId,
         questionid: question?._id,
@@ -115,7 +129,7 @@ function Collab() {
         user2: otherId,
         time: new Date().toISOString(),
         code: code || "",
-        language: selectedLang
+        language: selectedLanguage
       };
       axios.post(HISTORY_URI.CREATE_OR_UPDATE, payload);
     } catch (err) {
@@ -230,23 +244,29 @@ function Collab() {
 
           <CodeEditor
             roomId={(roomId as string) || ""}
-            selectedLanguage={selectedLang}
-            setSelectedLanguage={setSelectedLang}
+            selectedLanguage={selectedLanguage}
+            setSelectedLanguage={setSelectedLanguage}
             code={code}
             setCode={setCode}
+            socketEmitLanguage={socketEmitLanguage}
           />
         </div>
 
         {/* Chat and video section */}
         <div className="bg-pp-gray font-poppins w-2/12 h-screen flex flex-col gap-4">
+          {/* <VideoComponent /> */}
+          <div className="w-full bg-pp-gray mb-4">
+            <VideoCall myId={myId} otherId={otherId} />
+          </div>
+
           <button
-            className="text-white bg-pp-blue rounded-3xl p-2"
+            className="text-white bg-pp-blue rounded-3xl p-2 mt-4"
             onClick={() => setShowChat(!showChat)}
           >
             {showChat ? "Show video" : "Show chat"}
           </button>
           <div
-            className={`w-1/6 absolute bottom-0 h-screen ${
+            className={`w-1/6 absolute bottom-0 h-full ${
               showChat ? "block" : "hidden"
             }`}
           >
@@ -255,11 +275,6 @@ function Collab() {
               roomId={(roomId as string) || ""}
               setShowChat={setShowChat}
             />
-          </div>
-
-          <div className="w-full h-full bg-pp-gray">
-            {/* <VideoComponent /> */}
-            <VideoCall myId={myId} otherId={otherId} />
           </div>
         </div>
       </div>

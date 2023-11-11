@@ -46,13 +46,16 @@
     "react-icons": "^4.11.0",
     "react-markdown": "^9.0.0",
     "react-rainfall": "^0.1.533",
+    "react-select": "^5.8.0",
     "react-syntax-highlighter": "^15.5.0",
     "react-use": "^17.4.0",
+    "recharts": "^2.9.3",
     "simple-peer": "^9.11.1",
     "socket.io-client": "^4.7.2"
   },
   "devDependencies": {
     "@types/dockerode": "^3.3.21",
+    "@types/react-syntax-highlighter": "^15.5.10",
     "@types/simple-peer": "^9.11.6",
     "autoprefixer": "^10.4.15",
     "postcss": "^8.4.29",

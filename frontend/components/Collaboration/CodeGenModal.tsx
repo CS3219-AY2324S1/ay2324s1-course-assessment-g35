@@ -1,4 +1,5 @@
 import { Modal, ModalContent, ModalOverlay, Select } from "@chakra-ui/react";
+import axios from "axios";
 import { useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 
@@ -18,10 +19,39 @@ export default function CodeGenModal({
   const [language, setLanguage] = useState<string>("");
   console.log(`Generate code for ${questionTitle} in ${language}`);
   const langs = ["java", "go", "python", "c", "cpp", "javascript"];
-  const accessToken =
-    "ya29.a0AfB_byDIiVply1r8bPBqqLcLVDUIoUHh_gr30bfjxRm7oDYfdUidYPkXUB1V6dPHn8zBFuXIdyCeHUhJQHJU7pLbs1YHx6thxH6SuYdj8VMSRUujXWxzAlX_woJ_eYeVy0wPQPiYX7ZzeAly9_EOsgOGjzBBDPeimRO45_-QwiwaCgYKAf8SARISFQGOcNnCub_Q3TBvjCVq-T-VhyRs2g0178";
-  const startGenerate = () => {
-    setGeneratedCode("");
+
+  // get token either from localStorage or from backend
+  const getAccessToken = async () => {
+    const fetchTokenFromBackend = async () => {
+      // TODO: try catch
+      const response = await axios.get("http://34.87.105.156:3010");
+
+      const data = await response.data;
+      const accessTokenObject = {
+        token: data,
+        time: Date.now(),
+      };
+      localStorage.setItem("aiToken", JSON.stringify(accessTokenObject));
+      return data;
+    };
+
+    // if token not found in localStorage or token exceeded 55 mins from start time, fetch from backend
+    const accessTokenFromLocalStorage = localStorage.getItem("aiToken");
+    if (
+      !accessTokenFromLocalStorage ||
+      Date.now() - JSON.parse(accessTokenFromLocalStorage).time > 3300000
+    ) {
+      try {
+        return await fetchTokenFromBackend();
+      } catch (error) {
+        console.log("Error getting ai token from backend: ", error);
+      }
+    } else {
+      return JSON.parse(accessTokenFromLocalStorage).token;
+    }
+  };
+
+  const startGenerate = async () => {
     const body = {
       instances: [
         {
@@ -34,13 +64,16 @@ export default function CodeGenModal({
         temperature: 0.2,
       },
     };
+
+    const token = await getAccessToken();
+    setGeneratedCode("");
     setLoading(true);
     fetch(
       "https://us-central1-aiplatform.googleapis.com/v1/projects/astral-shape-402017/locations/us-central1/publishers/google/models/code-bison:predict",
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(body),
@@ -49,7 +82,6 @@ export default function CodeGenModal({
       .then((res) => res.json())
       .then((data) => {
         setLoading(false);
-        console.log(data);
         setGeneratedCode(data.predictions[0]?.content || "");
       })
       .catch((error) => console.log(error));
@@ -72,7 +104,6 @@ export default function CodeGenModal({
 
   const handleLangChange = (e: any) => {
     setLanguage(e.target.value);
-    console.log(e.target.value);
   };
 
   return (
@@ -149,12 +180,19 @@ export default function CodeGenModal({
               </div>
             )}
           </div>
-          <SyntaxHighlighter language="javascript" showLineNumbers>
-            {generatedCode && processString(generatedCode)}
+          <SyntaxHighlighter
+            customStyle={{
+              overflow: "scroll",
+              maxHeight: 220,
+              borderRadius: 20,
+            }}
+            language="javascript"
+            wrapLines={true}
+            showLineNumbers
+          >
+            {generatedCode ? [processString(generatedCode)] : []}
           </SyntaxHighlighter>
-          {/* <SyntaxHighlighter language="javascript">
-            {generatedCode && processString(generatedCode)}
-          </SyntaxHighlighter> */}
+
           <br />
         </div>
       </ModalContent>

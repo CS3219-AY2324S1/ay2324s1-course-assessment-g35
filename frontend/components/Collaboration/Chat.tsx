@@ -91,7 +91,7 @@ const Chat: React.FC<ChatComponentProps> = ({
             <div
               key={index}
               className={`flex w-full mt-2 space-x-3 ${
-                message.author === sender ? "justify-start" : "justify-end"
+                message.author === sender ? "justify-end" : "justify-start"
               }`}
             >
               {message.author === sender ? (

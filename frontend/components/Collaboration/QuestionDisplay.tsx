@@ -28,7 +28,7 @@ export default function QuestionDisplay({
       
       <div className="flex row space-between space-x-1 px-2">
       {question?.tags.map((item) => (
-        <CategoryRow key={question._id} category={item} />
+        <CategoryRow key={item} category={item} />
       ))}
       </div>
       <div className="overflow-scroll px-2">
