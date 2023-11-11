@@ -1,8 +1,8 @@
 export interface QuestionsData {
-  id: number;
+  _id: string;
   title: string;
   description: string;
   link: string;
-  categories: string[];
-  complexity: string;
+  tags: string[];
+  difficulty: string;
 }

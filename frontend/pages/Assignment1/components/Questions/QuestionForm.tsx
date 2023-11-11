@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Select from "react-select";
 import styles from "./QuestionForm.module.css";
 
@@ -38,13 +38,19 @@ export default function QuestionForm({
   const [categories, setCategories] = useState<string[] | null>(null);
   const [complexity, setComplexity] = useState<string | null>(null);
   const [form, setFormData] = useState<QuestionsData>({
-    id: nextId,
+    // id: nextId,
     title: "",
     description: "",
     link: "",
-    categories: [],
-    complexity: "",
+    tags: [],
+    difficulty: "",
   });
+
+    // print categories
+    useEffect(() => {
+      console.log("categories: ", questionCategories);
+    }
+    , [categories]);
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
@@ -62,18 +68,25 @@ export default function QuestionForm({
     }
   }, []);
 
+  //print form data
+  useEffect(() => {
+    console.log("form data: ", form);
+  }, [form]);
+
   const handleInput = (e: any, field: string, value: any) => {
+    console.log("newValue: ", value)
     if (field === "categories" || field === "complexity") {
       value = e;
       if (field === "categories") {
         setFormData((prevData) => ({
           ...prevData,
-          categories: [...prevData.categories, value],
+          tags: value,
         }));
+        console.log("changing categories: ", form.tags)
       } else {
         setFormData((prevData) => ({
           ...prevData,
-          complexity: value,
+          difficulty: value,
         }));
       }
     } else {
@@ -83,7 +96,7 @@ export default function QuestionForm({
         [field]: value,
       }));
     }
-
+    
     if (typeof window !== "undefined" && window.localStorage) {
       localStorage.setItem(field, value);
 

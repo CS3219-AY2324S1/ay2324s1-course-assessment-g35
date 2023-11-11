@@ -83,6 +83,16 @@ function Assignment1() {
           <ProfileIcon />
         </div>
         <Questions />
+        {/* logout button */}
+        <button
+          onClick={() => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("role");
+            window.location.href = "/Login";
+          }}
+        >
+          Logout
+        </button>
       </div>
     </ChakraProvider>
   );

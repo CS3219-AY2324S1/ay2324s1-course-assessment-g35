@@ -6,7 +6,7 @@ import QuestionModal from "./QuestionModal";
 
 interface QuestionFieldProps {
   question: QuestionsData;
-  deleteQuestion: (question: QuestionsData) => void;
+  deleteQuestion: (id: string) => void;
   canDelete: boolean;
 }
 
@@ -40,15 +40,15 @@ export default function QuestionField({
       )}
       
       <div className={styles["table-content"]}>
-        <div className={styles.section}>{question.id}</div>
+        <div className={styles.section}>{question._id}</div>
         <div className={styles["title-section"]} onClick={openQuestionModal}>{question.title}</div>
-        <div className={styles["md-section"]}>{question.categories}</div>
-        <div className={styles["md-section"]}>{question.complexity}</div>
+        <div className={styles["md-section"]}>{question.tags}</div>
+        <div className={styles["md-section"]}>{question.difficulty}</div>
         <div className={styles.section}>
           {/* if else statement */}
           {canDelete ? (
             <button
-              onClick={() => deleteQuestion(question)}
+              onClick={() => deleteQuestion(question._id)}
               className={styles.button}
             >
               <IoIosTrash size={40} />

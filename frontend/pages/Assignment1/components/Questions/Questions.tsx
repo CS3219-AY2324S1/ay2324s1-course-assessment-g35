@@ -5,6 +5,7 @@ import data from "../../data/questions.json";
 import styles from "./Questions.module.css";
 import { IoIosAddCircleOutline, IoIosCloseCircleOutline } from "react-icons/io";
 import QuestionForm from "./QuestionForm";
+import axios from "axios";
 
 export default function Questions() {
   const [questions, setQuestions] = useState<QuestionsData[]>([]);
@@ -27,6 +28,27 @@ export default function Questions() {
     setQuestionModal(false);
   };
 
+  function getAndSetRole() {
+        // get token and decode it, get role from decoded token
+        const role = localStorage.getItem("role");
+        console.log("role: ", role);
+        setCanDelete(role === "ADMIN");
+  }
+
+  function getQuestionsFromBackend() {
+    // add token to header
+    const token = localStorage.getItem("token");
+    const headers = {
+      Authorization: `${token}`,
+    };
+    axios.get("http://localhost:8001/assignment/all", { headers }).then((response) => {
+      console.log("response: ", response);
+      setQuestions(response.data);
+    }).catch((error) => {
+      console.log("error: ", error);
+    });
+  }
+
   function initializeQuestionsInLocalStorage(
     questionsArray: QuestionsData[]
   ): void {
@@ -34,11 +56,6 @@ export default function Questions() {
       console.log("Local storage is not supported by this browser.");
       return;
     }
-
-    // get token and decode it, get role from decoded token
-    const role = localStorage.getItem("role");
-    console.log("role: ", role);
-    setCanDelete(role === "ADMIN");
 
     const hasQuestionsInitialized = localStorage.getItem(
       "questions_initialized"
@@ -78,36 +95,58 @@ export default function Questions() {
       }
     }
 
-    questions.sort((a, b) => a.id - b.id);
+    questions.sort((a, b) => a._id - b._id);
 
     return questions;
   }
 
   useEffect(() => {
     // localStorage.clear();
-    const questionsArray = data as QuestionsData[];
-    initializeQuestionsInLocalStorage(questionsArray);
-    setQuestions(retrieveQuestionsFromLocalStorage());
+    // const questionsArray = data as QuestionsData[];
+    // initializeQuestionsInLocalStorage(questionsArray);
+    // setQuestions(retrieveQuestionsFromLocalStorage());
 
-    return () => {
-      console.log("Questions component unmounted.");
-      localStorage.clear(); // NOTE: role might be cleared upon refresh
-    }
+    // return () => {
+    //   console.log("Questions component unmounted.");
+    //   localStorage.clear(); // NOTE: role might be cleared upon refresh
+    // }
+    getAndSetRole();
+    getQuestionsFromBackend();
   }, []);
 
   function addQuestion(newQuestion: QuestionsData) {
-    localStorage.setItem(
-      `question_${newQuestion.title}`,
-      JSON.stringify(newQuestion)
-    );
-    setQuestions([...questions, newQuestion]);
-    setNextId(nextId + 1);
-    closeModal();
+    // localStorage.setItem(
+    //   `question_${newQuestion.title}`,
+    //   JSON.stringify(newQuestion)
+    // );
+    // setQuestions([...questions, newQuestion]);
+    // setNextId(nextId + 1);
+    // closeModal();
+
+    // add token to header
+    const token = localStorage.getItem("token");
+    const headers = {
+      Authorization: `${token}`,
+    };
+
+    const body = {
+      title: newQuestion.title,
+      tags: newQuestion.tags,
+      difficulty: newQuestion.difficulty,
+      description: newQuestion.description,
+    };
+
+    axios.post("http://localhost:8001/assignment/add", body, { headers }).then((response) => {
+      closeModal();
+      getQuestionsFromBackend();
+    }).catch((error) => {
+      console.log("error: ", error);
+    });
   }
 
   function deleteQuestion(deleteQuestion: QuestionsData) {
     const deleteQuestionTitle = deleteQuestion.title;
-    const deleteQuestionId = deleteQuestion.id;
+    const deleteQuestionId = deleteQuestion._id;
 
     const deleteQuestionKey = `question_${deleteQuestion.title}`;
     if (!localStorage.getItem(deleteQuestionKey)) {
@@ -118,14 +157,30 @@ export default function Questions() {
         (question) => question.title != deleteQuestionTitle
       );
       filteredQuestions.forEach((question) => {
-        if (question.id > deleteQuestionId) {
-          question.id -= 1;
+        if (question._id > deleteQuestionId) {
+          question._id -= 1;
         }
       });
       setQuestions(filteredQuestions);
       setNextId(nextId - 1);
     }
   }
+
+  function deleteQuestionFromBackend(id: string) {
+    const token = localStorage.getItem("token");
+    const headers = {
+      Authorization: `${token}`,
+    };
+
+    axios.delete(`http://localhost:8001/assignment/delete/${id}`, { headers }).then((response) => {
+      getQuestionsFromBackend();
+      closeModal();
+    }).catch((error) => {
+      console.log("error: ", error);
+    });
+
+  }
+
 
 
   return (
@@ -176,9 +231,9 @@ export default function Questions() {
         <div className={styles.line} />
         {questions.map((question) => (
           <QuestionField
-            key={question.id}
+            key={question._id}
             question={question}
-            deleteQuestion={deleteQuestion}
+            deleteQuestion={deleteQuestionFromBackend}
             canDelete={canDelete}
           />
         ))}

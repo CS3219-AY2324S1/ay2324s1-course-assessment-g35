@@ -56,3 +56,12 @@ export const getRandomQuestionByTag = async (tag: string) => {
     { $sample: { size: 1 } },
   ]);
 };
+
+export const addQuestion = async (question: QuestionResponseType) => {
+  const newQuestion = new Question(question);
+  return await newQuestion.save();
+};
+
+export const deleteQuestion = async (id: string) => {
+  return await Question.findByIdAndDelete(id);
+};

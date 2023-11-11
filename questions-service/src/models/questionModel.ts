@@ -19,7 +19,7 @@ const questionSchema = new Schema<IQuestion & Document>({
   difficulty: {
     type: String,
     required: true,
-    enum: ["easy", "medium", "hard"],
+    // enum: ["easy", "medium", "hard"],
   },
   tags: {
     type: [String],
@@ -27,5 +27,5 @@ const questionSchema = new Schema<IQuestion & Document>({
   },
 });
 
-const Question: Model<IQuestion> = mongoose.model("Question", questionSchema);
+const Question: Model<IQuestion> = mongoose.model("questionAssignment", questionSchema); // first arg is collection name (questionassignments), atlas will create if collection not present
 export { Question, IQuestion };

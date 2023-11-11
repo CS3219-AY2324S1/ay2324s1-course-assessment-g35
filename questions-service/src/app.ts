@@ -14,6 +14,8 @@ import express, {
 from 'express'
 import { Server } from 'http'
 import { questionsRouter } from './router'
+import { questionsAssignmentRouter } from './assignmentRouter'
+import verifyJWT from './middleware/verifyJWT'
 
 const cookieParser = require('cookie-parser')
 const app: Application = express()
@@ -22,6 +24,8 @@ app.use(cors()) // Restricts API request from one domain to another domain
 app.use(express.json()) // Parses incoming JSON data from HTTP requests
 app.use(cookieParser())
 app.use("/", questionsRouter) // Connects to the Questions Router
+app.use('/assignment', verifyJWT, questionsAssignmentRouter); // Connects to the Questions Assignment Router
+// app.use('/assignment', questionsAssignmentRouter); // Connects to the Questions Assignment Router
 
 const PORT: number = Number(process.env.PORT) || 8001
 const server: Server = app.listen(PORT, () => {
