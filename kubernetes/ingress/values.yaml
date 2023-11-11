@@ -37,6 +37,13 @@ spec:
             pathType: Prefix
             backend:
               service:
+                name: nextjs-nodeport
+                port:
+                  number: 3000
+          - path: /user
+            pathType: Prefix
+            backend:
+              service:
                 name: user-service-nodeport
                 port:
                   number: 8000
