@@ -67,6 +67,20 @@ pipeline {
                 // }
             }
         }
+        stage('Build History Service') {
+            steps {
+                sh '''
+                    # Navigate to your Node.js app directory
+                    cd history-service
+
+                    # Install dependencies
+                    npm install
+
+                    # Build your Node.js application
+                    npm run build
+                '''
+            }
+        }
 
             //     stage("Pushing Application Docker Image to Google Artifact Registry"){
             // steps{
