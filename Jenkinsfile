@@ -45,7 +45,7 @@ pipeline {
                     sh '''
                         # Navigate to your Node.js app directory
                         cd frontend
-                        nvm use 18
+                        which node
                         # Install dependencies
                         npm install
 `
