@@ -11,6 +11,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const isLoginPage = router.pathname === "/Login";
   const isSignUpPage = router.pathname === "/SignUp";
   const app = initializeApp(firebaseConfig);
+  console.log(firebaseConfig);
 
   return (
     <ChakraProvider>
