@@ -33,12 +33,18 @@ pipeline {
 
         stage('Build Frontend') {
             steps {
-                withCredentials([string(credentialsId: 'firebaseConfig', variable: 'firebaseConfig')]) {
+                withCredentials([
+                    string(credentialsId: 'firebaseConfig', variable: 'apiKey'),
+                    string(credentialsId: 'authDomain', variable: 'authDomain'),
+                    string(credentialsId: 'databaseURL', variable: 'databaseURL'),
+                    string(credentialsId: 'projectId', variable: 'projectId'),
+                    string(credentialsId: 'storageBucket', variable: 'storageBucket'),
+                    string(credentialsId: 'messagingSenderId', variable: 'messagingSenderId'),
+                    string(credentialsId: 'appId', variable: 'appId')
+                ]) {
                     sh '''
                         # Navigate to your Node.js app directory
                         cd frontend
-
-                        echo $firebaseConfig
 
                         # Install dependencies
                         npm install
