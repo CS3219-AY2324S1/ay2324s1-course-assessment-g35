@@ -21,4 +21,5 @@ RUN npx prisma generate
 EXPOSE 8000
 
 # Define the command to start your Express app
-CMD ["node", "./dist/app.js"]
+CMD [ "node", "dist/app.js" ]
+

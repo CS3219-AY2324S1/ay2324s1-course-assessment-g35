@@ -8,8 +8,13 @@ import {
 export const historyRouter = express.Router();
 
 historyRouter.get("/", async (req, res) => {
+  return res.send(200).json();
+});
+
+historyRouter.get("/getUserHistory", async (req, res) => {
   try {
-    const userName = typeof req.query.userName === "string" ? req.query.userName : "";
+    const userName =
+      typeof req.query.userName === "string" ? req.query.userName : "";
     const history = await findHistoryByUserName(userName);
     return res.status(200).json(history);
   } catch (error: any) {

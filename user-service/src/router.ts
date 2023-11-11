@@ -15,8 +15,12 @@ export const KEY = process.env.JWT_KEY || "SECRET";
 
 // ------------------ Users CRUD ------------------
 
+userRouter.get("/", async (req, res) => {
+  res.status(200).json();
+});
+
 // Get user details
-userRouter.get("/", verifyJWT, async (req, res) => {
+userRouter.get("/retrieve", verifyJWT, async (req, res) => {
   if (!req.userPayload) {
     return res.status(400).json({
       status: "error",
