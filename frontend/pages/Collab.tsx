@@ -108,7 +108,6 @@ function Collab() {
   };
 
   const handleSaveAndLeave = () => {
-
     saveToHistory();
 
     //CLEANUP local storage only
@@ -129,7 +128,7 @@ function Collab() {
         user2: otherId,
         time: new Date().toISOString(),
         code: code || "",
-        language: selectedLanguage
+        language: selectedLanguage,
       };
       axios.post(HISTORY_URI.CREATE_OR_UPDATE, payload);
     } catch (err) {

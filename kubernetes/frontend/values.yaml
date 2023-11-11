@@ -19,15 +19,15 @@ spec:
             - containerPort: 3000 # Adjust the container port if your Next.js app uses a different port
           env:
             - name: USER_SERVICE_URL
-              value: "http://35.227.201.105"
+              value: "http://35.227.201.105/user"
             - name: QUESTION_SERVICE_URL
-              value: "http://35.227.201.105"
+              value: "http://35.227.201.105/question"
             - name: MATCHING_SERVICE_URL
-              value: "http://35.227.201.105"
+              value: "http://35.227.201.105/matching"
             - name: CHAT_SERVICE_URL
-              value: "http://35.227.201.105"
+              value: "http://35.227.201.105/chat"
             - name: HISTORY_SERVICE_URL
-              value: "http://35.227.201.105"
+              value: "http://35.227.201.105/history"
 ---
 apiVersion: v1
 kind: Service
