@@ -6,11 +6,15 @@ const { Server } = require("socket.io");
 const app = express();
 app.use(cors());
 
+app.get("/", (req, res) => {
+  res.status(200).json({});
+});
+
 const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "*",
   },
 });
 
