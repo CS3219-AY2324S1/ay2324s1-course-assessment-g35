@@ -1,5 +1,6 @@
 import React from "react";
 import CategoryRow from "../Index/Questions/CategoryRow";
+import styles from "./QuestionDisplay.module.css";
 
 export type Question = {
   _id: string;
@@ -31,8 +32,7 @@ export default function QuestionDisplay({
         <CategoryRow key={item} category={item} />
       ))}
       </div>
-      <div className="overflow-scroll px-2">
-        {/* <p className="text-base px-2 tracking-tight">{question?.description}</p> */}
+      <div className={`overflow-scroll px-2 leading-7 ${styles.body}`}>
         {question?.description && <div dangerouslySetInnerHTML={{ __html: question?.description }} />}
       </div>
 
