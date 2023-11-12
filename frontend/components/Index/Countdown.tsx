@@ -40,9 +40,7 @@ const Countdown: React.FC<CountdownProps> = ({
     };
   }, [isRunning]);
 
-  return (
-    <p>[{count}]</p>
-  );
+  return <p>{count}</p>;
 };
 
 export default Countdown;
