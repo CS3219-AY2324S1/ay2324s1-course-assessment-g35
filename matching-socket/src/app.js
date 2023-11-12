@@ -63,6 +63,7 @@ io.on("connection", (socket) => {
         difficulty: msg.difficulty,
       };
       console.log("RoomId is " + roomId);
+      queue.print();
       socket.emit("match", roomDetails2);
       socket.to(firstUserSocketId).emit("match", roomDetails1);
     }
