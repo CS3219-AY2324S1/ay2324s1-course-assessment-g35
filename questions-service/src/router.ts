@@ -30,11 +30,13 @@ questionsRouter.get("/name", async (req, res) => {
   }
 });
 
-questionsRouter.get("/random/difficulty", async (req, res) => {
+questionsRouter.get("/random-difficulty", async (req, res) => {
   try {
     const difficulty: string = req.query.difficulty as string;
+    const questionId: string | undefined = req.query.questionId as string | undefined;
     const randomQuestionByDifficulty = await getRandomQuestionByDifficulty(
-      difficulty
+      difficulty,
+      questionId
     );
     return res.status(200).json(randomQuestionByDifficulty);
   } catch (error: any) {

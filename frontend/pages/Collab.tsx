@@ -33,19 +33,35 @@ function Collab() {
   const [code, setCode] = useState<string | undefined>("");
   const [selectedLanguage, setSelectedLanguage] = useState<langs>("java");
 
+  // Type guard function to check if an object has the correct structure as Question
+  function isQuestion(obj: any): obj is Question {
+    return (
+      typeof obj === 'object' &&
+      '_id' in obj &&
+      'title' in obj &&
+      'description' in obj &&
+      'difficulty' in obj &&
+      'tags' in obj &&
+      Array.isArray(obj.tags)
+    );
+  }
+
   // useEffect to retrieve question if none found in localstorage
   useEffect(() => {
-    if (localStorage.getItem("question")) {
+    const localQuestion = localStorage.getItem("question");
+    if (localQuestion && isQuestion(JSON.parse(localQuestion))) {
       setQuestion(JSON.parse(localStorage.getItem("question") as string));
     } else {
-      getQuestion();
+      if (difficulty) {
+        getQuestion();
+      }
     }
 
     // cleanup socket, but not local storage
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [difficulty]);
 
   const openCodeGenModal = () => {
     setShowGenerateModal(true);
@@ -55,8 +71,14 @@ function Collab() {
   };
 
   const getQuestion = () => {
+    console.log("difficulty: ", difficulty)
+    console.log("questionid: ", question?._id)
+    let url = `${QUESTION_URI.GET_RANDOM_QUESTION}?difficulty=${difficulty}`;
+    if (question?._id) {
+      url += `&questionId=${question?._id}`;
+    }
     axios
-      .get(`${QUESTION_URI.GET_RANDOM_QUESTION}?difficulty=${difficulty}`)
+      .get(url)
       .then((res) => {
         setQuestion(res.data);
         localStorage.setItem("question", JSON.stringify(res.data));
@@ -65,6 +87,8 @@ function Collab() {
           roomId: roomId,
           question: res.data,
         };
+
+        console.log("question: ", res.data);
 
         socket.emit("question", questionPayload);
       })

@@ -41,14 +41,32 @@ export const getAllQuestions = async () => {
   }
 };
 
-export const getRandomQuestionByDifficulty = async (difficulty: string) => {
-  const [randomQuestion] =  await Question.aggregate([
-    { $match: { difficulty: difficulty } },
+export const getRandomQuestionByDifficulty = async (
+  difficulty: string,
+  prevQuestionId?: string
+) => {
+  const matchStage: { difficulty: string; _id?: { $ne?: mongoose.Types.ObjectId } } = {
+    difficulty: difficulty,
+  };
+
+  if (prevQuestionId !== undefined && prevQuestionId !== null && prevQuestionId !== ""
+    ) {
+    matchStage._id = { $ne: new mongoose.Types.ObjectId(prevQuestionId) };
+  }
+
+  const [randomQuestion] = await Question.aggregate([
+    { $match: matchStage },
     { $sample: { size: 1 } },
   ]);
 
+  if (!randomQuestion) {
+    // return previous question if no more questions left
+    return await Question.findOne({ _id: prevQuestionId });
+  }
+
   return randomQuestion;
 };
+
 
 export const getRandomQuestionByTag = async (tag: string) => {
   return await Question.aggregate([
