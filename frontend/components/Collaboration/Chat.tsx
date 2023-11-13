@@ -64,7 +64,6 @@ const Chat: React.FC<ChatComponentProps> = ({
     const storedMessages = localStorage.getItem("chatMessages");
     const sender = localStorage.getItem("user");
     setSender(sender || "Not set");
-    alert(sender);
     const messages: Message[] = storedMessages
       ? JSON.parse(storedMessages)
       : [];
