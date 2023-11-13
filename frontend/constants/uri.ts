@@ -22,8 +22,8 @@ export const QUESTION_URI = {
 
 export const MATCHINGSERVICE_URI = process.env.NEXT_PUBLIC_MATCHINGSERVICE_URI || 'http://localhost:3001';
 
-export const CHATSERVICE_URI = 'http://localhost:3002';
-// export const CHATSERVICE_URI = process.env.NEXT_PUBLIC_CHATSERVICE_URI || 'http://35.197.156.185:3002';
+// export const CHATSERVICE_URI = 'http://localhost:3002';
+export const CHATSERVICE_URI = process.env.NEXT_PUBLIC_CHATSERVICE_URI || 'http://localhost:3002';
 
 const HISTORYSERVICE_URI = process.env.NEXT_PUBLIC_HISTORYSERVICE_URI || 'http://localhost:8002';
 
