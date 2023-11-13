@@ -58,7 +58,7 @@ const Dashboard = () => {
   const fetchAndSetUser = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get(USER_URI.GET_TOKEN, {
+      const response = await axios.get(USER_URI.RETRIEVE, {
         headers: {
           Authorization: `${token}`,
         },

@@ -10,6 +10,7 @@ export const USER_URI = {
     DELETE: `${USERSERVICE_URI}`,
     GET_TOKEN: `${USERSERVICE_URI}`,
     VERIFY_TOKEN: `${USERSERVICE_URI}/verify`,
+    RETRIEVE:`${USERSERVICE_URI}/retrieve`
 };
 
 const QUESTIONSERVICE_URI = process.env.NEXT_PUBLIC_QUESTIONSERVICE_URI || 'http://localhost:8001';
@@ -28,6 +29,6 @@ const HISTORYSERVICE_URI = process.env.NEXT_PUBLIC_HISTORYSERVICE_URI || 'http:/
 
 export const HISTORY_URI = {
     GET_ALL: `${HISTORYSERVICE_URI}/all`,
-    GET_BY_USERNAME: `${HISTORYSERVICE_URI}`,
+    GET_BY_USERNAME: `${HISTORYSERVICE_URI}/getUserHistory`,
     CREATE_OR_UPDATE: `${HISTORYSERVICE_URI}/create`,
 };
