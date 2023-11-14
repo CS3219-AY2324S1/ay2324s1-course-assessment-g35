@@ -46,6 +46,51 @@ pipeline {
             }
         }
 
+        stage('Build Matching Socket') {
+            steps {
+                sh '''
+                    # Navigate to your Node.js app directory
+                    cd matching-socket
+
+                    # Install dependencies
+                    npm install
+
+                    # Build your Node.js application
+                    npm run build
+                '''
+            }
+        }
+
+        stage('Build Chat Service') {
+            steps {
+                sh '''
+                    # Navigate to your Node.js app directory
+                    cd chat-service
+
+                    # Install dependencies
+                    npm install
+
+                    # Build your Node.js application
+                    npm run build
+                '''
+            }
+        }
+
+        stage('Build Questions Service') {
+            steps {
+                sh '''
+                    # Navigate to your Node.js app directory
+                    cd questions-service
+
+                    # Install dependencies
+                    npm install
+
+                    # Build your Node.js application
+                    npm run build
+                '''
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 // Inside the 'node' container
