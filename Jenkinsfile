@@ -83,7 +83,7 @@ pipeline {
 
                     script {
                         // Execute your Docker build command here
-                        customImage = docker.build("astral-shape-402017/history-service:${env.BUILD_ID}")
+                        customImage = docker.build("yuehern/history-service:${env.BUILD_ID}")
                     }
                 }
                 // dir('questions-service') {
@@ -94,6 +94,20 @@ pipeline {
                 //         customImage = docker.build("questions-service:${env.BUILD_ID}")
                 //     }
                 // }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                // Inside the 'node' container
+                dir('questions-service') {
+                    // Change the working directory to 'history-service'
+
+                    script {
+                        // Execute your Docker build command here
+                        customImage = docker.build("yuehern/questions-service:${env.BUILD_ID}")
+                    }
+                }
             }
         }
 
