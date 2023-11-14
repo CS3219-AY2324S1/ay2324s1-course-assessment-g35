@@ -45,12 +45,11 @@ pipeline {
                 '''
             }
         }
-
-        stage('Build Chat Service') {
+        stage('Build Questions Service') {
             steps {
                 sh '''
                     # Navigate to your Node.js app directory
-                    cd chat-service
+                    cd questions-service
 
                     # Install dependencies
                     npm install
@@ -61,11 +60,11 @@ pipeline {
             }
         }
 
-        stage('Build Questions Service') {
+        stage('Build Frontend') {
             steps {
                 sh '''
                     # Navigate to your Node.js app directory
-                    cd questions-service
+                    cd frontend
 
                     # Install dependencies
                     npm install
