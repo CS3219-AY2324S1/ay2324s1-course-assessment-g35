@@ -75,7 +75,7 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build History Docker Image') {
             steps {
                 // Inside the 'node' container
                 dir('history-service') {
@@ -97,7 +97,7 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build Questions Docker Image') {
             steps {
                 // Inside the 'node' container
                 dir('questions-service') {
