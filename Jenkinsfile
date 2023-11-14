@@ -46,21 +46,6 @@ pipeline {
             }
         }
 
-        stage('Build Matching Socket') {
-            steps {
-                sh '''
-                    # Navigate to your Node.js app directory
-                    cd matching-socket
-
-                    # Install dependencies
-                    npm install
-
-                    # Build your Node.js application
-                    npm run build
-                '''
-            }
-        }
-
         stage('Build Chat Service') {
             steps {
                 sh '''
