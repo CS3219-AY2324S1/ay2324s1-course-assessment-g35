@@ -1,6 +1,6 @@
 // constants for api uris
 
-const USERSERVICE_URI = "34.126.107.52:8000";
+const USERSERVICE_URI = "http://34.126.107.52:8000";
 
 export const USER_URI = {
   LOGIN: `${USERSERVICE_URI}/login`,
@@ -13,7 +13,7 @@ export const USER_URI = {
   RETRIEVE: `${USERSERVICE_URI}/retrieve`,
 };
 
-const QUESTIONSERVICE_URI = "34.142.159.230:8000";
+const QUESTIONSERVICE_URI = "http://34.142.159.230:8000";
 
 export const QUESTION_URI = {
   GET_RANDOM_QUESTION: `${QUESTIONSERVICE_URI}/random-difficulty`,
