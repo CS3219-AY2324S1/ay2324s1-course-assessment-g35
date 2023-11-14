@@ -46,23 +46,6 @@ function Collab() {
     );
   }
 
-  // useEffect to retrieve question if none found in localstorage
-  useEffect(() => {
-    const localQuestion = localStorage.getItem("question");
-    if (localQuestion && isQuestion(JSON.parse(localQuestion))) {
-      setQuestion(JSON.parse(localStorage.getItem("question") as string));
-    } else {
-      if (difficulty) {
-        getQuestion();
-      }
-    }
-
-    // cleanup socket, but not local storage
-    return () => {
-      socket.disconnect();
-    };
-  }, [difficulty]);
-
   const openCodeGenModal = () => {
     setShowGenerateModal(true);
   };
@@ -112,6 +95,24 @@ function Collab() {
     });
     return newSocket;
   }, [roomId]);
+
+
+  // useEffect to retrieve question if none found in localstorage
+  useEffect(() => {
+    const localQuestion = localStorage.getItem("question");
+    if (localQuestion && isQuestion(JSON.parse(localQuestion))) {
+      setQuestion(JSON.parse(localStorage.getItem("question") as string));
+    } else {
+      if (difficulty && socket) {
+        getQuestion();
+      }
+    }
+
+    // cleanup socket, but not local storage
+    return () => {
+      socket.disconnect();
+    };
+  }, [difficulty, socket]);
 
   // function for socket to emit language
   const socketEmitLanguage = (lang: langs) => {
