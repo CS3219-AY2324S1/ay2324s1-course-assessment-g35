@@ -60,20 +60,20 @@ pipeline {
             }
         }
 
-        stage('Build Frontend') {
-            steps {
-                sh '''
-                    # Navigate to your Node.js app directory
-                    cd frontend
+        // stage('Build Frontend') {
+        //     steps {
+        //         sh '''
+        //             # Navigate to your Node.js app directory
+        //             cd frontend
 
-                    # Install dependencies
-                    npm install
+        //             # Install dependencies
+        //             npm install
 
-                    # Build your Node.js application
-                    npm run build
-                '''
-            }
-        }
+        //             # Build your Node.js application
+        //             npm run build
+        //         '''
+        //     }
+        // }
 
         stage('Build History Docker Image') {
             steps {
