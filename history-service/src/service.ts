@@ -21,7 +21,7 @@ export const findHistoryByUserId = async (
   });
 
   // Sort the history by the 'time' property from most recent to least recent
-  history.sort((a, b) => b.time.getTime() - a.time.getTime());
+  history.sort((a: any, b: any) => b.time.getTime() - a.time.getTime());
 
   return history;
 };
