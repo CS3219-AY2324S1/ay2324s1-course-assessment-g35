@@ -13,7 +13,8 @@ export const USER_URI = {
   RETRIEVE: `${USERSERVICE_URI}/retrieve`,
 };
 
-const QUESTIONSERVICE_URI = "http://34.142.159.230:8000";
+// const QUESTIONSERVICE_URI = "http://34.142.159.230:8000";
+const QUESTIONSERVICE_URI = "http://34.87.154.0:8000";
 
 export const QUESTION_URI = {
   GET_RANDOM_QUESTION: `${QUESTIONSERVICE_URI}/random-difficulty`,
