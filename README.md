@@ -2,14 +2,14 @@
 # PeerPrep by Group 35
 
 ## Accessing the Hosted App
-The hosted app can be found [here](http://34.124.254.231:3000/).
+The hosted app can be found [here](http://34.87.154.0:3000/).
 
 ## Sample Accounts
 - **User 1:**
-  - Username: 123
-  - Password: 123
+  - Username: ken2
+  - Password: ken2
 
 - **User 2:**
-  - Username: ken
-  - Password: ken
+  - Username: tim
+  - Password: tim
 
