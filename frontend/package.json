@@ -51,7 +51,8 @@
     "react-use": "^17.4.0",
     "recharts": "^2.9.3",
     "simple-peer": "^9.11.1",
-    "socket.io-client": "^4.7.2"
+    "socket.io-client": "^4.7.2",
+    "styled-components": "^6.1.1"
   },
   "devDependencies": {
     "@types/dockerode": "^3.3.21",

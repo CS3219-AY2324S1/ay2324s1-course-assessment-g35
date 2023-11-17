@@ -1,4 +1,4 @@
-# Use an official Node.js runtime as the base image
+# Assignment 4 Question Repository Service
 FROM --platform=linux/amd64 node:18
 
 # Set the working directory within the container
