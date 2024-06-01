@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-test-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo-test
+  template:
+    metadata:
+      labels:
+        app: mongo-test
+    spec:
+      containers:
+        - name: mongo-test
+          image: yuehern/mongo-test:latest
+          env:
+            - name: DB_URL
+              value: "34.118.239.82"  # Set the database connection URL
+
+          resources:
+            limits:
+              cpu: "0.5"   # Limit to 0.5 CPU cores
+              memory: "512Mi"  # Limit to 512 MiB of memory
+            requests:
+              cpu: "0.25"  # Request 0.25 CPU cores
+              memory: "256Mi"  # Request 256 MiB of memory

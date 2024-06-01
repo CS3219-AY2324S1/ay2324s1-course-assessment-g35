@@ -1,0 +1,39 @@
+Arguments: 
+  /Users/yuehernkang/.nvm/versions/node/v14.18.2/bin/node /opt/homebrew/Cellar/yarn/1.22.19/libexec/bin/yarn.js add √
+
+PATH: 
+  /Users/yuehernkang/google-cloud-sdk/bin:/Users/yuehernkang/.amplify/bin:/opt/homebrew/anaconda3/bin:/usr/local/anaconda3/bin:/Users/yuehernkang/.nvm/versions/node/v14.18.2/bin:/opt/homebrew/bin/python3:/Users/yuehernkang/Development/flutter/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/Library/Apple/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Users/yuehernkang/google-cloud-sdk/bin:/Users/yuehernkang/.amplify/bin:/opt/homebrew/anaconda3/bin:/opt/homebrew/anaconda3/condabin:/usr/local/anaconda3/bin:/Users/yuehernkang/.nvm/versions/node/v14.18.2/bin:/opt/homebrew/bin/python3:/Users/yuehernkang/Development/flutter/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/Cellar/openvpn/2.4.0/sbin:/usr/local/Cellar/openvpn/2.4.0/sbin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  14.18.2
+
+Platform: 
+  darwin x64
+
+Trace: 
+  TypeError [ERR_UNESCAPED_CHARACTERS]: Request path contains unescaped characters
+      at new NodeError (internal/errors.js:322:7)
+      at new ClientRequest (_http_client.js:155:13)
+      at Object.request (https.js:370:10)
+      at Request.module.exports.Request.start (/opt/homebrew/Cellar/yarn/1.22.19/libexec/lib/cli.js:141452:32)
+      at Request.module.exports.Request.end (/opt/homebrew/Cellar/yarn/1.22.19/libexec/lib/cli.js:142211:10)
+      at end (/opt/homebrew/Cellar/yarn/1.22.19/libexec/lib/cli.js:141265:14)
+      at Immediate._onImmediate (/opt/homebrew/Cellar/yarn/1.22.19/libexec/lib/cli.js:141279:7)
+      at processImmediate (internal/timers.js:464:21)
+
+npm manifest: 
+  {
+    "name": "history-service",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

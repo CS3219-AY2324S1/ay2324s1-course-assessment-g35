@@ -1,0 +1,35 @@
+/* Styles for question */
+.body pre {
+    white-space: pre-wrap;
+    background: rgba(247, 249, 250, 0.8); 
+    padding: 10px 15px;
+    color: #263238;
+    line-height: 1.6;
+    font-size: 13px;
+    border-radius: 4px;
+    overflow: auto;
+    display: block;
+    /* font-family: monospace; */
+    /* white-space-collapse: preserve;
+    text-wrap: nowrap; */
+    margin: 1em 0 1.5em 0;
+}
+
+.body ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+
+.body li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+
+.body br {
+    display: block;
+}

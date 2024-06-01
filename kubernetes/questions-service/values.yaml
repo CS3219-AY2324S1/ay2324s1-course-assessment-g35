@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: questions-service-deployment
+spec:
+  replicas: 1  # Adjust the number of replicas as needed
+  selector:
+    matchLabels:
+      app: questions-service
+  template:
+    metadata:
+      labels:
+        app: questions-service
+    spec:
+      containers:
+        - name: questions-service
+          image: yuehern/questions-service:latest
+          env:
+            - name: HISTORY_DB_URL
+              value: "34.118.238.6" # Set the database connection URL
+
+          ports:
+            - containerPort: 80  # Adjust the port as needed
+          resources:
+            limits:
+              cpu: "0.5"  # Maximum CPU limit (0.5 CPU cores)
+            requests:
+              cpu: "0.2"  # CPU requested (0.2 CPU cores)
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: questions-service-service
+spec:
+  selector:
+    app: questions-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer  # Specifies a LoadBalancer service type
